@@ -1,2 +1,5 @@
 Usecase diagram:
 https://drive.google.com/file/d/1qcH_bdoMw8L2fpCngC_32ftbQDjE4b25/view?usp=sharing
+
+Activity diagrams:
+https://drive.google.com/file/d/195rhF8z5e9mv6vXmyIUu6mLHfo-aE477/view?usp=sharing
