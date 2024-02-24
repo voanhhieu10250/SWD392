@@ -1,5 +1,17 @@
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import DetailsPage from "~/pages/components/DetailsPage.tsx";
+
 function App() {
-  return <h1 className='text-3xl font-bold underline text-red-600'>Simple React Typescript Tailwind Sample</h1>
+  const router = createBrowserRouter([
+    {
+      path: "/details",
+      element: <DetailsPage/>
+    }
+  ]);
+
+  return (
+    <RouterProvider router={router}/>
+  )
 }
 
 export default App
