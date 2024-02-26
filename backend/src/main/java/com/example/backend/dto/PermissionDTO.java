@@ -1,21 +1,24 @@
 package com.example.backend.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.Set;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class PermissionDTO {
-    private Integer permissionId;
-    private Integer roleId;
+
+    private Integer id;
+
     private String resourceType;
+
     private String action;
+
     private Boolean isAllowed;
-    private LocalDateTime createdDate;
+
+    private Set<StaffDTO> staffs;
+
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Asia/Ho_Chi_Minh")
+    private Date createdAt;
 }

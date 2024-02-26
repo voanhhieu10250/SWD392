@@ -1,25 +1,20 @@
 package com.example.backend.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "comment_like")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class CommentLike {
+
     @Id
-    @Column(name = "commentLikeId")
-    private Integer commentLikeId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    @Column(name = "userId")
-    private Integer userId;
+    @ManyToOne
+    private User user;
 
-    @Column(name = "commentId")
-    private Integer commentId;
+    @ManyToOne
+    private Comment comment;
+
 }

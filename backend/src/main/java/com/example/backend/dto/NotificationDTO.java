@@ -1,22 +1,30 @@
 package com.example.backend.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.example.backend.entity.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.Column;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class NotificationDTO {
-    private Integer notificationId;
-    private Integer userId;
+
+    private Integer id;
+
+    @ManyToOne
+    private User user;
+
     private Integer senderId;
+
     private String messageType;
+
     private String message;
+
     private Boolean isRead;
-    private LocalDateTime createDate;
+
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Asia/Ho_Chi_Minh")
+    private Date date;
 }

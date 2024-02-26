@@ -1,16 +1,22 @@
 package com.example.backend.dto;
 
+import com.example.backend.entity.Art;
+import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class CategoryDTO {
-    private Integer categoryId;
+
+    private Integer id;
+
     private String name;
+
     private String description;
+
+    private List<ArtDTO> arts;
 }

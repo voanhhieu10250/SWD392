@@ -1,43 +1,44 @@
 package com.example.backend.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "user")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class User {
-    @Id
-    @Column(name = "userId")
-    private Integer userId;
+public class User extends TimeAuditable{
 
-    @Column(name = "userName")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
     private String userName;
 
-    @Column(name = "password")
     private String password;
 
-    @Column(name = "email")
     private String email;
 
-    @Column(name = "isPremiumUser")
     private Boolean isPremiumUser;
 
-    @Column(name = "isBanned")
     private Boolean isBanned;
 
-    @Column(name = "walletId")
-    private Integer walletId;
 
-    @Column(name = "packageId")
-    private Integer packageId;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "wallet_id", referencedColumnName = "id")
+    private Wallet wallet;
 
-    @Column(name = "role")
+    @ManyToOne
+    private Package aPackage;
+
     private Integer role;
+
+    private static final BCryptPasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
+
+    public void setPassword(String password) {
+        if (password != null) {
+            this.password = PASSWORD_ENCODER.encode(password);
+        }
+    }
 }

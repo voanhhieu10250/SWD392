@@ -1,24 +1,34 @@
 package com.example.backend.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.example.backend.entity.Category;
+import com.example.backend.entity.User;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class ArtDTO {
-    private Integer artId;
-    private Integer owerId;
+
+    private Integer id;
+
+    private UserDTO owner;
+
     private String title;
+
     private String description;
-    private Integer artType;
+
+    private List<CategoryDTO> artType;
+
     private String originUrl;
-    private String tags;
+
+    private List<String> tags;
+
     private Boolean isPremium;
+
     private String watermarkedUrl;
+
     private Integer downloads;
+
     private Integer likes;
+
 }

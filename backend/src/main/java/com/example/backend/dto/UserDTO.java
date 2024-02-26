@@ -1,22 +1,31 @@
 package com.example.backend.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import java.util.Date;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class UserDTO {
-    private Integer userId;
+
+    private Integer id;
+
     private String userName;
+
     private String password;
+
     private String email;
+
     private Boolean isPremiumUser;
+
     private Boolean isBanned;
-    private Integer walletId;
-    private Integer packageId;
+
+    private WalletDTO wallet;
+
+    private PackageDTO aPackage;
+
     private Integer role;
+
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Asia/Ho_Chi_Minh")
+    private Date createdAt;
 }

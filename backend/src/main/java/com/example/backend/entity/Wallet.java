@@ -1,37 +1,25 @@
 package com.example.backend.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
+@EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "wallet")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class Wallet {
+public class Wallet extends TimeAuditable{
+
     @Id
-    @Column(name = "walletId")
-    private Integer walletId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    @Column(name = "userId")
-    private Integer userId;
+    private double balance;
 
-    @Column(name = "balance")
-    private BigDecimal balance;
+    private double totalErning;
 
-    @Column(name = "totalErning")
-    private BigDecimal totalErning;
+    private double withdrawnAmount;
 
-    @Column(name = "withdrawnAmount")
-    private BigDecimal withdrawnAmount;
+    @OneToOne(mappedBy = "wallet")
+    private User user;
 
-    @Column(name = "lastUpdate")
-    private LocalDateTime lastUpdate;
 }

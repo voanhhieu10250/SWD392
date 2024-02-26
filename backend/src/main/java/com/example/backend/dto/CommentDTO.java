@@ -1,20 +1,22 @@
 package com.example.backend.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class CommentDTO {
-    private Integer commentId;
-    private Integer userId;
-    private Integer artId;
+
+    private Integer id;
+
+    private UserDTO user;
+
+    private ArtDTO art;
+
     private String content;
-    private LocalDateTime commentDate;
+
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Asia/Ho_Chi_Minh")
+    private Date createdAt;
+
 }

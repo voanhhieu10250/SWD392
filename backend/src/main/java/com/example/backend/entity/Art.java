@@ -1,49 +1,45 @@
 package com.example.backend.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
-@Table(name = "art")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Art {
+
     @Id
-    @Column(name = "artId")
-    private Integer artId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    @Column(name = "owerId")
-    private Integer owerId;
+    @ManyToOne
+    private User owner;
 
-    @Column(name = "title")
     private String title;
 
-    @Column(name = "description")
     private String description;
 
-    @Column(name = "artType")
-    private Integer artType;
+    @ManyToMany
+    @JoinTable(
+            name = "art_categories",
+            joinColumns = @JoinColumn(name = "art_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<Category> artType;
 
-    @Column(name = "originUrl")
     private String originUrl;
 
-    @Column(name = "tags")
-    private String tags;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "art_tags", joinColumns = @JoinColumn(name = "art_id"))
+    @Column(name = "tag")
+    private List<String> tags;
 
-    @Column(name = "isPremium")
     private Boolean isPremium;
 
-    @Column(name = "watermarkedUrl")
     private String watermarkedUrl;
 
-    @Column(name = "downloads")
     private Integer downloads;
 
-    @Column(name = "likes")
     private Integer likes;
 }

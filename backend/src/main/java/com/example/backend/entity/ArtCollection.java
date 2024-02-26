@@ -1,26 +1,20 @@
 package com.example.backend.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "art_collection")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class ArtCollection {
+
     @Id
-    @Column(name = "artCollectionId")
-    private Integer artCollectionId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    @Column(name = "collectionId")
-    private Integer collectionId;
+    @ManyToOne
+    private Collection collection;
 
-    @Column(name = "artId")
-    private Integer artId;
+    @ManyToOne
+    private Art art;
 
 }

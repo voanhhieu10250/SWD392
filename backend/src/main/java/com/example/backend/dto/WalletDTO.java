@@ -1,22 +1,28 @@
 package com.example.backend.dto;
 
+import com.example.backend.entity.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class WalletDTO {
-    private Integer walletId;
-    private Integer userId;
-    private BigDecimal balance;
-    private BigDecimal totalErning;
-    private BigDecimal withdrawnAmount;
-    private LocalDateTime lastUpdate;
+
+    private Integer id;
+
+    private double balance;
+
+    private double totalErning;
+
+    private double withdrawnAmount;
+
+    private UserDTO user;
+
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Asia/Ho_Chi_Minh")
+    private Date createdAt;
 }

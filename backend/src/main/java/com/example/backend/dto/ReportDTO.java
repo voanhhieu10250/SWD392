@@ -1,23 +1,32 @@
 package com.example.backend.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.example.backend.entity.Art;
+import com.example.backend.entity.Staff;
+import com.example.backend.entity.User;
+import com.example.backend.entity.enums.ReportStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class ReportDTO {
-    private Integer reportId;
-    private Integer reporterUserId;
-    private Integer reportedUserId;
-    private Integer artId;
-    private LocalDateTime reportDate;
+
+    private Integer id;
+
+    private User reporter;
+
+    private User reported;
+
+    private ArtDTO art;
+
     private String description;
-    private String status;
-    private Integer resolverStaffId;
+
+    private ReportStatus status;
+
+    private StaffDTO resolverStaff;
+
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Asia/Ho_Chi_Minh")
+    private Date createdAt;
+
 }

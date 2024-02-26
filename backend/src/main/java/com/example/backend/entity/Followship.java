@@ -1,25 +1,19 @@
 package com.example.backend.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "followship")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Followship {
+
     @Id
-    @Column(name = "followShipId")
-    private Integer followShipId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    @Column(name = "followerUserId")
-    private Integer followerUserId;
+    @ManyToOne
+    private User follower;
 
-    @Column(name = "followingUserId")
-    private Integer followingUserId;
+    @ManyToOne
+    private User following;
 }

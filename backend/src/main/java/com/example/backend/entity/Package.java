@@ -1,40 +1,32 @@
 package com.example.backend.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
+import java.util.List;
+
+@EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "package")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class Package {
-    @Id
-    @Column(name = "packageId")
-    private Integer packageId;
+public class Package extends TimeAuditable{
 
-    @Column(name = "packageName")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
     private String packageName;
 
-    @Column(name = "desciption")
     private String desciption;
 
-    @Column(name = "maxUploads")
     private String maxUploads;
 
-    @Column(name = "price")
-    private BigDecimal price;
+    private double price;
 
-    @Column(name = "duration")
     private Integer duration;
 
-    @Column(name = "createDate")
-    private LocalDateTime createDate;
+    @OneToMany(mappedBy = "aPackage")
+    private List<User> users;
+
 }
