@@ -1,36 +1,27 @@
 package com.example.backend.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 
-import java.time.LocalDateTime;
+import java.util.Set;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "permission")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class Permission {
+public class Permission extends TimeAuditable{
+
     @Id
-    @Column(name = "permissionId")
-    private Integer permissionId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    @Column(name = "roleId")
-    private Integer roleId;
-
-    @Column(name = "resourceType")
     private String resourceType;
 
-    @Column(name = "action")
     private String action;
 
-    @Column(name = "isAllowed")
     private Boolean isAllowed;
 
-    @Column(name = "createdDate")
-    private LocalDateTime createdDate;
+    @ManyToMany(mappedBy = "permissions")
+    private Set<Staff> staffs;
+
 }

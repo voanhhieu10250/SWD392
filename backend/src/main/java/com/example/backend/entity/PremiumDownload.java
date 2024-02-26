@@ -1,25 +1,19 @@
 package com.example.backend.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "premium_download")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class PremiumDownload {
+
     @Id
-    @Column(name = "premiumDownloadId")
-    private Integer premiumDownloadId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    @Column(name = "artId")
-    private Integer artId;
+    @ManyToOne
+    private Art art;
 
-    @Column(name = "userId")
-    private Integer userId;
+    @ManyToOne
+    private User user;
 }

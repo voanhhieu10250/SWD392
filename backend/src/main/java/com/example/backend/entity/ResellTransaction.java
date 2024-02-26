@@ -1,40 +1,36 @@
 package com.example.backend.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+
+import java.util.Date;
 
 @Entity
-@Table(name = "resell_transaction")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@EntityListeners(AuditingEntityListener.class)
 public class ResellTransaction {
+
     @Id
-    @Column(name = "resellTransactionId")
-    private Integer resellTransactionId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    @Column(name = "artId")
-    private Integer artId;
+    @ManyToOne
+    private Art art;
 
-    @Column(name = "sellerUserId")
-    private Integer sellerUserId;
+    @ManyToOne
+    private User seller;
 
-    @Column(name = "buyerUserId")
-    private Integer buyerUserId;
+    @ManyToOne
+    private User buyer;
 
-    @Column(name = "transactionDate")
-    private LocalDateTime transactionDate;
+    @CreatedDate
+    @Column(updatable = false, nullable = false)
+    private Date date;
 
-    @Column(name = "transactionFee")
-    private BigDecimal transactionFee;
+    private double transactionFee;
 
-    @Column(name = "amount")
-    private BigDecimal amount;
+    private long amount;
 }

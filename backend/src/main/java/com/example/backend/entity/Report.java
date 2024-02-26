@@ -1,42 +1,33 @@
 package com.example.backend.entity;
 
+import com.example.backend.entity.enums.ReportStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 
-import java.time.LocalDateTime;
-
+@EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "report")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class Report {
+public class Report extends TimeAuditable{
+
     @Id
-    @Column(name = "reportId")
-    private Integer reportId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    @Column(name = "reporterUserId")
-    private Integer reporterUserId;
+    @ManyToOne
+    private User reporter;
 
-    @Column(name = "reportedUserId")
-    private Integer reportedUserId;
+    @ManyToOne
+    private User reported;
 
-    @Column(name = "artId")
-    private Integer artId;
+    @ManyToOne
+    private Art art;
 
-    @Column(name = "reportDate")
-    private LocalDateTime reportDate;
-
-    @Column(name = "description")
     private String description;
 
-    @Column(name = "status")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private ReportStatus status;
 
-    @Column(name = "resolverStaffId")
-    private Integer resolverStaffId;
+    @ManyToOne
+    private Staff resolverStaff;
 }

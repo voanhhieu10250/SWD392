@@ -1,21 +1,22 @@
 package com.example.backend.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.example.backend.entity.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class WithdrawalRequestDTO {
-    private Integer withDrawalRequestId;
-    private Integer userId;
-    private BigDecimal amount;
+
+    private Integer id;
+
+    private UserDTO user;
+
+    private double amount;
+
     private String status;
-    private LocalDateTime createdDate;
+
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Asia/Ho_Chi_Minh")
+    private Date date;
 }

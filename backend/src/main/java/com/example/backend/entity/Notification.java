@@ -1,39 +1,33 @@
 package com.example.backend.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
-@Table(name = "notification")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@EntityListeners(AuditingEntityListener.class)
 public class Notification {
+
     @Id
-    @Column(name = "notificationId")
-    private Integer notificationId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    @Column(name = "userId")
-    private Integer userId;
+    @ManyToOne
+    private User user;
 
-    @Column(name = "senderId")
     private Integer senderId;
 
-    @Column(name = "messageType")
     private String messageType;
 
-    @Column(name = "message")
     private String message;
 
-    @Column(name = "isRead")
     private Boolean isRead;
 
-    @Column(name = "createDate")
-    private LocalDateTime createDate;
+    @CreatedDate
+    @Column(updatable = false, nullable = false)
+    private Date date;
 }

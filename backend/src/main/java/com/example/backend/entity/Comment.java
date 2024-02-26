@@ -1,34 +1,24 @@
 package com.example.backend.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 
-import java.time.LocalDateTime;
-
+@EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "comment")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class Comment {
+public class Comment extends TimeAuditable{
+
     @Id
-    @Column(name = "commentId")
-    private Integer commentId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    @Column(name = "userId")
-    private Integer userId;
+    @ManyToOne
+    private User user;
 
-    @Column(name = "artId")
-    private Integer artId;
+    @ManyToOne
+    private Art art;
 
-    @Column(name = "content")
     private String content;
-
-    @Column(name = "commentDate")
-    private LocalDateTime commentDate;
 
 }

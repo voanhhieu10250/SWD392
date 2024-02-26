@@ -1,16 +1,16 @@
 package com.example.backend.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.example.backend.entity.Art;
+import com.example.backend.entity.User;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class PremiumDownloadDTO {
-    private Integer premiumDownloadId;
-    private Integer artId;
-    private Integer userId;
+
+    private Integer id;
+
+    private ArtDTO art;
+
+    private UserDTO user;
 }

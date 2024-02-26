@@ -1,26 +1,23 @@
 package com.example.backend.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
-@Table(name = "category")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Category {
-    @Id
-    @Column(name = "categoryId")
-    private Integer categoryId;
 
-    @Column(name = "name")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
     private String name;
 
-    @Column(name = "description")
     private String description;
+
+    @ManyToMany(mappedBy = "artType")
+    private List<Art> arts;
 
 }

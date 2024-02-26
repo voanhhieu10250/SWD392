@@ -1,36 +1,32 @@
 package com.example.backend.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
-@Table(name = "preorder")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@EntityListeners(AuditingEntityListener.class)
 public class Preorder {
+
     @Id
-    @Column(name = "preOrderId")
-    private Integer preOrderId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    @Column(name = "creatorId")
-    private Integer creatorId;
+    @ManyToOne
+    private User creator;
 
-    @Column(name = "customerId")
-    private Integer customerId;
+    @ManyToOne
+    private User customer;
 
-    @Column(name = "message")
     private String message;
 
-    @Column(name = "status")
     private String status;
 
-    @Column(name = "orderDate")
-    private LocalDateTime orderDate;
+    @CreatedDate
+    @Column(updatable = false, nullable = false)
+    private Date date;
 }

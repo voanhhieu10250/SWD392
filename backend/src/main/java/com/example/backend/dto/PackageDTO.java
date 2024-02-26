@@ -1,23 +1,31 @@
 package com.example.backend.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+
+import java.util.Date;
+import java.util.List;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class PackageDTO {
-    private Integer packageId;
+
+    private Integer id;
+
     private String packageName;
+
     private String desciption;
+
     private String maxUploads;
-    private BigDecimal price;
+
+    private double price;
+
     private Integer duration;
-    private LocalDateTime createDate;
+
+    @OneToMany(mappedBy = "aPackage")
+    private List<UserDTO> users;
+
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Asia/Ho_Chi_Minh")
+    private Date createdAt;
 }

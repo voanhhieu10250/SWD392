@@ -1,19 +1,20 @@
 package com.example.backend.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.example.backend.entity.User;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class CollectionDTO {
-    private Integer collectionId;
-    private Integer userId;
+
+    private Integer id;
+
+    private User userId;
+
     private String title;
+
     private String description;
+
     private Boolean isPrivate;
+
     private String featuredImageUrl;
 }

@@ -1,23 +1,25 @@
 package com.example.backend.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class ResellTransactionDTO {
-    private Integer resellTransactionId;
-    private Integer artId;
-    private Integer sellerUserId;
-    private Integer buyerUserId;
-    private LocalDateTime transactionDate;
-    private BigDecimal transactionFee;
-    private BigDecimal amount;
+
+    private Integer id;
+
+    private ArtDTO art;
+
+    private UserDTO seller;
+
+    private UserDTO buyer;
+
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Asia/Ho_Chi_Minh")
+    private Date date;
+
+    private double transactionFee;
+
+    private long amount;
 }
