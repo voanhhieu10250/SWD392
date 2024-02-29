@@ -1,8 +1,8 @@
-import {BiComment, BiSolidComment, BiSolidLike, BiStar} from "react-icons/bi";
+import {BiSolidComment, BiSolidLike, BiStar} from "react-icons/bi";
 import Description from "~/pages/components/Description.tsx";
 import {useState} from "react";
 
-function DetailsPage() {
+function PhysicalArtPage() {
   const [imageInfo, setImageInfo] = useState<{ width: number; height: number; sizeInMB: number } | null>(null);
 
   const handleImageLoad = async (event: React.SyntheticEvent<HTMLImageElement>) => {
@@ -49,10 +49,6 @@ function DetailsPage() {
                   <span className="mr-1"><BiStar/></span>
                   <span className="font-bold">Add to Collection</span>
                 </button>
-                <button className="hover:text-green-500 flex items-center ml-1 transition-all duration-200">
-                  <span className="mr-1"><BiComment/></span>
-                  <span className="font-bold">Comment</span>
-                </button>
               </div>
 
               <div className="flex justify-between mr-2">
@@ -61,8 +57,8 @@ function DetailsPage() {
                   <span className="font-bold">Like</span>
                 </button>
                 <button
-                  className="bg-indigo-400 text-white p-2 rounded-full flex items-center ml-1 hover:bg-indigo-600 transition-all duration-200">
-                  <span className="font-bold">Download Premium</span>
+                  className="border-2 border-black p-2 rounded-full flex items-center ml-1 hover:border-green-500 hover:text-green-500 transition-all duration-200">
+                  <span className="font-bold">Make an Offer</span>
                 </button>
               </div>
             </div>
@@ -87,6 +83,20 @@ function DetailsPage() {
 
               <div className="mr-2">
                 <span className="text-gray-500">Published: Yesterday</span>
+              </div>
+            </div>
+          </div>
+
+          {/*Activity Log*/}
+          <div className="mt-2">
+            <div className="flex justify-center">
+              <div className="bg-indigo-400 p-2">
+                <div className="flex justify-center">
+                    <span className="text-white font-bold">Activity Log</span>
+                </div>
+                <div className="flex justify-between">
+                  
+                </div>
               </div>
             </div>
           </div>
@@ -122,10 +132,22 @@ function DetailsPage() {
               </div>
             )}
           </div>
+
+          {/*Comment*/}
+          <div className="mt-2">
+            <div className="mb-1">
+              <span className="mr-1 font-bold">Comments</span>
+              <span className="font-sans">15</span>
+            </div>
+            <div className="inline-flex">
+              <img src="https://i.pinimg.com/236x/db/c4/f7/dbc4f7f26f83a1cedc0aa9523550ff26.jpg" alt="Avatar"
+                   width={50} className="rounded-lg"/>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   )
 }
 
-export default DetailsPage;
+export default PhysicalArtPage;

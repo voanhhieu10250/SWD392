@@ -1,11 +1,16 @@
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import DetailsPage from "~/pages/components/DetailsPage.tsx";
+import DigitalArtPage from "~/pages/components/DigitalArtPage.tsx";
+import PhysicalArtPage from "~/pages/components/PhysicalArtPage.tsx";
 
 function App() {
   const router = createBrowserRouter([
     {
-      path: "/details",
-      element: <DetailsPage/>
+      path: "/digital-art",
+      element: <DigitalArtPage/>
+    },
+    {
+      path: "/physical-art",
+      element: <PhysicalArtPage/>
     }
   ]);
 
