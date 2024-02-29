@@ -48,16 +48,4 @@ public class ArtService implements IArtService {
         return iArtMapper.listArtEntityToListArtDTO(arts);
     }
 
-//    @Override
-//    public boolean deleteArt(int artId) {
-//        Optional<Art> artOptional = iArtRepository.findById(artId);
-//        if (artOptional.isPresent()){
-//            Art art = artOptional.get();
-//            art.setStatus(false);
-//
-//        } else {
-//
-//        }
-//        return false;
-//    }
 }
