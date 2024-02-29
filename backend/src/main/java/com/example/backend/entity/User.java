@@ -24,6 +24,8 @@ public class User extends TimeAuditable{
 
     private Boolean isBanned;
 
+    private String avatar; //url
+
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "wallet_id", referencedColumnName = "id")
