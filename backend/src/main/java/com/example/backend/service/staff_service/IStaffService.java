@@ -1,6 +1,6 @@
 package com.example.backend.service.staff_service;
 
-import com.example.backend.dto.staff_dto.StaffResponseDTO;
+import com.example.backend.dto.StaffResponseDTO;
 
 import java.util.List;
 

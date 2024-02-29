@@ -1,6 +1,6 @@
 package com.example.backend.service.user_service;
 
-import com.example.backend.dto.user_dto.UserResponseDTO;
+import com.example.backend.dto.UserResponseDTO;
 
 import java.util.List;
 

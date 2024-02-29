@@ -1,9 +1,9 @@
 package com.example.backend.service.user_service.impl;
 
-import com.example.backend.dto.user_dto.UserResponseDTO;
+import com.example.backend.dto.UserResponseDTO;
 import com.example.backend.entity.User;
-import com.example.backend.mapper.user_mapper.IUserMapper;
-import com.example.backend.repository.user_repo.IUserRepository;
+import com.example.backend.mapper.IUserMapper;
+import com.example.backend.repository.IUserRepository;
 import com.example.backend.service.user_service.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

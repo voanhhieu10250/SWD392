@@ -1,14 +1,15 @@
 package com.example.backend.dto;
 
-import com.example.backend.entity.Category;
-import com.example.backend.entity.User;
+import com.example.backend.dto.CategoryDTO;
+import com.example.backend.dto.CommentDTO;
+import com.example.backend.dto.CommentLikeDTO;
+import com.example.backend.dto.UserDTO;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class ArtDTO {
-
+public class Art_Comment_CommentLike_Category_DTO {
     private Integer id;
 
     private UserDTO owner;
@@ -32,4 +33,10 @@ public class ArtDTO {
     private Integer likes;
 
     private boolean status;
+
+    private List<CategoryDTO> categoryDTOList;
+
+    private List<CommentDTO> commentDTOList;
+
+    private  List<CommentLikeDTO> commentLikeDTOList;
 }
