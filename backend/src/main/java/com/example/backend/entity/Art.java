@@ -35,6 +35,9 @@ public class Art {
     @Column(name = "tag")
     private List<String> tags;
 
+    @OneToMany(mappedBy = "art")
+    private List<Comment> comments;
+
     private Boolean isPremium;
 
     private String watermarkedUrl;
@@ -42,4 +45,6 @@ public class Art {
     private Integer downloads;
 
     private Integer likes;
+
+    private boolean status;
 }

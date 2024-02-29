@@ -1,10 +1,10 @@
 package com.example.backend.service.art_service.impl;
 
 import com.example.backend.dto.ArtDTO;
-import com.example.backend.dto.art_dto.Art_Comment_CommentLike_Category_DTO;
+import com.example.backend.dto.Art_Comment_CommentLike_Category_DTO;
 import com.example.backend.entity.Art;
-import com.example.backend.mapper.art_mapper.IArtMapper;
-import com.example.backend.repository.art_repo.IArtRepository;
+import com.example.backend.mapper.IArtMapper;
+import com.example.backend.repository.IArtRepository;
 import com.example.backend.service.art_service.IArtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -46,4 +47,17 @@ public class ArtService implements IArtService {
         List<Art> arts = iArtRepository.findAll();
         return iArtMapper.listArtEntityToListArtDTO(arts);
     }
+
+//    @Override
+//    public boolean deleteArt(int artId) {
+//        Optional<Art> artOptional = iArtRepository.findById(artId);
+//        if (artOptional.isPresent()){
+//            Art art = artOptional.get();
+//            art.setStatus(false);
+//
+//        } else {
+//
+//        }
+//        return false;
+//    }
 }
