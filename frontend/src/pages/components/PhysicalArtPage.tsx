@@ -1,6 +1,8 @@
 import {BiSolidComment, BiSolidLike, BiStar} from "react-icons/bi";
 import Description from "~/pages/components/Description.tsx";
 import {useState} from "react";
+import {RiRepeatFill} from "react-icons/ri";
+import {FaAngleRight} from "react-icons/fa6";
 
 function PhysicalArtPage() {
   const [imageInfo, setImageInfo] = useState<{ width: number; height: number; sizeInMB: number } | null>(null);
@@ -90,12 +92,38 @@ function PhysicalArtPage() {
           {/*Activity Log*/}
           <div className="mt-2">
             <div className="flex justify-center">
-              <div className="bg-indigo-400 p-2">
-                <div className="flex justify-center">
+              <div className="bg-gray-400 p-3">
+                <div className="flex justify-center mb-2">
                     <span className="text-white font-bold">Activity Log</span>
                 </div>
                 <div className="flex justify-between">
-                  
+                  <div className="inline-flex">
+                    <div>
+                      <img src="https://i.pinimg.com/236x/db/c4/f7/dbc4f7f26f83a1cedc0aa9523550ff26.jpg" alt="Avatar"
+                           width={50} className="rounded-lg"/>
+                    </div>
+                    <div className="ml-2 mr-4">
+                      <h1 className="text-gray-300">Current Owner</h1>
+                      <div className="">
+                        <a href="" className="ml-1 text-white hover:text-green-300 font-bold transition-all duration-200">LetMeKnow</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mr-1 ml-4">
+                    <div>
+                      <span className="text-gray-300">Bought for $12</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-300">Jan 20, 2024</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex justify-center">
+                  <button className="mt-2 text-white hover:text-green-300 transition-all duration-200 flex items-center">
+                    <span className="mr-1"><RiRepeatFill /></span>
+                    <span className="font-bold">Traded 1 time</span>
+                    <span className="ml-1"><FaAngleRight/></span>
+                  </button>
                 </div>
               </div>
             </div>
