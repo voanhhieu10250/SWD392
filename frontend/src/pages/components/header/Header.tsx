@@ -42,7 +42,7 @@ export default function Header() {
               {/* Phần Đăng nhập và Đăng ký */}
               <div className='flex-2 '>
                 <div className='flex w-full '>
-                  <a href='#' className='py-2 mr-4  px-6 text-white font-semibold'>
+                  <a href='/login' className='py-2 mr-4  px-6 text-white font-semibold'>
                     Log in
                   </a>
                   <button className=' mr-4 px-6 bg-blue-500 items-center text-white font-semibold rounded-lg shadow-md hover:bg-blue-700'>
