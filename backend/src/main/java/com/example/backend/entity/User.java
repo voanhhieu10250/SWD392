@@ -24,7 +24,15 @@ public class User extends TimeAuditable{
 
     private Boolean isBanned;
 
-    private String avatar; //url
+    private String avatarImg;
+
+    private String favouriteArt;
+
+    private String bannerImg;
+
+    private String about;
+
+    private String backgroundColor;
 
 
     @OneToOne(cascade = CascadeType.ALL)

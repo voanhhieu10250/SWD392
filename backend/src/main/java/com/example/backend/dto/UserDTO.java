@@ -22,7 +22,15 @@ public class UserDTO {
 
     private Boolean isBanned;
 
-    private String avatar;
+    private String avatarImg;
+
+    private String favouriteArt;
+
+    private String bannerImg;
+
+    private String about;
+
+    private String backgroundColor;
 
     private WalletDTO wallet;
 
