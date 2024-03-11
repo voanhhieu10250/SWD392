@@ -6,7 +6,7 @@ import { Navigation, Pagination } from 'swiper/modules'
 import 'swiper/swiper-bundle.css'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp'
 import CommentIcon from '@mui/icons-material/Comment'
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '~/components/ui/carousel'
+// import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '~/components/ui/carousel'
 SwiperCore.use([Pagination, Navigation])
 type Post = {
   id: string
@@ -98,10 +98,7 @@ export default function Main() {
     if (!topweekLoading && topweekData && !swiper3Loaded) {
       const swiper3 = new SwiperCore('.swiper3', {
         loop: true,
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev'
-        },
+
         pagination: {
           el: '.swiper-pagination',
           clickable: true
@@ -150,22 +147,10 @@ export default function Main() {
                   </div>
                 ))}
             </div>
-            <div className='swiper-pagination bottom-0'></div>
+
             <div className='swiper-button-prev swiper-button bg-white rounded-2xl'></div>
             <div className='swiper-button-next swiper-button bg-white rounded-2xl'></div>
           </div>
-          // <Carousel>
-          //   <CarouselContent>
-          //     {categoriesData.map((category: Category) => (
-          //       <CarouselItem key={category.id}>
-          //         <img src={category.image} alt={category.category} />
-          //       </CarouselItem>
-          //     ))}
-          //   </CarouselContent>
-          //   {/* Thêm nút điều hướng */}
-          //   <CarouselPrevious />
-          //   <CarouselNext />
-          // </Carousel>
         )}
         <div className='top_this_week bg-white m-3'>
           <div className='p-4 font-bold text-2xl'>Top This Week</div>
@@ -202,7 +187,7 @@ export default function Main() {
         </div>
         <div className='browse bg-white m-3'>
           <div className='p-4 font-bold text-2xl'>Browse</div>
-          <div className='grid grid-cols-6 gap-4 p-4'>
+          <div className='columns-5 space-y-3'>
             {postSuccess && postData && postData.pages ? (
               postData.pages.map((group, i) => (
                 <React.Fragment key={i}>
@@ -212,7 +197,7 @@ export default function Main() {
                         src={post.img}
                         key={post.id}
                         alt=''
-                        className='rounded-2xl h-auto object-cover rounded-2xl hover:scale-105 transition-transform duration-300'
+                        className=' h-full object-cover rounded-2xl hover:scale-105 transition-transform duration-300'
                       />
                       <div className='absolute bottom-0 left-0 rounded-2xl w-full h-full bg-custom-color bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex justify-center items-center flex-wrap'>
                         <p className='text-white text-lg font-semibold w-full overflow-hidden whitespace-nowrap overflow-ellipsis px-3'>
