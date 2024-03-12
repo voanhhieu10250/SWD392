@@ -76,9 +76,20 @@
 }
 @layer components {
   .swiper-button::after {
-    @apply text-xl text-black font-bold; /* Thêm các thuộc tính CSS của bạn ở đây */
+    @apply text-xl text-black font-bold;
   }
   .bg-custom-color {
     background-color: rgba(15, 13, 13, 0.259);
+  }
+  .avatar-container {
+    max-height: calc(3 * (64px + 24px));
+    overflow-y: hidden;
+  }
+
+  .w-1_3-minus-8 {
+    width: calc(33.33% - 8px);
+  }
+  .modal-header {
+    @apply sticky top-0 left-0 right-0 h-20 bg-white bg-opacity-95  flex items-center   pl-4 z-50;
   }
 }
