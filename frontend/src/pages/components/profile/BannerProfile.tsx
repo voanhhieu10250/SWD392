@@ -75,7 +75,7 @@ export default function BannerProfile({ user }: Props) {
     formData.append('about', about)
     console.log('formData', formData)
     axios
-      .post('YOUR_BACKEND_URL', formData, {
+      .put('http://13.250.106.122/users', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -189,7 +189,7 @@ export default function BannerProfile({ user }: Props) {
                         id='editAbout'
                         className='w-full py-2 px-3 text-lg h-10 rounded-lg mt-2 focus:border-x-gray-400'
                         value={about}
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={(e) => setAbout(e.target.value)}
                         style={{ border: '1px solid #cfcfcf' }}
                       />
                     </div>
