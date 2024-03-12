@@ -1,6 +1,6 @@
-import ArtWork from './pages/components'
+import Router from './routers'
 
 function App() {
-  return <ArtWork />
+  return <Router />
 }
 export default App
