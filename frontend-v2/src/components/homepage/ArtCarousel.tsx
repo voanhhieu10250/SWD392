@@ -2,9 +2,10 @@ import Image from "next/image";
 import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
 import Link from "next/link";
 import { getTopArtThisWeek } from "@/actions";
+import { ArtType } from "@/types";
 
 const ArtCarousel = async () => {
-  const arts = await getTopArtThisWeek();
+  const arts = await getTopArtThisWeek(ArtType.digital);
 
   if (arts.error) {
     return <div>Failed to fetch arts</div>;

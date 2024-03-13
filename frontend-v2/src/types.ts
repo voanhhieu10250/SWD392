@@ -4,12 +4,17 @@ export type Category = {
   image: string;
 };
 
+export enum ArtType {
+  digital = "digital",
+  physical = "physical",
+}
+
 export type Art = {
   id: number;
   ownerId: number;
   title: string;
   description: string;
-  artType: string;
+  artType: ArtType;
   originUrl: string;
   tags: string;
   isPremium: boolean;

@@ -1,7 +1,7 @@
 "use server";
 
 import { unstable_noStore as noStore } from "next/cache";
-import type { Art, Category } from "./types";
+import type { Art, ArtType, Category } from "./types";
 
 export const getCategories = async () => {
   noStore();
@@ -23,9 +23,11 @@ export const getCategories = async () => {
 };
 
 // This function fetches the top art for the week. Only top 10
-export const getTopArtThisWeek = async () => {
+export const getTopArtThisWeek = async (artType: ArtType) => {
   noStore();
-  const res = await fetch("http://localhost:3000/arts.json");
+  const res = await fetch(
+    "http://localhost:3000/arts.json" + `?artType=${artType}`
+  );
 
   if (!res.ok) {
     return {
