@@ -2,6 +2,8 @@
 
 import { unstable_noStore as noStore } from "next/cache";
 import type { Art, Category } from "./types";
+import { login, logout } from "./lib/auth";
+import { redirect } from "next/navigation";
 
 export const getCategories = async () => {
   noStore();
@@ -149,4 +151,13 @@ export const getArtDetailMoreArts = async () => {
     message: "",
     data: ((await res.json()) as Art[]).slice(0, 3),
   };
+};
+
+export const handleLogin = async (formData: FormData) => {
+  await login(formData.get("username") as string);
+};
+
+export const handleLogout = async () => {
+  await logout();
+  redirect("/");
 };
