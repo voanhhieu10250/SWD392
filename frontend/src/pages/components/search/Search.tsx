@@ -1,9 +1,13 @@
 import React, { useState } from 'react'
+import { useLocation } from 'react-router'
 
 export default function Search() {
   const [selectedArtwork, setSelectedArtwork] = useState('')
   const [selectedLicense, setSelectedLicense] = useState('')
-
+  const { search } = useLocation()
+  const queryParams = new URLSearchParams(search)
+  const searchQuery = queryParams.get('query') || ''
+  console.log(searchQuery)
   const handleOptionChangeArtwork = (event: any) => {
     setSelectedArtwork(event.target.value)
   }
@@ -14,7 +18,7 @@ export default function Search() {
   return (
     <div className='container flex mx-auto mt-6'>
       <div className='w-3/4 bg-gray-100'>
-        <h1 className='bg-white m-2 px-3 py-5 text-xl rounded-lg'>Showing results for ''</h1>
+        <h1 className='bg-white m-2 px-3 py-5 text-xl rounded-lg'>Showing results for '{searchQuery}'</h1>
 
         <div className='flex flex-wrap m-3 bg-white'>
           <div className='w-1/3 p-2'>
