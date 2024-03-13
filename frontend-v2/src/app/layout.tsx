@@ -8,6 +8,8 @@ import { Inter as FontSans } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
 import SideNav from "@/components/SideNav";
+import { Toaster } from "@/components/ui/toaster";
+import { Suspense } from "react";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -50,7 +52,9 @@ export default function RootLayout({
                 </Link>
               </div>
               <div className="grid place-content-center">
-                <SearchBox />
+                <Suspense>
+                  <SearchBox />
+                </Suspense>
               </div>
               <div className="flex items-center gap-x-1">
                 <Button variant="link" asChild>
@@ -70,6 +74,7 @@ export default function RootLayout({
             </div>
           </div>
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );

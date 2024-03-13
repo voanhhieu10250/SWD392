@@ -63,7 +63,39 @@ export const getWhatIsHotArts = async (page = 1) => {
 
 export const getRecentArts = async (page = 1) => {
   noStore();
-  const res = await fetch("http://localhost:3000/recent_arts.json?page=" + page);
+  const res = await fetch(
+    "http://localhost:3000/recent_arts.json?page=" + page
+  );
+
+  if (!res.ok) {
+    return {
+      error: true,
+      message: "An error occurred while fetching arts",
+      data: [],
+    };
+  }
+
+  return {
+    error: false,
+    message: "",
+    data: (await res.json()) as Art[],
+  };
+};
+
+export const getSearchResults = async (
+  query: string,
+  searchBy: string,
+  page = 1
+) => {
+  noStore();
+  const res = await fetch(
+    "http://localhost:3000/recent_arts.json?query=" +
+      query +
+      "&searchBy=" +
+      searchBy +
+      "&page=" +
+      page
+  );
 
   if (!res.ok) {
     return {
