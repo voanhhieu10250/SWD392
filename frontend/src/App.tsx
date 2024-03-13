@@ -1,22 +1,6 @@
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import DigitalArtPage from "~/pages/components/DigitalArtPage.tsx";
-import PhysicalArtPage from "~/pages/components/PhysicalArtPage.tsx";
+import ArtWork from './pages/components'
 
 function App() {
-  const router = createBrowserRouter([
-    {
-      path: "/digital-art",
-      element: <DigitalArtPage/>
-    },
-    {
-      path: "/physical-art",
-      element: <PhysicalArtPage/>
-    }
-  ]);
-
-  return (
-    <RouterProvider router={router}/>
-  )
+  return <ArtWork />
 }
-
 export default App
