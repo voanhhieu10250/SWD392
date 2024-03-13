@@ -1,13 +1,13 @@
+import { ModeToggle } from "@/components/ModeToggle";
+import SearchBox from "@/components/SearchBox";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
-import "./globals.css";
-import { ModeToggle } from "@/components/ModeToggle";
-import NavLinks from "@/components/NavLinks";
-import SearchBox from "@/components/SearchBox";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ThemeProvider } from "@/components/theme-provider";
-import { cn } from "@/lib/utils";
+import "./globals.css";
+import SideNav from "@/components/SideNav";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -40,7 +40,7 @@ export default function RootLayout({
         >
           <div className="bg-secondary flex flex-col min-h-screen">
             {/* nav */}
-            <div className="sticky top-0 flex justify-between px-[calc(1%+10px)] py-4 shadow-md bg-background">
+            <div className="sticky top-0 flex justify-between px-[calc(1%+10px)] py-4 shadow-md bg-background z-50">
               <div className="grid place-content-center">
                 <Link
                   href="/"
@@ -60,11 +60,12 @@ export default function RootLayout({
               </div>
             </div>
 
+            {/* Side nav */}
+            <div className="w-[75px] fixed top-0 left-0">
+              <SideNav />
+            </div>
             {/* main */}
-            <div className="grid grid-cols-[75px_minmax(0,_1fr)] flex-1">
-              {/* Side nav */}
-              <NavLinks />
-
+            <div className="ml-[75px]">
               <main className="container mx-auto">{children}</main>
             </div>
           </div>

@@ -1,5 +1,5 @@
+import BrowseArts from "@/components/homepage/BrowseArts";
 import CategoriesCarousel from "@/components/homepage/CategoriesCarousel";
-import RecentlyNewArts from "@/components/homepage/RecentlyNewArts";
 import TopArtThisWeek from "@/components/homepage/TopArtThisWeek";
 
 export default function Home() {
@@ -8,7 +8,7 @@ export default function Home() {
       <CategoriesCarousel />
       <div className="mt-6 bg-background rounded-xl shadow-sm px-4 py-5">
         <TopArtThisWeek />
-        <RecentlyNewArts />
+        <BrowseArts />
       </div>
     </div>
   );
