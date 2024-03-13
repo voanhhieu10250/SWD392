@@ -1,11 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { usePathname } from "next/navigation";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import HomeIcon from "@mui/icons-material/Home";
 import PaletteIcon from "@mui/icons-material/Palette";
-import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Tooltip,
   TooltipContent,
@@ -13,25 +13,25 @@ import {
   TooltipTrigger,
 } from "./ui/tooltip";
 
-const NavLinks = () => {
+const SideNav = () => {
   return (
-    <div className="flex flex-col bg-background border-r border-background">
+    <div className="flex flex-col bg-background border-r border-background h-screen pt-[72px]">
       <NavItem href="/" tooltip="Digital art">
         <HomeIcon />
-      </NavItem>
-
-      <NavItem href="/physical-art" tooltip="Physical art">
-        <PaletteIcon />
       </NavItem>
 
       <NavItem href="/top-creator" tooltip="Top creators">
         <EmojiEventsIcon />
       </NavItem>
+
+      <NavItem href="/packages" tooltip="Packages">
+        <PaletteIcon />
+      </NavItem>
     </div>
   );
 };
 
-export default NavLinks;
+export default SideNav;
 
 type NavItemProps = {
   href: string;
