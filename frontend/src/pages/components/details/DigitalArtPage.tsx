@@ -1,5 +1,5 @@
 import {BiSolidComment, BiSolidLike, BiStar} from "react-icons/bi";
-import Description from "~/pages/components/Description.tsx";
+import Description from "~/pages/components/details/Description.tsx";
 import {useState} from "react";
 
 function DigitalArtPage() {
