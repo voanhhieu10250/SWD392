@@ -52,7 +52,7 @@ public class UserController {
 
             String photoURL = s3StorageService.uploadFile(newFileName, userDTO.getFile());
 
-            userDTO.setAvatar(photoURL);
+            userDTO.setAvatarImg(photoURL);
         }
 
         User user = userService.createUser(userDTO);
@@ -109,7 +109,7 @@ public class UserController {
 
             String photoURL = s3StorageService.uploadFile(newFilename, userDTO.getFile());
 
-            userDTO.setAvatar(photoURL);// save to db
+            userDTO.setAvatarImg(photoURL);// save to db
         }
         userService.updateUser(userDTO);
         return ResponseDTO.<Void>builder()
