@@ -7,9 +7,9 @@ import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
-import SideNav from "@/components/SideNav";
 import { Toaster } from "@/components/ui/toaster";
 import { Suspense } from "react";
+import MainLayout from "@/components/MainLayout";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -41,7 +41,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="bg-secondary flex flex-col min-h-screen">
-            {/* nav */}
+            {/* top nav */}
             <div className="sticky top-0 flex justify-between px-[calc(1%+10px)] py-4 shadow-md bg-background z-50">
               <div className="grid place-content-center">
                 <Link
@@ -64,14 +64,7 @@ export default function RootLayout({
               </div>
             </div>
 
-            {/* Side nav */}
-            <div className="w-[75px] fixed top-0 left-0">
-              <SideNav />
-            </div>
-            {/* main */}
-            <div className="ml-[75px]">
-              <main className="container mx-auto">{children}</main>
-            </div>
+            <MainLayout>{children}</MainLayout>
           </div>
         </ThemeProvider>
         <Toaster />
