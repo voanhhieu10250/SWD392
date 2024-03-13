@@ -150,37 +150,55 @@ const Carousel = React.forwardRef<
 );
 Carousel.displayName = "Carousel";
 
-type DivWithScrollbarProps = React.HTMLAttributes<HTMLDivElement> & {
-  withScrollbar?: boolean;
-};
+const CarouselContent = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => {
+  const { carouselRef, orientation } = useCarousel();
 
-const CarouselContent = React.forwardRef<HTMLDivElement, DivWithScrollbarProps>(
-  ({ className, ...props }, ref) => {
-    const { carouselRef, orientation } = useCarousel();
-
-    return (
+  return (
+    <div ref={carouselRef} className="overflow-hidden">
       <div
-        ref={carouselRef}
+        ref={ref}
         className={cn(
-          "overflow-hidden",
-          props.withScrollbar &&
-            "overflow-x-scroll [scrollbar-width:thin] [scrollbar-color:transparent_transparent] hover:[scrollbar-color:#cfcfcf_transparent]"
+          "flex mb-[1px]",
+          orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col",
+          className
         )}
-      >
-        <div
-          ref={ref}
-          className={cn(
-            "flex mb-[1px]",
-            orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col",
-            className
-          )}
-          {...props}
-        />
-      </div>
-    );
-  }
-);
+        {...props}
+      />
+    </div>
+  );
+});
 CarouselContent.displayName = "CarouselContent";
+
+const CarouselContentWithScrollbar = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => {
+  const { carouselRef, orientation } = useCarousel();
+
+  return (
+    <div
+      ref={carouselRef}
+      className={cn(
+        "overflow-hidden",
+        "overflow-x-scroll [scrollbar-width:thin] [scrollbar-color:transparent_transparent] hover:[scrollbar-color:hsl(var(--mute))_transparent]"
+      )}
+    >
+      <div
+        ref={ref}
+        className={cn(
+          "flex mb-[1px]",
+          orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col",
+          className
+        )}
+        {...props}
+      />
+    </div>
+  );
+});
+CarouselContentWithScrollbar.displayName = "CarouselContentWithScrollbar";
 
 const CarouselItem = React.forwardRef<
   HTMLDivElement,
@@ -269,4 +287,5 @@ export {
   CarouselItem,
   CarouselPrevious,
   CarouselNext,
+  CarouselContentWithScrollbar,
 };

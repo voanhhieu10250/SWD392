@@ -1,5 +1,9 @@
 import Image from "next/image";
-import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
+import {
+  Carousel,
+  CarouselContentWithScrollbar,
+  CarouselItem,
+} from "../ui/carousel";
 import Link from "next/link";
 import { getTopArtThisWeek } from "@/actions";
 import { ArtType } from "@/types";
@@ -19,7 +23,7 @@ const ArtCarousel = async () => {
       }}
       className="w-full"
     >
-      <CarouselContent withScrollbar className="-ml-1.5">
+      <CarouselContentWithScrollbar className="-ml-1.5">
         {arts.data.map((art, index) => (
           <CarouselItem key={index} className="pl-1.5 basis-auto">
             <Link
@@ -41,7 +45,7 @@ const ArtCarousel = async () => {
             </Link>
           </CarouselItem>
         ))}
-      </CarouselContent>
+      </CarouselContentWithScrollbar>
     </Carousel>
   );
 };
