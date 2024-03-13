@@ -138,12 +138,18 @@ export default function Main() {
             <div className='swiper-wrapper '>
               {swiperLoaded &&
                 categoriesData.map((category: Category) => (
-                  <div key={category.id} className='swiper-slide'>
+                  <div key={category.id} className='swiper-slide relative'>
                     <img
                       src={category.image}
                       alt={category.category}
-                      className='w-full h-24 object-cover rounded-2xl'
+                      className='w-full h-24 object-cover rounded-2xl '
+                      style={{ filter: 'brightness(80%)' }}
                     />
+                    <div className='absolute bottom-0 left-0 rounded-2xl w-full h-full bg-custom-color opacity-100 transition-opacity flex justify-center items-end '>
+                      <p className='text-white text-lg font-semibold w-full overflow-hidden whitespace-nowrap overflow-ellipsis px-3'>
+                        {category.category}
+                      </p>
+                    </div>
                   </div>
                 ))}
             </div>

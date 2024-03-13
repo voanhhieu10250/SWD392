@@ -153,11 +153,18 @@ export default function ContentProfile() {
   }
 
   const [open, setOpen] = React.useState(false)
+  const [open2, setOpen2] = React.useState(false)
+  const handleOpen2 = () => {
+    setOpen2(true)
+  }
   const handleOpen = () => {
     setOpen(true)
   }
   const handleClose = () => {
     setOpen(false)
+  }
+  const handleClose2 = () => {
+    setOpen2(false)
   }
   const [openFavou, setOpenFavou] = React.useState(false)
   const handleOpenFavou = () => {
@@ -318,7 +325,7 @@ export default function ContentProfile() {
           </Modal>
         </div>
         <div className='mt-5 bg-white pb-5'>
-          <p className='p-3 text-2xl font-medium'>Followers</p>
+          <p className='p-3 text-2xl font-medium'>Following</p>
           <div className='flex flex-wrap avatar-container'>
             <div className='p-3'>
               <Avatar className='w-16 h-16'>
@@ -330,11 +337,51 @@ export default function ContentProfile() {
               </Avatar>
             </div>
           </div>
-          <div className='px-16 text-center py-1 bg-slate-300 mx-16 rounded-xl pb-2'>
-            <a href='' className='text-white'>
+          <div className='px-10 text-center bg-slate-300 mx-10 rounded-xl '>
+            <Button className='text-white' onClick={handleOpen2}>
               View all Following
-            </a>
+            </Button>
           </div>
+          <Modal
+            open={open2}
+            onClose={handleClose2}
+            aria-labelledby='modal-modal-title'
+            aria-describedby='modal-modal-description'
+          >
+            <Box sx={style}>
+              <Typography
+                id='modal-modal-title'
+                className='py-3 font-bold sticky top-0 left-0 right-0 h-20 bg-white bg-opacity-95  flex items-center   pl-4 z-50'
+              >
+                <h1 className='font-bold text-2xl text-black'> FOLLOWING</h1>
+              </Typography>
+              <Typography id='modal-modal-description' sx={{ mx: 2 }}>
+                <div className='grid grid-cols-1 mb-2'>
+                  <div
+                    className='rounded-2xl '
+                    style={{
+                      backgroundImage: "url('https://fps.cdnpk.net/home/cover/image-7.jpg?w=1400')"
+                    }}
+                  >
+                    <div className='flex flex-wrap text-white  py-2 px-3'>
+                      <div className='p-3'>
+                        <Avatar className='w-16 h-16'>
+                          <AvatarImage
+                            src='https://photo.znews.vn/w660/Uploaded/qhj_yvobvhfwbv/2018_07_18/Nguyen_Huy_Binh1.jpg'
+                            className='object-cover'
+                          />
+                        </Avatar>
+                      </div>
+                      <div className='p-3'>
+                        <div className='text-xl font-bold'>Title</div>
+                        <p>Description</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Typography>
+            </Box>
+          </Modal>
         </div>
       </div>
       <div className='w-2/3'>
