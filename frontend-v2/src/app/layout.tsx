@@ -1,15 +1,11 @@
-import { ModeToggle } from "@/components/ModeToggle";
-import SearchBox from "@/components/SearchBox";
 import { ThemeProvider } from "@/components/theme-provider";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
-import Link from "next/link";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
-import { Suspense } from "react";
 import MainLayout from "@/components/MainLayout";
+import TopNav from "@/components/TopNav";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -41,28 +37,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="bg-secondary flex flex-col min-h-screen">
-            {/* top nav */}
-            <div className="sticky top-0 flex justify-between px-[calc(1%+10px)] py-4 shadow-md bg-background z-50">
-              <div className="grid place-content-center">
-                <Link
-                  href="/"
-                  className="text-2xl font-semibold tracking-tight"
-                >
-                  Artwork
-                </Link>
-              </div>
-              <div className="grid place-content-center">
-                <Suspense>
-                  <SearchBox />
-                </Suspense>
-              </div>
-              <div className="flex items-center gap-x-1">
-                <Button variant="link" asChild>
-                  <Link href="/login">Login</Link>
-                </Button>
-                <ModeToggle />
-              </div>
-            </div>
+            <TopNav />
 
             <MainLayout>{children}</MainLayout>
           </div>
