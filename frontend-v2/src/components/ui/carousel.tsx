@@ -150,26 +150,36 @@ const Carousel = React.forwardRef<
 );
 Carousel.displayName = "Carousel";
 
-const CarouselContent = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => {
-  const { carouselRef, orientation } = useCarousel();
+type DivWithScrollbarProps = React.HTMLAttributes<HTMLDivElement> & {
+  withScrollbar?: boolean;
+};
 
-  return (
-    <div ref={carouselRef} className="overflow-hidden">
+const CarouselContent = React.forwardRef<HTMLDivElement, DivWithScrollbarProps>(
+  ({ className, ...props }, ref) => {
+    const { carouselRef, orientation } = useCarousel();
+
+    return (
       <div
-        ref={ref}
+        ref={carouselRef}
         className={cn(
-          "flex",
-          orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col",
-          className
+          "overflow-hidden",
+          props.withScrollbar &&
+            "overflow-x-scroll [scrollbar-width:thin] [scrollbar-color:transparent_transparent] hover:[scrollbar-color:#cfcfcf_transparent]"
         )}
-        {...props}
-      />
-    </div>
-  );
-});
+      >
+        <div
+          ref={ref}
+          className={cn(
+            "flex mb-[1px]",
+            orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col",
+            className
+          )}
+          {...props}
+        />
+      </div>
+    );
+  }
+);
 CarouselContent.displayName = "CarouselContent";
 
 const CarouselItem = React.forwardRef<
@@ -216,7 +226,7 @@ const CarouselPrevious = React.forwardRef<
       onClick={scrollPrev}
       {...props}
     >
-      <ChevronLeft className="h-5 w-5" strokeWidth={3}/>
+      <ChevronLeft className="h-5 w-5" strokeWidth={3} />
       <span className="sr-only">Previous slide</span>
     </Button>
   );
@@ -245,7 +255,7 @@ const CarouselNext = React.forwardRef<
       onClick={scrollNext}
       {...props}
     >
-      <ChevronRight className="h-5 w-5" strokeWidth={3}/>
+      <ChevronRight className="h-5 w-5" strokeWidth={3} />
       <span className="sr-only">Next slide</span>
     </Button>
   );
