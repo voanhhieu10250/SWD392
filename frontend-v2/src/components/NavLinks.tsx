@@ -42,7 +42,7 @@ type NavItemProps = {
 const NavItem = ({ href, children, tooltip }: NavItemProps) => {
   const pathname = usePathname();
   return (
-    <TooltipProvider>
+    <TooltipProvider delayDuration={0}>
       <Tooltip>
         <TooltipTrigger>
           <Link
