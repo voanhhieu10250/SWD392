@@ -28,12 +28,36 @@ export default function BannerProfile({ user }: Props) {
     pb: 3,
     px: 3
   }
+  const style2 = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 572,
+    maxWidth: 712,
+    height: 712,
+    dislay: 'flex',
+    flexDirection: 'column',
+    backgroundColor: '#1b1e21',
+    justifyContent: 'center',
+
+    border: '2px solid #000',
+    boxShadow: 24
+  }
   const [openEdit, setOpenEdit] = React.useState(false)
+  const [openPreOrder, setOpenPreOrder] = React.useState(false)
+
   const handleOpenEdit = () => {
     setOpenEdit(true)
   }
   const handleCloseEdit = () => {
     setOpenEdit(false)
+  }
+  const handleOpenEditOrder = () => {
+    setOpenPreOrder(true)
+  }
+  const handleCloseEditOrder = () => {
+    setOpenPreOrder(false)
   }
   const [name, setName] = useState(user.userName)
   const [about, setAbout] = useState(user.about)
@@ -75,7 +99,7 @@ export default function BannerProfile({ user }: Props) {
     formData.append('about', about)
     console.log('formData', formData)
     axios
-      .post('YOUR_BACKEND_URL', formData, {
+      .put('http://13.250.106.122/users', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -103,10 +127,18 @@ export default function BannerProfile({ user }: Props) {
           </div>
         </div>
         <div className='w-3/4 pl-11'>
-          <div className='-mt-8'>
+          <div className='-mt-8 flex gap-2'>
             <a className='rounded-2xl flex items-center justify-center w-28 py-4 bg-white ' onClick={handleOpenEdit}>
               <h1 className='font-medium'>Edit</h1>
             </a>
+            {/* {user.role === 'Creator' && ( */}
+            <a
+              className='rounded-2xl flex items-center justify-center w-28 py-4 bg-white '
+              onClick={handleOpenEditOrder}
+            >
+              <h1 className='font-medium'>Pre-Order</h1>
+            </a>
+            {/* )} */}
             <Modal
               open={openEdit}
               onClose={handleCloseEdit}
@@ -189,7 +221,7 @@ export default function BannerProfile({ user }: Props) {
                         id='editAbout'
                         className='w-full py-2 px-3 text-lg h-10 rounded-lg mt-2 focus:border-x-gray-400'
                         value={about}
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={(e) => setAbout(e.target.value)}
                         style={{ border: '1px solid #cfcfcf' }}
                       />
                     </div>
@@ -234,6 +266,69 @@ export default function BannerProfile({ user }: Props) {
                     </div>
                   </div>
                 </Typography>
+              </Box>
+            </Modal>
+            <Modal
+              open={openPreOrder}
+              onClose={handleCloseEditOrder}
+              aria-labelledby='modal-modal-title'
+              aria-describedby='modal-modal-description'
+            >
+              <Box sx={style2}>
+                <div className='relative w-full h-full'>
+                  <Typography
+                    id='modal-modal-title'
+                    className='py-7 font-bold   flex items-center   pl-4 z-50  border-b-2 border-gray-500'
+                  >
+                    <h1 className='font-bold text-2xl text-white px-7'> Make an art pre-order</h1>
+                  </Typography>
+                  <Typography id='modal-modal-description' sx={{ mx: 2 }}>
+                    <div className='grid grid-cols-1 mb-2 relative px-7'>
+                      <div className='pt-3'>
+                        <label htmlFor='price' className='block text-lg font-medium leading-6 text-white'>
+                          Your Offer
+                        </label>
+                        <div className='relative mt-2 rounded-md shadow-sm'>
+                          <div className='pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3'>
+                            <span className='text-gray-500 sm:text-sm'>$</span>
+                          </div>
+                          <input
+                            type='text'
+                            name='price'
+                            id='price'
+                            className='block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-white ring-1 ring-inset ring-gray-600 placeholder:text-gray-600  focus:ring-inset sm:text-sm sm:leading-6 bg-gray-950 '
+                            placeholder='0.00'
+                          />
+                          <div className='absolute inset-y-0 text-gray-500 right-2 flex justify-center items-center'>
+                            USD
+                          </div>
+                        </div>
+                        <label htmlFor='price' className='block text-xs font-medium leading-6 text-gray-500 pt-2'>
+                          You will only be charged if the seller accepts your offer
+                        </label>
+                      </div>
+                      <div className='pt-4'>
+                        <label
+                          htmlFor='message'
+                          className='block mb-2 text-lg font-medium text-white dark:text-white pb-2'
+                        >
+                          Add note (optional)
+                        </label>
+                        <textarea
+                          id='message'
+                          className='block p-2.5 w-full h-28 text-sm text-white bg-gray-950 rounded-lg border border-gray-600  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                          placeholder='Leave a note for the creator'
+                        ></textarea>
+                      </div>
+                    </div>
+                  </Typography>
+
+                  <div className='flex w-full justify-end absolute bottom-0 border-t-2 border-gray-500'>
+                    <button className='bg-gray-400 opacity-50 py-2 px-4 text-center my-5 mr-7 font-medium'>
+                      Go to Checkout
+                    </button>
+                  </div>
+                </div>
               </Box>
             </Modal>
           </div>
