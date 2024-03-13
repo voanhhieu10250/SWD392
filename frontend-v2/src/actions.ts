@@ -111,3 +111,42 @@ export const getSearchResults = async (
     data: (await res.json()) as Art[],
   };
 };
+
+export const getArtDetail = async (artId: string) => {
+  noStore();
+  const res = await fetch("http://localhost:3000/art_detail.json?id=" + artId);
+
+  if (!res.ok) {
+    return {
+      error: true,
+      message: "An error occurred while fetching arts",
+      data: null,
+    };
+  }
+
+  return {
+    error: false,
+    message: "",
+    data: (await res.json()) as Art & { owner: { name: string; id: number } },
+  };
+};
+
+export const getArtDetailMoreArts = async () => {
+  noStore();
+  const res = await fetch("http://localhost:3000/recent_arts.json");
+
+  if (!res.ok) {
+    return {
+      error: true,
+      message: "An error occurred while fetching arts",
+      data: [],
+    };
+  }
+
+  // only return 3 arts
+  return {
+    error: false,
+    message: "",
+    data: ((await res.json()) as Art[]).slice(0, 3),
+  };
+};

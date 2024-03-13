@@ -1,0 +1,16 @@
+{
+  "id": 1,
+  "title": "My first post",
+  "description": "This is my first post. I hope you like it!",
+  "artType": "digital",
+  "originUrl": "https://www.artfol-image.me/65c5c1f678a0e1b3a32e7f99/040359c6b3f04bc5b4e43e99350b3d2e.jpg",
+  "tags": "digital, art, first post, cool, awesome, amazing, wow, great, fantastic, wonderful",
+  "isPremium": false,
+  "watermarked_url": "https://www.artfol-image.me/65c5c1f678a0e1b3a32e7f99/040359c6b3f04bc5b4e43e99350b3d2e.jpg",
+  "downloads": 0,
+  "likes": 0,
+  "owner": {
+    "id": 1,
+    "name": "John Doe"
+  }
+}
