@@ -24,9 +24,9 @@ const MoreArts = async () => {
           <Image
             src={art.originUrl}
             alt=""
-            width={240}
-            height={240}
+            fill
             className="w-full h-auto"
+            unoptimized
           />
           <div className="bg-gradient-to-t from-black/40 to-transparent absolute inset-0 opacity-0 hover:opacity-100 transition-opacity">
             <span className="absolute bottom-0 left-0 pb-1.5 px-3 w-full font-semibold text-white text-sm truncate">

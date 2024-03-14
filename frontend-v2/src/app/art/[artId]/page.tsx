@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import MoreArts from "@/components/artpage/MoreArts";
 import { Suspense } from "react";
 import Spinner from "@/components/homepage/Spinner";
+import Link from "next/link";
 
 const ArtDetails = async ({ params }: { params: { artId: string } }) => {
   const art = await getArtDetail(params.artId);
@@ -28,7 +29,10 @@ const ArtDetails = async ({ params }: { params: { artId: string } }) => {
   return (
     <div className="mb-8">
       <div className="flex justify-between items-center max-w-2xl p-4">
-        <div className="flex justify-center items-center gap-4">
+        <Link
+          href={"/profile/" + art.data.owner.id}
+          className="flex justify-center items-center gap-4"
+        >
           <div className="relative w-[50px] h-[50px] overflow-hidden rounded-full bg-background">
             <Image
               src="https://api.dicebear.com/5.x/adventurer/svg?seed=hieu"
@@ -39,7 +43,7 @@ const ArtDetails = async ({ params }: { params: { artId: string } }) => {
           <div>
             <p className="text-xl font-semibold">{art.data.owner.name}</p>
           </div>
-        </div>
+        </Link>
         <ShareDialog value={"http://localhost:3000/art/" + params.artId} />
       </div>
 
@@ -52,6 +56,7 @@ const ArtDetails = async ({ params }: { params: { artId: string } }) => {
             width={700}
             height={700}
             className="w-full h-auto"
+            unoptimized
           />
         </div>
 

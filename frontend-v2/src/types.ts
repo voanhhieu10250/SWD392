@@ -10,8 +10,8 @@ export enum ArtType {
 }
 
 export type Art = {
-  id: number;
-  ownerId: number;
+  id: string;
+  ownerId: string;
   title: string;
   description: string;
   artType: ArtType;
@@ -21,4 +21,9 @@ export type Art = {
   watermarked_url: string;
   downloads: number;
   likes: number;
+};
+
+export type User = {
+  id: string;
+  name: string;
 };
