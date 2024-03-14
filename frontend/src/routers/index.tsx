@@ -10,6 +10,7 @@ import Notification from '~/pages/components/notification'
 
 import DigitalArtPage from '~/pages/components/details/DigitalArtPage.tsx'
 import PhysicalArtPage from '~/pages/components/details/PhysicalArtPage.tsx'
+import UploadArt from "~/pages/components/upload/UploadArt.tsx";
 
 const Router = () => {
   return useRoutes([
@@ -28,7 +29,8 @@ const Router = () => {
     { path: '*', element: <Navigate to='/404' replace /> },
 
     { path: 'digital-art', element: <DigitalArtPage /> },
-    { path: 'physical-art', element: <PhysicalArtPage /> }
+    { path: 'physical-art', element: <PhysicalArtPage /> },
+    { path: 'upload-art', element: <UploadArt/>}
   ])
 }
 
