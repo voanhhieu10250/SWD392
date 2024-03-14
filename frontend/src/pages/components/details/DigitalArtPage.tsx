@@ -2,7 +2,7 @@ import {BiSolidComment, BiSolidLike, BiStar} from "react-icons/bi";
 import Description from "~/pages/components/details/Description.tsx";
 import {useState} from "react";
 import {FaRegHeart} from "react-icons/fa";
-import Collection from "~/pages/components/details/collection/Collection.tsx";
+import Collection from "~/pages/components/details/modal/Collection.tsx";
 
 function DigitalArtPage() {
   const [imageInfo, setImageInfo] = useState<{ width: number; height: number; sizeInMB: number } | null>(null);

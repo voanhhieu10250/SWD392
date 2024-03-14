@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {MdOutlineClose} from "react-icons/md";
 import {IoIosAdd} from "react-icons/io";
 

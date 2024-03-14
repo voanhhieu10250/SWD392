@@ -4,11 +4,13 @@ import {useState} from "react";
 import {RiRepeatFill} from "react-icons/ri";
 import {FaAngleRight} from "react-icons/fa6";
 import {FaRegHeart} from "react-icons/fa";
-import Collection from "~/pages/components/details/collection/Collection.tsx";
+import Collection from "~/pages/components/details/modal/Collection.tsx";
+import Offer from "~/pages/components/details/modal/Offer.tsx";
 
 function PhysicalArtPage() {
   const [imageInfo, setImageInfo] = useState<{ width: number; height: number; sizeInMB: number } | null>(null);
   const [showPopup, setShowPopup] = useState(false);
+  const [showPopupOffer, setShowPopupOffer] = useState(false);
 
   const handleButtonClickCollection = () => {
     setShowPopup(true);
@@ -16,6 +18,14 @@ function PhysicalArtPage() {
 
   const handleCloseCollection = () => {
     setShowPopup(false);
+  };
+
+  const handleButtonClickOffer = () => {
+    setShowPopupOffer(true);
+  };
+
+  const handleCloseOffer = () => {
+    setShowPopupOffer(false);
   };
 
   const handleImageLoad = async (event: React.SyntheticEvent<HTMLImageElement>) => {
@@ -73,11 +83,14 @@ function PhysicalArtPage() {
                   <span className="font-bold">Like</span>
                 </button>
                 <button
-                  className="border-2 border-black p-2 rounded-full flex items-center ml-1 hover:border-green-500 hover:text-green-500 transition-all duration-200">
+                  className="border-2 border-black p-2 rounded-full flex items-center ml-1 hover:border-green-500 hover:text-green-500 transition-all duration-200"
+                  onClick={handleButtonClickOffer}>
                   <span className="font-bold">Make an Offer</span>
                 </button>
               </div>
             </div>
+
+            <Offer popup={showPopupOffer} onClose={handleCloseOffer}/>
           </div>
 
           {/*Information*/}
