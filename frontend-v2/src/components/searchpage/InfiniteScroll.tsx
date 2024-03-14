@@ -1,39 +1,31 @@
 "use client";
 
-import { getRecentArts, getWhatIsHotArts } from "@/actions";
+import { getSearchResults } from "@/actions";
 import { Art } from "@/types";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import Masonry from "react-masonry-css";
-import Spinner from "./Spinner";
+import Spinner from "../homepage/Spinner";
 import Link from "next/link";
 
 const InfiniteScroll = ({
   intialData,
-  content,
+  query,
+  show,
 }: {
   intialData: Art[];
-  content: "hot" | "recent";
+  query: string;
+  show: string;
 }) => {
   const [arts, setArts] = useState<Art[]>(intialData);
   const [page, setPage] = useState(1);
   const [last, setLast] = useState(false);
   const [ref, inView] = useInView();
 
-  // max-width: columns
-  const breakpointColumnsObj = {
-    default: 5,
-    1024: 3,
-    768: 2,
-  };
-
   const loadMore = useCallback(async () => {
     if (last) return;
-    const data =
-      content === "hot"
-        ? await getWhatIsHotArts(page + 1)
-        : await getRecentArts(page + 1);
+    const data = await getSearchResults(query, show, page);
 
     if (data.data.length) {
       setPage(page + 1);
@@ -41,7 +33,7 @@ const InfiniteScroll = ({
     } else {
       setLast(true);
     }
-  }, [content, arts, page, last]);
+  }, [query, show, arts, page, last]);
 
   useEffect(() => {
     if (inView) {
@@ -52,7 +44,7 @@ const InfiniteScroll = ({
   return (
     <div>
       <Masonry
-        breakpointCols={breakpointColumnsObj}
+        breakpointCols={3}
         className="flex w-full gap-x-3"
         columnClassName="my-masonry-grid_column"
       >
@@ -80,7 +72,7 @@ const InfiniteScroll = ({
       </Masonry>
       <div ref={ref}>
         {last ? (
-          <div className="text-center text-gray-500">No more arts</div>
+          <div className="text-center text-gray-500">No more result</div>
         ) : (
           <Spinner />
         )}

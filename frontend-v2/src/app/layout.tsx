@@ -1,13 +1,11 @@
-import { ModeToggle } from "@/components/ModeToggle";
-import SearchBox from "@/components/SearchBox";
 import { ThemeProvider } from "@/components/theme-provider";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
-import Link from "next/link";
 import "./globals.css";
-import SideNav from "@/components/SideNav";
+import { Toaster } from "@/components/ui/toaster";
+import MainLayout from "@/components/MainLayout";
+import TopNav from "@/components/TopNav";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -39,37 +37,12 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="bg-secondary flex flex-col min-h-screen">
-            {/* nav */}
-            <div className="sticky top-0 flex justify-between px-[calc(1%+10px)] py-4 shadow-md bg-background z-50">
-              <div className="grid place-content-center">
-                <Link
-                  href="/"
-                  className="text-2xl font-semibold tracking-tight"
-                >
-                  Artwork
-                </Link>
-              </div>
-              <div className="grid place-content-center">
-                <SearchBox />
-              </div>
-              <div className="flex items-center gap-x-1">
-                <Button variant="link" asChild>
-                  <Link href="/login">Login</Link>
-                </Button>
-                <ModeToggle />
-              </div>
-            </div>
+            <TopNav />
 
-            {/* Side nav */}
-            <div className="w-[75px] fixed top-0 left-0">
-              <SideNav />
-            </div>
-            {/* main */}
-            <div className="ml-[75px]">
-              <main className="container mx-auto">{children}</main>
-            </div>
+            <MainLayout>{children}</MainLayout>
           </div>
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );

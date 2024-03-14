@@ -11,6 +11,8 @@ import Notification from '~/pages/components/notification'
 import DigitalArtPage from '~/pages/components/details/DigitalArtPage.tsx'
 import PhysicalArtPage from '~/pages/components/details/PhysicalArtPage.tsx'
 
+import TopCreator from '~/pages/components/top_creator'
+
 const Router = () => {
   return useRoutes([
     // main layouut
@@ -28,7 +30,9 @@ const Router = () => {
     { path: '*', element: <Navigate to='/404' replace /> },
 
     { path: 'digital-art', element: <DigitalArtPage /> },
-    { path: 'physical-art', element: <PhysicalArtPage /> }
+    { path: 'physical-art', element: <PhysicalArtPage /> },
+
+    { path: 'top_creator', element: <TopCreator/> }
   ])
 }
 

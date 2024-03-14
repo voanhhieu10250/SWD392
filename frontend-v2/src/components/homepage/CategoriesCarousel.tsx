@@ -37,7 +37,7 @@ async function CategoriesCarousel() {
             <Card>
               <Link
                 href={
-                  "/search?category=" + decodeURI(category.name.toLowerCase())
+                  "/search?show=" + encodeURI(category.name.toLowerCase())
                 }
               >
                 <CardContent
