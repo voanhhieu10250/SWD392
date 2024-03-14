@@ -21,7 +21,7 @@ export default async function Search({
           <SearchResults query={searchQuery} show={searchParams.show} />
         </Suspense>
       </div>
-      <div className="sticky top-0 h-full w-72">
+      <div className="sticky top-0 h-full w-72 hidden md:block">
         <div className="bg-background rounded-xl shadow-sm py-5 text-sm">
           <Suspense>
             <Filter defaultValue="artwork" />

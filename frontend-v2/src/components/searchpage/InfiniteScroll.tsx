@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import Masonry from "react-masonry-css";
 import Spinner from "../homepage/Spinner";
+import Link from "next/link";
 
 const InfiniteScroll = ({
   intialData,
@@ -48,9 +49,10 @@ const InfiniteScroll = ({
         columnClassName="my-masonry-grid_column"
       >
         {arts.map((art, index) => (
-          <div
-            className="w-full relative rounded-lg overflow-hidden mb-3"
+          <Link
+            className="block w-full relative rounded-lg overflow-hidden mb-3"
             key={index}
+            href={`/art/${art.id}`}
           >
             <Image
               src={art.originUrl}
@@ -58,13 +60,14 @@ const InfiniteScroll = ({
               width={240}
               height={240}
               className="w-full h-auto"
+              unoptimized
             />
             <div className="bg-gradient-to-t from-black/40 to-transparent absolute inset-0 opacity-0 hover:opacity-100 transition-opacity">
               <span className="absolute bottom-0 left-0 pb-1.5 px-3 w-full font-semibold text-white text-sm truncate">
                 {art.title}
               </span>
             </div>
-          </div>
+          </Link>
         ))}
       </Masonry>
       <div ref={ref}>
