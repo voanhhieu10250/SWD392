@@ -15,10 +15,11 @@ const OptionsDropdown = ({ username }: { username: string }) => {
         <div className="text-sm font-semibold">{username}</div>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem>Upload</DropdownMenuItem>
         <DropdownMenuItem>
           <form action={handleLogout} className="w-full">
-            <button type="submit" className="w-full text-start">Logout</button>
+            <button type="submit" className="w-full text-start">
+              Logout
+            </button>
           </form>
         </DropdownMenuItem>
       </DropdownMenuContent>
