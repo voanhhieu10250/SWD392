@@ -1,13 +1,11 @@
+import { ThemeProvider } from "@/components/theme-provider";
+import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
-import { ModeToggle } from "@/components/ModeToggle";
-import NavLinks from "@/components/NavLinks";
-import SearchBox from "@/components/SearchBox";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { ThemeProvider } from "@/components/theme-provider";
-import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/toaster";
+import MainLayout from "@/components/MainLayout";
+import TopNav from "@/components/TopNav";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -39,36 +37,12 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="bg-secondary flex flex-col min-h-screen">
-            {/* nav */}
-            <div className="sticky top-0 flex justify-between px-[calc(1%+10px)] py-4 shadow-md bg-background">
-              <div className="grid place-content-center">
-                <Link
-                  href="/"
-                  className="text-2xl font-semibold tracking-tight"
-                >
-                  Artwork
-                </Link>
-              </div>
-              <div className="grid place-content-center">
-                <SearchBox />
-              </div>
-              <div className="flex items-center gap-x-1">
-                <Button variant="link" asChild>
-                  <Link href="/login">Login</Link>
-                </Button>
-                <ModeToggle />
-              </div>
-            </div>
+            <TopNav />
 
-            {/* main */}
-            <div className="grid grid-cols-[75px_minmax(0,_1fr)] flex-1">
-              {/* Side nav */}
-              <NavLinks />
-
-              <main className="container mx-auto">{children}</main>
-            </div>
+            <MainLayout>{children}</MainLayout>
           </div>
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );

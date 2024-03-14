@@ -4,8 +4,12 @@ import MainLayout from '~/layouts/main'
 import Main from '~/pages/components/main'
 import Search from '../pages/components/search/Search'
 import ProfileUser from '~/pages/components/profile'
-import DigitalArtPage from "~/pages/components/details/DigitalArtPage.tsx";
-import PhysicalArtPage from "~/pages/components/details/PhysicalArtPage.tsx";
+
+import Package from '~/pages/components/package'
+import Notification from '~/pages/components/notification'
+
+import DigitalArtPage from '~/pages/components/details/DigitalArtPage.tsx'
+import PhysicalArtPage from '~/pages/components/details/PhysicalArtPage.tsx'
 
 const Router = () => {
   return useRoutes([
@@ -18,9 +22,13 @@ const Router = () => {
     { path: 'login', element: <Login /> },
     { path: 'search', element: <Search /> },
     { path: 'profile/:userId', element: <ProfileUser /> },
+
+    { path: 'package', element: <Package /> },
+    { path: 'notification', element: <Notification /> },
     { path: '*', element: <Navigate to='/404' replace /> },
-    { path: 'digital-art', element: <DigitalArtPage/>},
-    { path: 'physical-art', element: <PhysicalArtPage/>}
+
+    { path: 'digital-art', element: <DigitalArtPage /> },
+    { path: 'physical-art', element: <PhysicalArtPage /> }
   ])
 }
 
