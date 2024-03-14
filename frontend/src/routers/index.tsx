@@ -12,6 +12,7 @@ import DigitalArtPage from '~/pages/components/details/DigitalArtPage.tsx'
 import PhysicalArtPage from '~/pages/components/details/PhysicalArtPage.tsx'
 
 import TopCreator from '~/pages/components/top_creator'
+import Register from '~/pages/auth/Register'
 
 const Router = () => {
   return useRoutes([
@@ -22,6 +23,8 @@ const Router = () => {
       children: [{ element: <Main />, index: true }]
     },
     { path: 'login', element: <Login /> },
+    { path: 'register', element: <Register /> },
+
     { path: 'search', element: <Search /> },
     { path: 'profile/:userId', element: <ProfileUser /> },
 
@@ -32,7 +35,7 @@ const Router = () => {
     { path: 'digital-art', element: <DigitalArtPage /> },
     { path: 'physical-art', element: <PhysicalArtPage /> },
 
-    { path: 'top_creator', element: <TopCreator/> }
+    { path: 'top_creator', element: <TopCreator /> }
   ])
 }
 
