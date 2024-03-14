@@ -47,7 +47,6 @@ const SearchBox = () => {
           name="query"
           className="block w-full p-2 ps-10 text-sm border border-input rounded-full bg-background shadow-inner"
           placeholder="Search Mockups, Logos..."
-          required
         />
       </div>
     </form>
