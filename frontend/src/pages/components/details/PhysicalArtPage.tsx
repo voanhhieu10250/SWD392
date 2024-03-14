@@ -3,9 +3,20 @@ import Description from "~/pages/components/details/Description.tsx";
 import {useState} from "react";
 import {RiRepeatFill} from "react-icons/ri";
 import {FaAngleRight} from "react-icons/fa6";
+import {FaRegHeart} from "react-icons/fa";
+import Collection from "~/pages/components/details/collection/Collection.tsx";
 
 function PhysicalArtPage() {
   const [imageInfo, setImageInfo] = useState<{ width: number; height: number; sizeInMB: number } | null>(null);
+  const [showPopup, setShowPopup] = useState(false);
+
+  const handleButtonClickCollection = () => {
+    setShowPopup(true);
+  };
+
+  const handleCloseCollection = () => {
+    setShowPopup(false);
+  };
 
   const handleImageLoad = async (event: React.SyntheticEvent<HTMLImageElement>) => {
     const imageElement = event.target as HTMLImageElement;
@@ -31,13 +42,14 @@ function PhysicalArtPage() {
 
   return (
     <div className="flex justify-center">
-      <div className="h-[100%] bg-gray-300">
+      <div className="h-[100%] bg-gray-300 p-8 rounded-md">
         {/*Image*/}
         <div className="mb-2 inline-flex flex-col">
           <div className="w-[100%]">
             <img
               src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/8adefab8-9a4e-4fa7-8ad7-e2e4cf9cf1e9/dgrizg7-b476191f-192c-45d4-974b-2d1b6f66f042.jpg/v1/fill/w_1192,h_670,q_70,strp/valoran_by_kikoldraws_dgrizg7-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTQ0MCIsInBhdGgiOiJcL2ZcLzhhZGVmYWI4LTlhNGUtNGZhNy04YWQ3LWUyZTRjZjljZjFlOVwvZGdyaXpnNy1iNDc2MTkxZi0xOTJjLTQ1ZDQtOTc0Yi0yZDFiNmY2NmYwNDIuanBnIiwid2lkdGgiOiI8PTI1NjAifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.Bz92275qwqYlBH9FENXMlKZIAqIT8kp_z7z4UZmS0yg"
               alt=""
+              className="object-contain w-full"
               onLoad={handleImageLoad}/>
           </div>
         </div>
@@ -47,11 +59,13 @@ function PhysicalArtPage() {
           <div className="mt-2">
             <div className="flex justify-between">
               <div className="flex justify-between">
-                <button className="hover:text-green-500 flex items-center mr-1 transition-all duration-200">
+                <button className="hover:text-green-500 flex items-center mr-1 transition-all duration-200" onClick={handleButtonClickCollection}>
                   <span className="mr-1"><BiStar/></span>
                   <span className="font-bold">Add to Collection</span>
                 </button>
               </div>
+
+              <Collection popup={showPopup} onClose={handleCloseCollection}/>
 
               <div className="flex justify-between mr-2">
                 <button className="hover:text-green-500 flex items-center mr-1 transition-all duration-200">
@@ -145,7 +159,7 @@ function PhysicalArtPage() {
 
           {/*Description*/}
           <div className="mt-2">
-            <div className="">
+            <div className="max-w-3xl">
               <Description
                 text={"Tả con trâu nằm trong bài văn Tả con vật, có trong chương trình của cả 3 bộ sách Kết nối tri thức, Chân trời sáng tạo, Cánh diều. Vậy mời các em cùng theo dõi bài viết dưới đây của Download.vn để có thêm nhiều vốn từ, nhanh chóng hoàn thiện bài văn của mình thật hay."}
                 maxLength={50}/>
@@ -167,9 +181,48 @@ function PhysicalArtPage() {
               <span className="mr-1 font-bold">Comments</span>
               <span className="font-sans">15</span>
             </div>
-            <div className="inline-flex">
-              <img src="https://i.pinimg.com/236x/db/c4/f7/dbc4f7f26f83a1cedc0aa9523550ff26.jpg" alt="Avatar"
-                   width={50} className="rounded-lg"/>
+            <div className="grid grid-cols-12 p-4">
+              <div className="col-span-1">
+                <img src="https://i.pinimg.com/236x/db/c4/f7/dbc4f7f26f83a1cedc0aa9523550ff26.jpg" alt="Avatar"
+                     width={50} className="rounded-lg"/>
+              </div>
+              <div className="col-span-11">
+                <form action="" method="post">
+                  <textarea name="comment" placeholder="Write a comment"
+                            className="w-full h-[200px] resize-none bg-gray-500 text-white p-2"></textarea>
+                  <div className="flex justify-end">
+                    <button type="submit"
+                            className="p-2 bg-blue-500 rounded-md text-white hover:bg-blue-700 transition-all duration-300 ease-in-out">Submit
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div className="grid grid-cols-12 p-4 border-b border-gray-200">
+              <div className="col-span-1">
+                <img src="https://i.pinimg.com/236x/db/c4/f7/dbc4f7f26f83a1cedc0aa9523550ff26.jpg" alt="Avatar"
+                     width={50} className="rounded-lg"/>
+              </div>
+              <div className="col-span-11">
+                <div className="p-2 pb-4">
+                  <div className="inline-flex">
+                    <h4 className="font-semibold mr-2">John Doe</h4>
+                    <span className="text-gray-500 ml-2">Jan 10, 2024</span>
+                  </div>
+                  <p className="text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+
+                <div className="mt-1">
+                  <div className="flex items-center">
+                    <span className="mr-1 text-xl">
+                      <FaRegHeart/>
+                    </span>
+                    <div className="ml-1">
+                      <span className="text-xl">2</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
