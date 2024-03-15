@@ -30,7 +30,6 @@ public class ArtController {
     @PostMapping("/")
     public ResponseDTO<Void> create(@ModelAttribute @Valid ArtDTO artDTO) throws IllegalStateException, IOException, S3Exception {
 
-        List<String> images = new ArrayList<>();
 
         if (artDTO.getArtFile() != null && !artDTO.getArtFile().isEmpty()) {
 
@@ -40,7 +39,8 @@ public class ArtController {
             // create new name
             String newFileName = UUID.randomUUID().toString() + extension;
 
-            String photoURL = s3StorageService.uploadFile(newFileName, artDTO.getArtFile());
+            // Use the uploadFileWaterMark method instead of uploadFile
+            String photoURL = s3StorageService.uploadFileWaterMark(newFileName, artDTO.getArtFile());
 
             artDTO.setOriginUrl(photoURL);
         }

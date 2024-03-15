@@ -17,7 +17,7 @@ public class Category {
 
     private String image;
 
-    @ManyToMany(mappedBy = "artType")
+    @ManyToMany(mappedBy = "categories")
     private List<Art> arts;
 
 }
