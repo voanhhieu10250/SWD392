@@ -26,8 +26,8 @@ public class ReportController {
 
     @GetMapping("/{id}")
     public ResponseDTO<ReportDTO> get(@PathVariable("id") int id) {
-        ReportDTO ReportDTO = reportService.getById(id);
-        return ResponseDTO.<ReportDTO>builder().status(200).data(ReportDTO).build();
+        ReportDTO reportDTO = reportService.getById(id);
+        return ResponseDTO.<ReportDTO>builder().status(200).data(reportDTO).build();
     }
 
     @DeleteMapping("/{id}")
