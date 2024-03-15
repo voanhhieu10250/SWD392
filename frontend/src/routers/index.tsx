@@ -12,6 +12,7 @@ import DigitalArtPage from '~/pages/components/details/DigitalArtPage.tsx'
 import PhysicalArtPage from '~/pages/components/details/PhysicalArtPage.tsx'
 
 import TopCreator from '~/pages/components/top_creator'
+import UploadArt from "~/pages/components/upload/UploadArt.tsx";
 
 const Router = () => {
   return useRoutes([
@@ -31,6 +32,7 @@ const Router = () => {
 
     { path: 'digital-art', element: <DigitalArtPage /> },
     { path: 'physical-art', element: <PhysicalArtPage /> },
+    { path: 'upload-art', element: <UploadArt/>},
 
     { path: 'top_creator', element: <TopCreator/> }
   ])
