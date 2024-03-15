@@ -21,32 +21,46 @@ export default function topCreator() {
         
         <div className='flex flex-wrap m-3 bg-white'>
           <div className='w-1/3 p-2'>
-            <img src='/logo.png' alt='Image 1' className='w-full h-auto' />
+            <img src='/logo.png' alt='Image 1' className='w-full h-auto' />            
           </div>
-         <div className='w-1/3 p-2'>
-            <img src='https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vecteezy.com%2Fvector-art%2F5005837-user-icon-in-trendy-flat-style-isolated-on-grey-background-user-symbol-for-your-web-site-design-logo-app-ui-vector-illustration-eps10&psig=AOvVaw3A1I2Aums9vkj3QQdmygOB&ust=1710470709431000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCNDrhIre8oQDFQAAAAAdAAAAABAb' 
+         <div className='w-1/3 p-2 h-48' >
+            <img src='https://photo.znews.vn/w660/Uploaded/qhj_yvobvhfwbv/2018_07_18/Nguyen_Huy_Binh1.jpg' 
             alt='Image 1' className='w-full h-auto' />
+            <div className="img-title flex justify-center mt-2">
+              <span className="title">
+                Lý Hiếu Duy
+              </span>
+            </div>
           </div>
-          <div className='w-1/3 p-2'>
-            <img src='https://www.google.com/url?sa=i&url=https%3A%2F%2Fstock.adobe.com%2Fde%2Fimages%2Fdefault-avatar-profile-vector-user-profile%2F339459697&psig=AOvVaw3A1I2Aums9vkj3QQdmygOB&ust=1710470709431000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCNDrhIre8oQDFQAAAAAdAAAAABAk' 
+          <div className='w-1/3 p-2 h-48' >
+            <img src='https://photo.znews.vn/w660/Uploaded/qhj_yvobvhfwbv/2018_07_18/Nguyen_Huy_Binh1.jpg' 
             alt='Image 1' className='w-full h-auto' />
+            <div className="img-title flex justify-center mt-2">
+              <span className="title">
+                Lý Duy
+              </span>
+            </div>
           </div>
-          <div className='w-1/3 p-2'>
+          <div className='w-1/3 p-2 ' >
             <img
-              src='https://www.google.com/url?sa=i&url=https%3A%2F%2Fstock.adobe.com%2Fde%2Fimages%2Fdefault-avatar-profile-icon-vector-social-media-user-photo%2F349497933&psig=AOvVaw3A1I2Aums9vkj3QQdmygOB&ust=1710470709431000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCNDrhIre8oQDFQAAAAAdAAAAABAs'
+              src='https://photo.znews.vn/w660/Uploaded/qhj_yvobvhfwbv/2018_07_18/Nguyen_Huy_Binh1.jpg'
               alt='Image 1'
               className='w-full h-auto'
             />
+            <div className="img-title flex justify-center mt-2">
+              <span className="title">
+                Hiếu Duy
+              </span>
+            </div>
           </div>
         </div>
       </div>
 
       <div className='w-1/4 p-4 bg-white shadow-md '>
-        <h2 className='text-lg font-bold mb-4 px-4 '>Filter</h2>
+        <h2 className='text-lg font-bold mb-4 px-4 '>Sort</h2>
         <div>
-          <h3 className='font-semibold mb-2 px-4'>Artwork</h3>
           <div className='flex justify-between px-4  '>
-            <label>By Title</label>
+            <label>By Artwork Uploaded</label>
             <input
               className='w-7 accent-red-500'
               type='radio'
@@ -56,7 +70,7 @@ export default function topCreator() {
             />
           </div>
           <div className='flex justify-between px-4 pt-2'>
-            <label>By Caption</label>
+            <label>By Dowloads</label>
             <input
               className='w-7 accent-red-500'
               type='radio'
@@ -66,7 +80,7 @@ export default function topCreator() {
             />
           </div>
           <div className='flex justify-between px-4 pt-2'>
-            <label>By Tags</label>
+            <label>By Follower</label>
             <input
               className='w-7 accent-red-500'
               type='radio'
@@ -76,29 +90,7 @@ export default function topCreator() {
             />
           </div>
         </div>
-        <div>
-          <h3 className='font-semibold my-2 px-4'>License</h3>
-          <div className='flex justify-between px-4 '>
-            <label>Free</label>
-            <input
-              className='w-7 accent-red-500'
-              type='radio'
-              value='free'
-              checked={selectedLicense === 'free'}
-              onChange={handleOptionChangeLicense}
-            />
-          </div>
-          <div className='flex justify-between px-4 pt-2'>
-            <label>Premium</label>
-            <input
-              className='w-7 accent-red-500'
-              type='radio'
-              value='premium'
-              checked={selectedLicense === 'premium'}
-              onChange={handleOptionChangeLicense}
-            />
-          </div>
-        </div>
+        
         <div className='text-center'>
           <button className='mt-4 bg-red-500 text-white px-4 py-2 rounded-3xl'>Apply</button>
         </div>
