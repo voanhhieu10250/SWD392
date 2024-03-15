@@ -95,7 +95,7 @@ export default function TopCreator() {
             <ArrowLeftIcon strokeWidth={2} className='h-4 w-4' /> Previous
           </Button>
           <div className='flex items-center gap-2'>
-            {Array.from({ length: Math.ceil(data.length / itemsPerPage) }, (_, index) => index + 1).map(
+            {Array.from({ length: Math.ceil(data && data.length / itemsPerPage) }, (_, index) => index + 1).map(
               (pageNumber) => (
                 <IconButton key={pageNumber} {...getItemProps(pageNumber)}>
                   {pageNumber}
