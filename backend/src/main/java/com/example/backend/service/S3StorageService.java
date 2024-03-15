@@ -47,7 +47,7 @@ class S3StorageServiceImpl implements S3StorageService {
     private S3Client s3Client;
 
     private InputStream addWatermark(MultipartFile file) throws IOException {
-        String watermarkText = "NGU VAI LIT";
+        String watermarkText = "GROUP 3 :>";
 
         BufferedImage originalImage = ImageIO.read(file.getInputStream());
         int width = originalImage.getWidth();

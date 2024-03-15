@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import software.amazon.awssdk.services.s3.model.S3Exception;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,22 +28,26 @@ public class ArtController {
 
     @PostMapping("/")
     public ResponseDTO<Void> create(@ModelAttribute @Valid ArtDTO artDTO) throws IllegalStateException, IOException, S3Exception {
-
-
         if (artDTO.getArtFile() != null && !artDTO.getArtFile().isEmpty()) {
+            // Get the original file name
+            String originalFilename = artDTO.getArtFile().getOriginalFilename();
+            // Extract the file extension
+            String extension = originalFilename != null ? originalFilename.substring(originalFilename.lastIndexOf(".")) : "";
+            // Generate a new file name for the original file
+            String newFileNameForOriginal = UUID.randomUUID().toString() + extension;
+            // Generate a new file name for the watermarked file
+            String newFileNameForWatermarked = UUID.randomUUID().toString() + extension;
 
-            String filename = artDTO.getArtFile().getOriginalFilename();
-            // get fomat file
-            String extension = filename.substring(filename.lastIndexOf("."));
-            // create new name
-            String newFileName = UUID.randomUUID().toString() + extension;
+            // Upload the original file to S3 and set the URL to originUrl
+            String originalFileURL = s3StorageService.uploadFile(newFileNameForOriginal, artDTO.getArtFile());
+            artDTO.setOriginUrl(originalFileURL);
 
-            // Use the uploadFileWaterMark method instead of uploadFile
-            String photoURL = s3StorageService.uploadFileWaterMark(newFileName, artDTO.getArtFile());
-
-            artDTO.setOriginUrl(photoURL);
+            // Upload the watermarked file to S3 and set the URL to watermarkedUrl
+            String watermarkedFileURL = s3StorageService.uploadFileWaterMark(newFileNameForWatermarked, artDTO.getArtFile());
+            artDTO.setWatermarkedUrl(watermarkedFileURL);
         }
 
+        // Proceed with the creation process in your service layer
         artService.create(artDTO);
         return ResponseDTO.<Void>builder()
                 .status(200)
@@ -73,26 +76,36 @@ public class ArtController {
 
 
 
-    @PutMapping("/{id}")
-    public ResponseDTO<Void> update(@PathVariable long id, @ModelAttribute @Valid ArtDTO artDTO) throws IllegalStateException, IOException, S3Exception {
-
+    @PutMapping("/")
+    public ResponseDTO<Void> update(@ModelAttribute @Valid ArtDTO artDTO) throws IllegalStateException, IOException, S3Exception {
         if (artDTO.getArtFile() != null && !artDTO.getArtFile().isEmpty()) {
-            String filename = artDTO.getArtFile().getOriginalFilename();
-            // lay dinh dang file
-            String extension = filename.substring(filename.lastIndexOf("."));
-            // tao ten moi
-            String newFilename = UUID.randomUUID().toString() + extension;
+            // Get the original file name
+            String originalFilename = artDTO.getArtFile().getOriginalFilename();
+            // Extract the file extension
+            String extension = originalFilename != null ? originalFilename.substring(originalFilename.lastIndexOf(".")) : "";
+            // Generate a new file name for the original file
+            String newFileNameForOriginal = UUID.randomUUID().toString() + extension;
+            // Generate a new file name for the watermarked file
+            String newFileNameForWatermarked = UUID.randomUUID().toString() + extension;
 
-            String photoURL = s3StorageService.uploadFile(newFilename, artDTO.getArtFile());
+            // Upload the original file to S3 and set the URL to originUrl
+            String originalFileURL = s3StorageService.uploadFile(newFileNameForOriginal, artDTO.getArtFile());
+            artDTO.setOriginUrl(originalFileURL);
 
-            artDTO.setOriginUrl(photoURL);// save to db
+            // Upload the watermarked file to S3 and set the URL to watermarkedUrl
+            String watermarkedFileURL = s3StorageService.uploadFileWaterMark(newFileNameForWatermarked, artDTO.getArtFile());
+            artDTO.setWatermarkedUrl(watermarkedFileURL);
         }
+
+        // Assuming you have a method in your service to update the Art
+        // You may need to pass both the id and artDTO to perform the update correctly
         artService.update(artDTO);
         return ResponseDTO.<Void>builder()
                 .status(200)
                 .msg("ok")
                 .build();
     }
+
 
 
     @DeleteMapping("/{id}")
