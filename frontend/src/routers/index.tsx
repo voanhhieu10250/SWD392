@@ -36,6 +36,7 @@ const Router = () => {
     { path: 'upload-art', element: <UploadArt/>},
 
     { path: 'top_creator', element: <TopCreator/> },
+   // { path: 'dashboard', element: <Dashboard/> },
   ])
 }
 
