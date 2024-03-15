@@ -32,10 +32,6 @@ public class UserDTO {
 
     private String backgroundColor;
 
-    private WalletDTO wallet;
-
-    private PackageDTO aPackage;
-
     private Integer role;
 
     @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Asia/Ho_Chi_Minh")

@@ -34,14 +34,6 @@ public class User extends TimeAuditable{
 
     private String backgroundColor;
 
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "wallet_id", referencedColumnName = "id")
-    private Wallet wallet;
-
-    @ManyToOne
-    private Package aPackage;
-
     private Integer role;
 
     private static final BCryptPasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
