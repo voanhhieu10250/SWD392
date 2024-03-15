@@ -61,8 +61,8 @@ export default function BannerProfile({ user }: Props) {
   }
   const [name, setName] = useState(user.userName)
   const [about, setAbout] = useState(user.about)
-  const [imageSrc, setImageSrc] = useState(`${user.bannerImg}`)
-  const [imageAvatarSrc, setImageAvatarSrc] = useState(`${user.avatar}`)
+  const [imageSrc, setImageSrc] = useState(user.bannerImg)
+  const [imageAvatarSrc, setImageAvatarSrc] = useState(user.avatar)
   const [selectedColor, setSelectedColor] = useState(user.backgroundColor || 'gray')
   const handleFileChange = (event: any) => {
     const file = event.target.files[0]

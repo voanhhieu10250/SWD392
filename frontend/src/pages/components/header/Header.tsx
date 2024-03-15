@@ -5,9 +5,12 @@ export default function Header() {
   const location = useLocation()
   const [headerUrl, setHeaderUrl] = useState<boolean>(false)
   const [searchQuery, setSearchQuery] = useState<string>('')
+  const [topcreatorQuery,setTopCreatorQuery] = useState<string>('')
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value)
+    setTopCreatorQuery(e.target.value)
   }
+
   useEffect(() => {
     setHeaderUrl(location.pathname === '/')
   }, [location])
@@ -36,7 +39,7 @@ export default function Header() {
                   <a href='#' className='py-2 px-4  text-white font-semibold'>
                     Physical Arts
                   </a>
-                  <a href='#' className='py-2 px-4  text-white font-semibold'>
+                  <a href='/top_creator' className='py-2 px-4  text-white font-semibold'>
                     Top Creator
                   </a>
                   {/* Thêm nhiều mục điều hướng hơn nếu cần */}
