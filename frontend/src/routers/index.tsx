@@ -41,7 +41,7 @@ const Router = () => {
     { path: 'physical-art', element: <PhysicalArtPage /> },
     { path: 'upload-art', element: <UploadArt /> },
 
-    { path: 'top_creator', element: <TopCreator /> }
+    { path: 'top_creator', element: <TopCreator /> },
     // { path: 'dashboard', element: <Dashboard/> },
   ])
 }

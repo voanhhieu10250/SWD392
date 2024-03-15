@@ -114,48 +114,15 @@ const Dashboard: React.FC = () => {
           </nav>
           <nav aria-label="secondary mailbox folders">
             <List className="menu-item">
-              <div className="menu-item-header">general</div>
+              <div className="menu-item-header">Manage</div>
               <ListItem disablePadding className="item-checked">
                 <ListItemButton>
                   <ListItemIcon>
                     <SpeedIcon className="item-icon-checked" />
                   </ListItemIcon>
-                  <ListItemText primary="App" />
+                  <ListItemText primary="Dashboard" />
                 </ListItemButton>
               </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <MonetizationOnIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="E-Commerce" />
-                </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <QueryStatsIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Analytics" />
-                </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <AccountBalanceIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Banking" />
-                </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <EditCalendarIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Booking" />
-                </ListItemButton>
-              </ListItem>
-              <div className="menu-item-header">management</div>
               <ListItem disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
@@ -167,17 +134,17 @@ const Dashboard: React.FC = () => {
               <ListItem disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
-                    <LocalGroceryStoreIcon />
+                    <PersonIcon />
                   </ListItemIcon>
-                  <ListItemText primary="E-Commerce" />
+                  <ListItemText primary="Staff" />
                 </ListItemButton>
               </ListItem>
               <ListItem disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
-                    <DescriptionIcon />
+                    <PersonIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Invoice" />
+                  <ListItemText primary="Creator" />
                 </ListItemButton>
               </ListItem>
               <ListItem disablePadding>
@@ -185,42 +152,17 @@ const Dashboard: React.FC = () => {
                   <ListItemIcon>
                     <EditCalendarIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Blog" />
+                  <ListItemText primary="Artwork" />
                 </ListItemButton>
               </ListItem>
-              <div className="menu-item-header">app</div>
               <ListItem disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
                     <MonetizationOnIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Mail" />
+                  <ListItemText primary="Report" />
                 </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <QueryStatsIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Chat" />
-                </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <AccountBalanceIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Calendar" />
-                </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <EditCalendarIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Kanban" />
-                </ListItemButton>
-              </ListItem>
+              </ListItem>              
             </List>
           </nav>
         </Box>
@@ -261,7 +203,7 @@ const Dashboard: React.FC = () => {
           <div className="total">
             <div className="total-item">
               <div className="total-description">
-                <h6 className="total-header">Total Active Users</h6>
+                <h6 className="total-header">Total Users</h6>
                 <div className="total-percent">
                   <MovingIcon /> 2.6%
                 </div>
@@ -273,7 +215,7 @@ const Dashboard: React.FC = () => {
             </div>
             <div className="total-item">
               <div className="total-description">
-                <h6 className="total-header">Total Active Users</h6>
+                <h6 className="total-header">Total Creator</h6>
                 <div className="total-percent">
                   <MovingIcon /> 2.6%
                 </div>
@@ -285,7 +227,7 @@ const Dashboard: React.FC = () => {
             </div>
             <div className="total-item">
               <div className="total-description">
-                <h6 className="total-header">Total Active Users</h6>
+                <h6 className="total-header">Total ArtWork Update </h6>
                 <div className="total-percent">
                   <MovingIcon /> 2.6%
                 </div>
@@ -304,57 +246,21 @@ const Dashboard: React.FC = () => {
               <div className="circle-chart-content">
                 <PieChartWithPaddingAngle />
               </div>
-              <div className="circle-chart-quote">
-                <div className="quote-item">
-                  <CircleIcon className="circle-icon" style={{ color: 'rgb(200, 250, 205)' }} />
-                  Mac
-                </div>
-                <div className="quote-item">
-                  <CircleIcon className="circle-icon" style={{ color: 'rgb(91, 229, 132)' }} />
-                  Window
-                </div>
-                <div className="quote-item">
-                  <CircleIcon className="circle-icon" style={{ color: 'rgb(0, 171, 85)' }} />
-                  IOS
-                </div>
-                <div className="quote-item">
-                  <CircleIcon className="circle-icon" style={{ color: 'rgb(0, 123, 85)' }} />
-                  Android
-                </div>
-              </div>
-            </div>
-            <div className="col-7">
-              <div className="chart-header">
-                <div className="chart-header-title">
-                  <span>Area Installed</span>
-                  <p>(+43%) than last year</p>
-                </div>
-                <FormControl sx={{ m: 1, minWidth: 80, maxHeight: 50 }} id="year-dropdown">
-                  <InputLabel id="demo-simple-select-label">Year</InputLabel>
-                  <Select labelId="demo-simple-select-label" id="demo-simple-select" value={value} label="Dropdown" onChange={(e) => {handleChange}}>
-                    <MenuItem value={'option1'}>1997</MenuItem>
-                    <MenuItem value={'option2'}>1998</MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
-              <div className="chart-content">
-                <MyChart />
-              </div>
-            </div>
+              </div>            
           </div>
           <div className="row-3-7" style={{ margin: '24px' }}>
             <div className="col-7">
-              <span className="circle-chart-title">New Invoice</span>
+              <span className="circle-chart-title">Top Creator</span>
               <Grid style={{ width: '100%' }} item xs={12} lg={8}>
                 <Paper elevation={0} variant="outlined">
                   <TableContainer>
                     <Table>
                       <TableHead>
                         <TableRow>
-                          <TableCell>Invoice ID</TableCell>
-                          <TableCell>Category</TableCell>
-                          <TableCell>Price</TableCell>
-                          <TableCell>Status</TableCell>
+                         <TableCell>Name</TableCell>
+                          <TableCell>Uploaded</TableCell>
+                          <TableCell>Follower</TableCell>
+                          <TableCell>Dowload</TableCell>                         
                           <TableCell></TableCell>
                         </TableRow>
                       </TableHead>
@@ -391,7 +297,7 @@ const Dashboard: React.FC = () => {
               </Grid>
             </div>
             <div className="col-3">
-              <span className="circle-chart-title">Top Authors</span>
+              <span className="circle-chart-title">Top User</span>
               <div className="author-content">
                 <div className="author-item">
                   <div className="avatar">
@@ -423,9 +329,15 @@ const Dashboard: React.FC = () => {
                   </div>
                   <div id="author-icon">
                     <EmojiEventsIcon />
-                  </div>
-                </div>
+                  </div>                 
+                </div>               
               </div>
+              <Button>
+                    View All
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
+                      <path fill="currentColor" d="M10 19a1 1 0 0 1-.64-.23a1 1 0 0 1-.13-1.41L13.71 12L9.39 6.63a1 1 0 0 1 .15-1.41a1 1 0 0 1 1.46.15l4.83 6a1 1 0 0 1 0 1.27l-5 6A1 1 0 0 1 10 19"></path>
+                    </svg>
+                  </Button>
             </div>
           </div>
         </div>
