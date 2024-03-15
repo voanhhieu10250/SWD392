@@ -1,2 +1,2 @@
-import TopCreator from './top_creator'
+import TopCreator from './TopCreator'
 export default TopCreator
