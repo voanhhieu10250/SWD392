@@ -15,7 +15,7 @@ public class Category {
 
     private String name;
 
-    private String description;
+    private String image;
 
     @ManyToMany(mappedBy = "artType")
     private List<Art> arts;

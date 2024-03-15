@@ -12,9 +12,9 @@ public class ResellTransactionDTO {
 
     private ArtDTO art;
 
-    private UserDTO seller;
+    private UserDTO sellerUser;
 
-    private UserDTO buyer;
+    private UserDTO buyerUser;
 
     @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Asia/Ho_Chi_Minh")
     private Date date;
@@ -22,4 +22,5 @@ public class ResellTransactionDTO {
     private double transactionFee;
 
     private long amount;
+
 }

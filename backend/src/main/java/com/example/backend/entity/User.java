@@ -20,21 +20,13 @@ public class User extends TimeAuditable{
 
     private String email;
 
-    private Boolean isPremiumUser;
-
-    private Boolean isBanned;
-
-    private String avatarImg;
-
-    private String favouriteArt;
+    private String avatar;
 
     private String bannerImg;
 
-    private String about;
-
     private String backgroundColor;
 
-    private Integer role;
+    private String about;
 
     private static final BCryptPasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 

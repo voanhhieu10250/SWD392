@@ -1,6 +1,5 @@
 package com.example.backend.dto;
 
-import com.example.backend.entity.Category;
 import com.example.backend.entity.User;
 import lombok.Data;
 
@@ -11,17 +10,19 @@ public class ArtDTO {
 
     private Integer id;
 
-    private UserDTO owner;
+    private User owner;
 
     private String title;
 
     private String description;
 
-    private List<CategoryDTO> artType;
+    private List<CategoryDTO> categories;
 
     private String originUrl;
 
     private List<String> tags;
+
+    private List<CommentDTO> comments;
 
     private Boolean isPremium;
 
