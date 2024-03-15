@@ -2,6 +2,7 @@ package com.example.backend.dto;
 
 import com.example.backend.entity.User;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -33,4 +34,6 @@ public class ArtDTO {
     private Integer likes;
 
     private boolean status;
+
+    private MultipartFile artFile;
 }
