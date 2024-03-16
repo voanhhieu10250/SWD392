@@ -1,34 +1,26 @@
-import React, { useState } from 'react';
+import EditCalendarIcon from '@mui/icons-material/EditCalendar';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import EqualizerIcon from '@mui/icons-material/Equalizer';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import PeopleIcon from '@mui/icons-material/People';
+import PersonIcon from '@mui/icons-material/Person';
+import SearchIcon from '@mui/icons-material/Search';
+import SpeedIcon from '@mui/icons-material/Speed';
+import { Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import SpeedIcon from '@mui/icons-material/Speed';
-import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-import QueryStatsIcon from '@mui/icons-material/QueryStats';
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import EditCalendarIcon from '@mui/icons-material/EditCalendar';
-import PersonIcon from '@mui/icons-material/Person';
-import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
-import DescriptionIcon from '@mui/icons-material/Description';
-import SearchIcon from '@mui/icons-material/Search';
-import Button from '@mui/material/Button';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import PeopleIcon from '@mui/icons-material/People';
-import MovingIcon from '@mui/icons-material/Moving';
-import EqualizerIcon from '@mui/icons-material/Equalizer';
-import IconButton from '@mui/material/IconButton';
-import { PieChart } from '@mui/x-charts/PieChart';
 import { styled } from '@mui/material/styles';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './Dashboard.css';
-import { TextField } from '@mui/material';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import CircleIcon from '@mui/icons-material/Circle';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import { Grid, Paper, TableContainer, Table, TableHead, TableBody, TableCell, TableRow } from '@mui/material';
-import axios from '~/utils/axios';
 
 
 const Dashboard: React.FC = () => {
@@ -121,7 +113,7 @@ const Dashboard: React.FC = () => {
                   <ListItemIcon>
                     <PersonIcon />
                   </ListItemIcon>
-                  <ListItemText primary="User" />
+                    <ListItemText primary="User" />
                 </ListItemButton>
               </ListItem>
               <ListItem disablePadding>
@@ -263,12 +255,14 @@ const Dashboard: React.FC = () => {
                   </TableContainer>
                 </Paper>
                 <Box className="grid-view-all">
-                  <Button>
+                <Link to="/creatorlist">           
+              <Button>
                     View All
                     <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
                       <path fill="currentColor" d="M10 19a1 1 0 0 1-.64-.23a1 1 0 0 1-.13-1.41L13.71 12L9.39 6.63a1 1 0 0 1 .15-1.41a1 1 0 0 1 1.46.15l4.83 6a1 1 0 0 1 0 1.27l-5 6A1 1 0 0 1 10 19"></path>
                     </svg>
                   </Button>
+                  </Link>
                 </Box>
               </Grid>
             </div>
@@ -308,12 +302,14 @@ const Dashboard: React.FC = () => {
                   </div>                 
                 </div>               
               </div>
+              <Link to="/userlist">           
               <Button>
                     View All
                     <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
                       <path fill="currentColor" d="M10 19a1 1 0 0 1-.64-.23a1 1 0 0 1-.13-1.41L13.71 12L9.39 6.63a1 1 0 0 1 .15-1.41a1 1 0 0 1 1.46.15l4.83 6a1 1 0 0 1 0 1.27l-5 6A1 1 0 0 1 10 19"></path>
                     </svg>
                   </Button>
+              </Link>
             </div>
             <div className="col-3">
               <span className="circle-chart-title">Top Staff </span>
@@ -351,12 +347,14 @@ const Dashboard: React.FC = () => {
                   </div>                 
                 </div>               
               </div>
+              <Link to="/stafflist">           
               <Button>
                     View All
                     <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
                       <path fill="currentColor" d="M10 19a1 1 0 0 1-.64-.23a1 1 0 0 1-.13-1.41L13.71 12L9.39 6.63a1 1 0 0 1 .15-1.41a1 1 0 0 1 1.46.15l4.83 6a1 1 0 0 1 0 1.27l-5 6A1 1 0 0 1 10 19"></path>
                     </svg>
                   </Button>
+              </Link>
             </div>
           </div>
         </div>
