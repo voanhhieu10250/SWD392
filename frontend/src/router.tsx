@@ -6,8 +6,12 @@ import AdminApp from './AdminApp'
 import Search from './pages/Search'
 import CreatorApp from './CreatorApp'
 import DashboardCreator from './pages/components/creator'
+
+import UploadArt from './pages/components/upload/UploadArt'
+
 import Register from './pages/auth/Register'
 import Login from './pages/auth/Login'
+
 
 export const router = createBrowserRouter([
   {
@@ -23,12 +27,17 @@ export const router = createBrowserRouter([
         element: <Search />
       },
       {
+
+        path: 'upload',
+        element: <UploadArt />
+
         path: 'register',
         element: <Register />
       },
       {
         path: 'login',
         element: <Login />
+
       }
     ]
   },
