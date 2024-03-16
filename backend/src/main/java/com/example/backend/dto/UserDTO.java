@@ -11,7 +11,7 @@ public class UserDTO {
 
     private Integer id;
 
-    private String userName;
+    private String username;
 
     private String password;
 
@@ -24,6 +24,12 @@ public class UserDTO {
     private String backgroundColor;
 
     private String about;
+
+    private Boolean isBanned;
+
+    private Boolean isPremiumAudience;
+
+    private Boolean isCreator;
 
     @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Asia/Ho_Chi_Minh")
     private Date createdAt;

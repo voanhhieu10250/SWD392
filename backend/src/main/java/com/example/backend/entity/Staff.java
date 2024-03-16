@@ -1,5 +1,6 @@
 package com.example.backend.entity;
 
+import com.example.backend.entity.utils.TimeAuditable;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -9,13 +10,13 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-public class Staff extends TimeAuditable{
+public class Staff extends TimeAuditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String userName;
+    private String username;
 
     private String email;
 

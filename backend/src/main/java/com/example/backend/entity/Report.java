@@ -1,6 +1,7 @@
 package com.example.backend.entity;
 
 import com.example.backend.entity.enums.ReportStatus;
+import com.example.backend.entity.utils.TimeAuditable;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -8,7 +9,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-public class Report extends TimeAuditable{
+public class Report extends TimeAuditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,41 +1,65 @@
 package com.example.backend.controller;
 
+import com.example.backend.utils.exceptions.PasswordNotMatchException;
 import com.example.backend.dto.LoginDTO;
 import com.example.backend.dto.ResponseDTO;
+import com.example.backend.entity.Staff;
+import com.example.backend.entity.User;
 import com.example.backend.jwt.JwtTokenService;
+import com.example.backend.service.AuthService;
+import com.example.backend.service.StaffService;
+import com.example.backend.service.UserService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-@RestController 
+@RestController
+@RequestMapping
+@AllArgsConstructor
 public class LoginController {
+    private final UserService userService;
+    private final StaffService staffService;
+    private final AuthService authService;
+    private final JwtTokenService jwtTokenService;
 
-    @Autowired
-    AuthenticationManager authenticationManager;
+    @PostMapping("login")
+    public ResponseDTO<JwtTokenService.TokenAndUser> userLogin(
+            @RequestBody @Valid LoginDTO loginDTO) {
+        try {
+            User user = userService.getUserByEmail(loginDTO.getEmail());
+            authService.authenticate(user.getPassword(), loginDTO.getPassword());
+            return ResponseDTO.<JwtTokenService.TokenAndUser>builder()
+                    .status(HttpStatus.OK)
+                    .data(jwtTokenService.generateToken(user))
+                    .build();
+        } catch (PasswordNotMatchException e) {
+            return ResponseDTO.<JwtTokenService.TokenAndUser>builder()
+                    .status(HttpStatus.OK)
+                    .msg("Mật khẩu không đúng")
+                    .build();
+        }
+    }
 
-    @Autowired
-    JwtTokenService jwtTokenService;
+    @PostMapping("super-login")
+    public ResponseDTO<JwtTokenService.TokenAndStaff> superUserLogin(
+            @RequestBody @Valid LoginDTO loginDTO) {
+        try {
+            Staff staff = staffService.getStaffByEmail(loginDTO.getEmail());
+            authService.authenticate(staff.getPassword(), loginDTO.getPassword());
 
-    @PostMapping("/login")
-    public ResponseDTO<JwtTokenService.TokenAndUser> login(
-            @RequestBody @Valid LoginDTO loginDTO)  {
-
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword()));
-
-        List<String> authorities = authentication.getAuthorities().stream()
-                .map(e -> e.getAuthority()).collect(Collectors.toList());
-
-        return ResponseDTO.<JwtTokenService.TokenAndUser>builder()
-                .status(200)
-                .data(jwtTokenService.createToken(loginDTO.getEmail()))
-                .build();
+            return ResponseDTO.<JwtTokenService.TokenAndStaff>builder()
+                    .status(HttpStatus.OK)
+                    .data(jwtTokenService.generateToken(staff))
+                    .build();
+        } catch (PasswordNotMatchException e) {
+            return ResponseDTO.<JwtTokenService.TokenAndStaff>builder()
+                    .status(HttpStatus.OK)
+                    .msg("Mật khẩu không đúng")
+                    .build();
+        }
     }
 }

@@ -5,6 +5,7 @@ import com.example.backend.dto.ResponseDTO;
 import com.example.backend.service.CommentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class CommentController {
     ResponseDTO<List<CommentDTO>> getAllCommentByArt(@PathVariable int id) {
 
         return ResponseDTO.<List<CommentDTO>>builder()
-                .status(200)
+                .status(HttpStatus.OK)
                 .data(commentService.getAllCommentByArt(id))
                 .build();
     }
@@ -29,7 +30,7 @@ public class CommentController {
     ResponseDTO<Void> create(@RequestBody @Valid CommentDTO commentDTO) {
         commentService.create(commentDTO);
         return ResponseDTO.<Void>builder()
-                .status(200)
+                .status(HttpStatus.OK)
                 .msg("ok")
                 .build();
     }
