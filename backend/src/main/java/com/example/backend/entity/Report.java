@@ -15,10 +15,10 @@ public class Report extends TimeAuditable{
     private Integer id;
 
     @ManyToOne
-    private User reporter;
+    private User reporterUser;
 
     @ManyToOne
-    private User reported;
+    private User reportedUser;
 
     @ManyToOne
     private Art art;

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/comments")
+@RequestMapping("comments")
 public class CommentController {
 
     @Autowired
@@ -18,6 +18,7 @@ public class CommentController {
 
     @GetMapping("/art/{id}")
     ResponseDTO<List<CommentDTO>> getAllCommentByArt(@PathVariable int id) {
+
         return ResponseDTO.<List<CommentDTO>>builder()
                 .status(200)
                 .data(commentService.getAllCommentByArt(id))

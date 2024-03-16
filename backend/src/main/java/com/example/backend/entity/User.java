@@ -20,29 +20,13 @@ public class User extends TimeAuditable{
 
     private String email;
 
-    private Boolean isPremiumUser;
-
-    private Boolean isBanned;
-
-    private String avatarImg;
-
-    private String favouriteArt;
+    private String avatar;
 
     private String bannerImg;
 
-    private String about;
-
     private String backgroundColor;
 
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "wallet_id", referencedColumnName = "id")
-    private Wallet wallet;
-
-    @ManyToOne
-    private Package aPackage;
-
-    private Integer role;
+    private String about;
 
     private static final BCryptPasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
