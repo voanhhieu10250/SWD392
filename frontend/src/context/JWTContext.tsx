@@ -2,7 +2,7 @@ import { createContext, useEffect, useReducer } from 'react'
 import axios from '../utils/axios'
 import { isValidToken, setSession } from '../utils/jwt'
 import { User } from '~/types/User'
-import { useToast } from '~/components/ui/use-toast'
+import { toast } from 'react-toastify'
 
 // Define types for state and action
 type State = {
@@ -79,7 +79,6 @@ const AuthContext = createContext<{
 // Define AuthProvider component with TypeScript types
 function AuthProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const { toast } = useToast()
 
   useEffect(() => {
     const initialize = async () => {
@@ -92,10 +91,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
           const response = await axios.get('/users/my-account')
           const { user } = response.data.data
 
-          toast({
-            title: 'Success',
-            description: 'Authenticated with JWT token.'
-          })
+          toast.success('Authenticated successfully.')
 
           dispatch({
             type: 'INITIALIZE',
@@ -115,6 +111,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
         }
       } catch (err) {
         console.error(err)
+        toast.error('Failed to authenticate.')
         dispatch({
           type: 'INITIALIZE',
           payload: {
@@ -135,10 +132,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
     })
     const { accessToken, user } = response.data.data
 
-    toast({
-      title: 'Success',
-      description: 'Logged in successfully.'
-    })
+    toast.success('Logged in successfully.')
     setSession(accessToken)
     dispatch({
       type: 'LOGIN',
@@ -161,10 +155,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
     })
     const { accessToken, user } = response.data.data
 
-    toast({
-      title: 'Success',
-      description: 'Registered successfully.'
-    })
+    toast.success('Registered successfully.')
     window.localStorage.setItem('accessToken', accessToken)
     dispatch({
       type: 'REGISTER',
@@ -175,6 +166,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   const logout = async () => {
+    toast.success('Logged out successfully.')
     setSession(null)
     dispatch({ type: 'LOGOUT' })
   }
