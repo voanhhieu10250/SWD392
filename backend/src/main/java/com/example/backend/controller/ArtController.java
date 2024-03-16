@@ -1,14 +1,12 @@
 package com.example.backend.controller;
 
 
-import com.example.backend.dto.ArtDTO;
-import com.example.backend.dto.PageDTO;
-import com.example.backend.dto.ResponseDTO;
-import com.example.backend.dto.SearchDTO;
+import com.example.backend.dto.*;
 import com.example.backend.service.ArtService;
 import com.example.backend.service.S3StorageService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import software.amazon.awssdk.services.s3.model.S3Exception;
@@ -18,11 +16,11 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/art")
+@RequestMapping("arts")
 public class ArtController {
 
     @Autowired
-     ArtService artService;
+    ArtService artService;
 
     @Autowired
     S3StorageService s3StorageService;
@@ -66,7 +64,6 @@ public class ArtController {
     }
 
 
-
     @GetMapping("/")
     public ResponseDTO<List<ArtDTO>> getAll() {
         return ResponseDTO.<List<ArtDTO>>builder()
@@ -74,7 +71,6 @@ public class ArtController {
                 .data(artService.getAll())
                 .build();
     }
-
 
 
     @PutMapping("/")
@@ -108,7 +104,6 @@ public class ArtController {
     }
 
 
-
     @DeleteMapping("/{id}")
     public ResponseDTO<Void> delete(@PathVariable int id) {
         artService.delete(id);
@@ -123,6 +118,22 @@ public class ArtController {
         return ResponseDTO.<PageDTO<ArtDTO>>builder()
                 .status(HttpStatus.OK)
                 .data(artService.search(searchDTO))
+                .build();
+    }
+
+    @GetMapping("recent")
+    public ResponseDTO<Page<ArtMetadata>> recentArts(@RequestParam int page) {
+        return ResponseDTO.<Page<ArtMetadata>>builder()
+                .status(HttpStatus.OK)
+                .data(artService.getRecent(page))
+                .build();
+    }
+
+    @GetMapping("top-week")
+    public ResponseDTO<List<ArtMetadata>> topWeekArts() {
+        return ResponseDTO.<List<ArtMetadata>>builder()
+                .status(HttpStatus.OK)
+                .data(artService.getTopWeek())
                 .build();
     }
 }
