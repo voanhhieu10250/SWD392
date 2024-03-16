@@ -33,7 +33,7 @@ public class UserController {
 
     @PostMapping("register")
     public ResponseDTO<JwtTokenService.TokenAndUser> register(@ModelAttribute @Valid UserDTO userDTO) throws IOException {
-        if (userService.getUserByEmail(userDTO.getEmail()) != null) {
+        if (userService.isEmailExists(userDTO.getEmail())) {
             return ResponseDTO.<JwtTokenService.TokenAndUser>builder()
                     .status(HttpStatus.BAD_REQUEST)
                     .msg("Email already exists")

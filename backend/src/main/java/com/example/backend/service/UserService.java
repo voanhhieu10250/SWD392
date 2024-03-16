@@ -21,6 +21,8 @@ public interface UserService {
 
     User getUserByEmail(String email);
 
+    boolean isEmailExists(String email);
+
     void updateUser(UserDTO userDTO);
 
     void deleteUser(int id);
@@ -55,6 +57,9 @@ class UserServiceImpl implements UserService {
         return userRepository.findByEmail(email).orElseThrow(NoResultException::new);
     }
 
+    public boolean isEmailExists(String email) {
+        return userRepository.findByEmail(email).isPresent();
+    }
 
     @Override
     @Transactional

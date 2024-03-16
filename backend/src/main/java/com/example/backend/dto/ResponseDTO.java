@@ -10,4 +10,8 @@ public class ResponseDTO<T> {
     private HttpStatus status;
     private String msg;
     private T data;
+
+    public int getStatus() {
+        return status.value();
+    }
 }

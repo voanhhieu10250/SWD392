@@ -7,6 +7,7 @@ import com.example.backend.service.CollectionService;
 import com.example.backend.service.S3StorageService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -40,19 +41,19 @@ public class CollectionController {
         }
 
         collectionService.create(collectionDTO);
-        return ResponseDTO.<Void>builder().status(200).msg("ok").build();
+        return ResponseDTO.<Void>builder().status(HttpStatus.OK).msg("ok").build();
     }
 
     @GetMapping("/{id}")
     public ResponseDTO<CollectionDTO> get(@PathVariable("id") int id) {
         CollectionDTO CollectionDTO = collectionService.getById(id);
-        return ResponseDTO.<CollectionDTO>builder().status(200).data(CollectionDTO).build();
+        return ResponseDTO.<CollectionDTO>builder().status(HttpStatus.OK).data(CollectionDTO).build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseDTO<Void> delete(@PathVariable("id") int id) {
         collectionService.delete(id);
-        return ResponseDTO.<Void>builder().status(200).build();
+        return ResponseDTO.<Void>builder().status(HttpStatus.OK).build();
     }
 
     @PutMapping("/")
@@ -71,13 +72,13 @@ public class CollectionController {
             collectionDTO.setFeaturedImageUrl(photoURL);
         }
         collectionService.update(collectionDTO);
-        return ResponseDTO.<Void>builder().status(200).build();
+        return ResponseDTO.<Void>builder().status(HttpStatus.OK).build();
     }
 
     @GetMapping("/")
     public ResponseDTO<List<CollectionDTO>> getAll() {
         return ResponseDTO.<List<CollectionDTO>>builder()
-                .status(200)
+                .status(HttpStatus.OK)
                 .data(collectionService.getAll())
                 .build();
     }

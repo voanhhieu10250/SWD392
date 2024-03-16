@@ -9,6 +9,7 @@ import com.example.backend.service.ArtService;
 import com.example.backend.service.S3StorageService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import software.amazon.awssdk.services.s3.model.S3Exception;
 
@@ -50,7 +51,7 @@ public class ArtController {
         // Proceed with the creation process in your service layer
         artService.create(artDTO);
         return ResponseDTO.<Void>builder()
-                .status(200)
+                .status(HttpStatus.OK)
                 .msg("ok")
                 .build();
     }
@@ -59,7 +60,7 @@ public class ArtController {
     @GetMapping("/{id}")
     public ResponseDTO<ArtDTO> getById(@PathVariable int id) {
         return ResponseDTO.<ArtDTO>builder()
-                .status(200)
+                .status(HttpStatus.OK)
                 .data(artService.getById(id))
                 .build();
     }
@@ -69,7 +70,7 @@ public class ArtController {
     @GetMapping("/")
     public ResponseDTO<List<ArtDTO>> getAll() {
         return ResponseDTO.<List<ArtDTO>>builder()
-                .status(200)
+                .status(HttpStatus.OK)
                 .data(artService.getAll())
                 .build();
     }
@@ -101,7 +102,7 @@ public class ArtController {
         // You may need to pass both the id and artDTO to perform the update correctly
         artService.update(artDTO);
         return ResponseDTO.<Void>builder()
-                .status(200)
+                .status(HttpStatus.OK)
                 .msg("ok")
                 .build();
     }
@@ -112,7 +113,7 @@ public class ArtController {
     public ResponseDTO<Void> delete(@PathVariable int id) {
         artService.delete(id);
         return ResponseDTO.<Void>builder()
-                .status(200)
+                .status(HttpStatus.OK)
                 .msg("ok")
                 .build();
     }
@@ -120,7 +121,7 @@ public class ArtController {
     @PostMapping("/search")
     public ResponseDTO<PageDTO<ArtDTO>> search(@RequestBody @Valid SearchDTO searchDTO) {
         return ResponseDTO.<PageDTO<ArtDTO>>builder()
-                .status(200)
+                .status(HttpStatus.OK)
                 .data(artService.search(searchDTO))
                 .build();
     }
