@@ -1,5 +1,6 @@
 package com.example.backend.entity;
 
+import com.example.backend.entity.utils.TimeAuditable;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -8,41 +9,31 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-public class User extends TimeAuditable{
+public class User extends TimeAuditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String userName;
+    private String username;
 
     private String password;
 
     private String email;
 
-    private Boolean isPremiumUser;
-
-    private Boolean isBanned;
-
-    private String avatarImg;
-
-    private String favouriteArt;
+    private String avatar;
 
     private String bannerImg;
 
-    private String about;
-
     private String backgroundColor;
 
+    private String about;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "wallet_id", referencedColumnName = "id")
-    private Wallet wallet;
+    private Boolean isBanned;
 
-    @ManyToOne
-    private Package aPackage;
+    private Boolean isPremiumAudience;
 
-    private Integer role;
+    private Boolean isCreator;
 
     private static final BCryptPasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 

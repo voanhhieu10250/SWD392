@@ -1,12 +1,13 @@
 package com.example.backend.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
-import java.util.Set;
 
-@Data
+@Getter
+@Setter
 public class PermissionDTO {
 
     private Integer id;
@@ -17,8 +18,6 @@ public class PermissionDTO {
 
     private Boolean isAllowed;
 
-    private Set<StaffDTO> staffs;
-
-    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Asia/Ho_Chi_Minh")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Asia/Ho_Chi_Minh")
     private Date createdAt;
 }

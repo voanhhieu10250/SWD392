@@ -12,7 +12,7 @@ public class Collection {
     private Integer id;
 
     @ManyToOne
-    private User userId;
+    private User user;
 
     private String title;
 

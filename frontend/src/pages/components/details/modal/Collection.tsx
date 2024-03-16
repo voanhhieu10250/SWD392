@@ -23,7 +23,7 @@ const Collection: React.FC<CollectionProps> = ({ popup, onClose }) =>  {
     <div>
       {showPopup && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div className="bg-gray-900 bg-opacity-75 rounded-lg p-8 max-w-md w-full">
+          <div className="bg-gray-900 bg-opacity-75 rounded-lg p-8 max-w-xl w-full">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-white text-lg font-bold">Add to Collection</h3>
               <button className="text-white" onClick={handleCloseClick}>

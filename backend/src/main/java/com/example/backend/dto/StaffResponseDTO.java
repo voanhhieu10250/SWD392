@@ -11,7 +11,7 @@ import java.util.Set;
 public class StaffResponseDTO {
     private Integer id;
 
-    private String userName;
+    private String username;
 
     private String email;
 

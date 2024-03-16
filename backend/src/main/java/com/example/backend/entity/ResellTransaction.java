@@ -21,10 +21,10 @@ public class ResellTransaction {
     private Art art;
 
     @ManyToOne
-    private User seller;
+    private User sellerUser;
 
     @ManyToOne
-    private User buyer;
+    private User buyerUser;
 
     @CreatedDate
     @Column(updatable = false, nullable = false)
