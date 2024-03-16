@@ -5,6 +5,8 @@ import { cn } from '~/lib/utils'
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const artMatch = useMatch('/art/:artId')
   const profileMatch = useMatch('/profile/:userId')
+  const loginMatch = useMatch('/login')
+  const registerMatch = useMatch('/register')
 
   return (
     <>
@@ -17,7 +19,9 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
 
       {/* main */}
       <div className={cn(!artMatch && !profileMatch && 'ml-[75px]')}>
-        <main className={cn('container mx-auto', !!artMatch && 'max-w-6xl')}>{children}</main>
+        <main className={cn({ 'container mx-auto': !loginMatch && !registerMatch }, !!artMatch && 'max-w-6xl')}>
+          {children}
+        </main>
       </div>
       {(artMatch || profileMatch) && (
         <div className='flex justify-center items-center h-16 bg-background'>

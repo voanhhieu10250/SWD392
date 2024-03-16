@@ -6,7 +6,7 @@ import useAuth from '~/hooks/useAuth'
 const TopNav = () => {
   const { isAuthenticated, user } = useAuth()
 
-  console.log(isAuthenticated)
+  // console.log(isAuthenticated)
 
   return (
     <div className='sticky top-0 flex justify-between px-[calc(1%+10px)] py-4 shadow-md bg-background z-50'>
