@@ -3,29 +3,28 @@ import { useInfiniteQuery } from 'react-query'
 import { useInView } from 'react-intersection-observer'
 import Masonry from 'react-masonry-css'
 import { Art, PageResponse, ResponseObj } from '~/types'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import Spinner from '../common/Spinner'
 
-// max-width: columns
-const breakpointColumnsObj = {
-  default: 5,
-  1024: 3,
-  768: 2
-}
-
-const fetchRecentArts = async ({ pageParam = 1 }) => {
-  const res = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/arts/recent?page=${pageParam}`)
+const fetchRecentArts = async (pageParam: number, query = '', searchBy = '') => {
+  const res = await fetch(
+    `${import.meta.env.VITE_API_ENDPOINT}/arts/search?query=${query}&searchBy=${searchBy}&page=${pageParam}`
+  )
   const data = (await res.json()) as ResponseObj<PageResponse<Art>>
   return data.data
 }
 
-const RecentArts = () => {
-  const { data, error, isError, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } = useInfiniteQuery<
-    PageResponse<Art>,
-    Error
-  >('recent-arts', fetchRecentArts, {
-    getNextPageParam: (lastPage) => (lastPage.last ? null : lastPage.number + 2) // number + 2 because BE is 1-based index
-  })
+const SearchResults = () => {
+  const [searchParams] = useSearchParams()
+  const { data, error, isError, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, refetch } =
+    useInfiniteQuery<PageResponse<Art>, Error>(
+      ['search', searchParams.get('searchBy')],
+      async ({ pageParam = 1 }) =>
+        await fetchRecentArts(pageParam, searchParams.get('query') || '', searchParams.get('searchBy') || ''),
+      {
+        getNextPageParam: (lastPage) => (lastPage.last ? null : lastPage.number + 2) // number + 2 because BE is 1-based index
+      }
+    )
 
   const [ref, inView] = useInView()
 
@@ -34,6 +33,10 @@ const RecentArts = () => {
       fetchNextPage()
     }
   }, [fetchNextPage, inView, isFetchingNextPage, hasNextPage, isFetching])
+
+  useEffect(() => {
+    refetch()
+  }, [searchParams, refetch])
 
   if (isFetching) {
     return <div>Loading...</div>
@@ -46,12 +49,8 @@ const RecentArts = () => {
   const arts = data.pages.flatMap((page) => page.content)
 
   return (
-    <>
-      <Masonry
-        breakpointCols={breakpointColumnsObj}
-        className='flex w-full gap-x-3'
-        columnClassName='my-masonry-grid_column'
-      >
+    <div>
+      <Masonry breakpointCols={3} className='flex w-full gap-x-3' columnClassName='my-masonry-grid_column'>
         {arts.map((art, index) => (
           <Link className='block w-full relative rounded-lg overflow-hidden mb-3' key={index} to={`/art/${art.id}`}>
             <img src={art.originUrl} alt='' className='w-full h-auto' />
@@ -65,8 +64,8 @@ const RecentArts = () => {
       </Masonry>
       {!hasNextPage && <div className='text-center text-gray-500'>No more arts</div>}
       <div ref={ref}>{isFetchingNextPage && <Spinner />}</div>
-    </>
+    </div>
   )
 }
 
-export default RecentArts
+export default SearchResults

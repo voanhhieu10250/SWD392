@@ -1,4 +1,6 @@
 import { useSearchParams } from 'react-router-dom'
+import Filter from '~/components/SearchPage/Filter'
+import SearchResults from '~/components/SearchPage/SearchResults'
 
 const Search = () => {
   const [searchParams] = useSearchParams()
@@ -9,11 +11,11 @@ const Search = () => {
         <div className='bg-background rounded-xl shadow-sm px-4 py-5 text-sm font-semibold'>
           Showing results for &quot;{searchParams.get('query')}&quot;
         </div>
-        <SearchResults query={searchQuery} show={searchParams.show} />
+        <SearchResults />
       </div>
       <div className='sticky top-0 h-full w-72 hidden md:block'>
         <div className='bg-background rounded-xl shadow-sm py-5 text-sm'>
-          <Filter defaultValue='artwork' />
+          <Filter />
         </div>
       </div>
     </div>

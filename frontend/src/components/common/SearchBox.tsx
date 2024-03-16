@@ -1,15 +1,34 @@
 import SearchIcon from '@mui/icons-material/Search'
-import { useNavigate } from 'react-router-dom'
+import { useCallback } from 'react'
+import { useMatch, useNavigate, useSearchParams } from 'react-router-dom'
 
 const SearchBox = () => {
+  const [searchParams, setSearchParams] = useSearchParams()
   const navigate = useNavigate()
+  const searchMatch = useMatch('/search')
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const data = new FormData(e.currentTarget)
 
-    navigate(('/search?query=' + data.get('query')) as string)
+    if (searchMatch) {
+      setSearchParams(createQueryString('query', data.get('query') as string))
+    } else {
+      navigate(('/search?query=' + data.get('query')) as string)
+    }
   }
+
+  // Get a new searchParams string by merging the current
+  // searchParams with a provided key/value pair
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString())
+      params.set(name, value)
+
+      return params.toString()
+    },
+    [searchParams]
+  )
 
   return (
     <form className='max-w-sm md:w-[400px] mx-auto' onSubmit={handleSubmit}>
@@ -23,6 +42,7 @@ const SearchBox = () => {
         <input
           type='search'
           id='default-search'
+          defaultValue={searchParams.get('query') || ''}
           name='query'
           className='block w-full p-2 ps-10 text-sm border border-input rounded-full bg-background shadow-inner'
           placeholder='Search Mockups, Logos...'

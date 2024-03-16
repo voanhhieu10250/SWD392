@@ -1,9 +1,9 @@
 import { createBrowserRouter } from 'react-router-dom'
 import App from './App'
 import Home from './pages/Home'
-import Search from './pages/components/search'
 import Dashboard from './pages/Dashboard/Dashboard'
 import AdminApp from './AdminApp'
+import Search from './pages/Search'
 import CreatorApp from './CreatorApp'
 import DashboardCreator from './pages/components/creator'
 
@@ -20,14 +20,6 @@ export const router = createBrowserRouter([
         path: 'search',
         element: <Search />
       }
-      // {
-      //   path: 'detail/:studentId/edit',
-      //   element: <Edit />
-      // },
-      // {
-      //   path: 'add',
-      //   element: <Add />
-      // }
     ]
   },
   {
