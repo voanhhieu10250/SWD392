@@ -4,6 +4,8 @@ import Home from './pages/Home'
 import Dashboard from './pages/Dashboard/Dashboard'
 import AdminApp from './AdminApp'
 import Search from './pages/Search'
+import CreatorApp from './CreatorApp'
+import DashboardCreator from './pages/components/creator'
 
 export const router = createBrowserRouter([
   {
@@ -27,6 +29,16 @@ export const router = createBrowserRouter([
       {
         path: 'dashboard',
         element: <Dashboard />
+      }
+    ]
+  },
+  {
+    path: 'creator',
+    element: <CreatorApp />,
+    children: [
+      {
+        path: 'dashboard',
+        element: <DashboardCreator />
       }
     ]
   }
