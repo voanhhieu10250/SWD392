@@ -1,6 +1,11 @@
+import { AuthProvider } from './pages/auth/AuthProvider'
 import Router from './routers'
 
 function App() {
-  return <Router />
+  return (
+    <AuthProvider>
+      <Router />
+    </AuthProvider>
+  )
 }
 export default App

@@ -26,7 +26,7 @@ public class Art {
             joinColumns = @JoinColumn(name = "art_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    private List<Category> artType;
+    private List<Category> categories;
 
     private String originUrl;
 

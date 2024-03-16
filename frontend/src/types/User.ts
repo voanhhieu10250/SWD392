@@ -7,3 +7,11 @@ export interface User {
   bannerImg: string
   about: string
 }
+export interface TopCreator {
+  id: string
+  name: string
+  avatar: string
+  download: number
+  uploadFile: number
+  followers: number
+}

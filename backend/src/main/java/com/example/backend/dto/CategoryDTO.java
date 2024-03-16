@@ -1,11 +1,7 @@
 package com.example.backend.dto;
 
-import com.example.backend.entity.Art;
-import jakarta.persistence.ManyToMany;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -16,7 +12,9 @@ public class CategoryDTO {
 
     private String name;
 
-    private String description;
+    private String image;
 
     private List<ArtDTO> arts;
+
+    private MultipartFile artFile;
 }

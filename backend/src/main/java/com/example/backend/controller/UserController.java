@@ -42,27 +42,34 @@ public class UserController {
     @PostMapping("/register")
     public ResponseDTO<JwtTokenService.TokenAndUser> createUser(@ModelAttribute @Valid UserDTO userDTO) throws IOException {
 
-        if (userDTO.getFile() != null && !userDTO.getFile().isEmpty()) {
+        if (userDTO.getAvatarFile() != null && !userDTO.getAvatarFile().isEmpty()) {
+            String avatarFilename = userDTO.getAvatarFile().getOriginalFilename();
+            String avatarExtension = avatarFilename.substring(avatarFilename.lastIndexOf("."));
+            String newAvatarFileName = UUID.randomUUID().toString() + avatarExtension;
 
-            String filename = userDTO.getFile().getOriginalFilename();
-            // get fomat file
-            String extension = filename.substring(filename.lastIndexOf("."));
-            // create new name
-            String newFileName = UUID.randomUUID().toString() + extension;
+            String avatarURL = s3StorageService.uploadFile(newAvatarFileName, userDTO.getAvatarFile());
 
-            String photoURL = s3StorageService.uploadFile(newFileName, userDTO.getFile());
+            userDTO.setAvatar(avatarURL);
+        }
 
-            userDTO.setAvatarImg(photoURL);
+        if (userDTO.getBannerImgFile() != null && !userDTO.getBannerImgFile().isEmpty()) {
+            String bannerFilename = userDTO.getBannerImgFile().getOriginalFilename();
+            String bannerExtension = bannerFilename.substring(bannerFilename.lastIndexOf("."));
+            String newBannerFileName = UUID.randomUUID().toString() + bannerExtension;
+
+            String bannerURL = s3StorageService.uploadFile(newBannerFileName, userDTO.getBannerImgFile());
+
+            userDTO.setBannerImg(bannerURL);
         }
 
         User user = userService.createUser(userDTO);
-
 
         return ResponseDTO.<JwtTokenService.TokenAndUser>builder()
                 .status(200)
                 .data(jwtTokenService.createToken(user.getEmail()))
                 .build();
     }
+
 
     @GetMapping("/")
     public ResponseDTO<List<UserDTO>> getAll() {
@@ -100,16 +107,24 @@ public class UserController {
     @PutMapping("/")
     public ResponseDTO<Void> updateUser(@ModelAttribute @Valid UserDTO userDTO) throws IOException {
 
-        if (userDTO.getFile() != null && !userDTO.getFile().isEmpty()) {
-            String filename = userDTO.getFile().getOriginalFilename();
-            // lay dinh dang file
-            String extension = filename.substring(filename.lastIndexOf("."));
-            // tao ten moi
-            String newFilename = UUID.randomUUID().toString() + extension;
+        if (userDTO.getAvatarFile() != null && !userDTO.getAvatarFile().isEmpty()) {
+            String avatarFilename = userDTO.getAvatarFile().getOriginalFilename();
+            String avatarExtension = avatarFilename.substring(avatarFilename.lastIndexOf("."));
+            String newAvatarFileName = UUID.randomUUID().toString() + avatarExtension;
 
-            String photoURL = s3StorageService.uploadFile(newFilename, userDTO.getFile());
+            String avatarURL = s3StorageService.uploadFile(newAvatarFileName, userDTO.getAvatarFile());
 
-            userDTO.setAvatarImg(photoURL);// save to db
+            userDTO.setAvatar(avatarURL);
+        }
+
+        if (userDTO.getBannerImgFile() != null && !userDTO.getBannerImgFile().isEmpty()) {
+            String bannerFilename = userDTO.getBannerImgFile().getOriginalFilename();
+            String bannerExtension = bannerFilename.substring(bannerFilename.lastIndexOf("."));
+            String newBannerFileName = UUID.randomUUID().toString() + bannerExtension;
+
+            String bannerURL = s3StorageService.uploadFile(newBannerFileName, userDTO.getBannerImgFile());
+
+            userDTO.setBannerImg(bannerURL);
         }
         userService.updateUser(userDTO);
         return ResponseDTO.<Void>builder()
