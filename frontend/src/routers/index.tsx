@@ -18,6 +18,7 @@ import Register from '~/pages/auth/Register'
 import UploadArt from '~/pages/components/upload/UploadArt.tsx'
 
 import Dashboard from '~/pages/Dashboard/Dashboard'
+import DashboardCreator from '~/pages/components/creator/DashboardCreator'
 
 const Router = () => {
   return useRoutes([
@@ -41,8 +42,9 @@ const Router = () => {
     { path: 'physical-art', element: <PhysicalArtPage /> },
     { path: 'upload-art', element: <UploadArt /> },
 
-    { path: 'top_creator', element: <TopCreator /> }
+    { path: 'top_creator', element: <TopCreator /> },
     // { path: 'dashboard', element: <Dashboard/> },
+    { path: 'creator_dashboard', element: <DashboardCreator /> }
   ])
 }
 
