@@ -6,11 +6,6 @@ import AdminApp from './AdminApp'
 import Search from './pages/Search'
 import CreatorApp from './CreatorApp'
 import DashboardCreator from './pages/components/creator'
-
-import UploadArt from './pages/components/upload/UploadArt'
-import Package from './pages/components/package'
-import Notification from './pages/components/notification'
-
 import Register from './pages/auth/Register'
 import Login from './pages/auth/Login'
 import Profile from './pages/Profile'

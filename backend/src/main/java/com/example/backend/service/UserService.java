@@ -19,6 +19,8 @@ public interface UserService {
 
     UserDTO getUser(int id);
 
+    User findById(int id);
+
     User getUserByEmail(String email);
 
     boolean isEmailExists(String email);
@@ -51,6 +53,11 @@ class UserServiceImpl implements UserService {
     public UserDTO getUser(int id) {
         User user = userRepository.findById(id).orElseThrow(NoResultException::new);
         return modelMapper.map(user, UserDTO.class);
+    }
+
+    @Override
+    public User findById(int id) {
+        return userRepository.findById(id).orElseThrow(NoResultException::new);
     }
 
     public User getUserByEmail(String email) {

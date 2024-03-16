@@ -56,7 +56,7 @@ const Profile = () => {
               ) : (
                 <div className='space-x-2'>
                   <Button className='font-semibold rounded-xl'>Follow</Button>
-                  {data.isCreator && <PreOrderDialog />}
+                  {data.isCreator && <PreOrderDialog creatorId={data.id} />}
                 </div>
               )}
             </div>

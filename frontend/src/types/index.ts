@@ -11,7 +11,6 @@ export type Art = {
   artType: ArtType
   originUrl: string
   tags: string
-  isPremium: boolean
   watermarked_url: string
   downloads: number
   likes: number
