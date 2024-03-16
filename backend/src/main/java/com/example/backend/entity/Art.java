@@ -30,10 +30,7 @@ public class Art {
 
     private String originUrl;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "art_tags", joinColumns = @JoinColumn(name = "art_id"))
-    @Column(name = "tag")
-    private List<String> tags;
+    private String tags;
 
     @OneToMany(mappedBy = "art")
     private List<Comment> comments;

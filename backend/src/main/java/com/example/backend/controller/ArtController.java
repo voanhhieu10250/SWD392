@@ -1,7 +1,9 @@
 package com.example.backend.controller;
 
 
-import com.example.backend.dto.*;
+import com.example.backend.dto.ArtDTO;
+import com.example.backend.dto.ArtMetadata;
+import com.example.backend.dto.ResponseDTO;
 import com.example.backend.service.ArtService;
 import com.example.backend.service.S3StorageService;
 import jakarta.validation.Valid;
@@ -113,11 +115,11 @@ public class ArtController {
                 .build();
     }
 
-    @PostMapping("/search")
-    public ResponseDTO<PageDTO<ArtDTO>> search(@RequestBody @Valid SearchDTO searchDTO) {
-        return ResponseDTO.<PageDTO<ArtDTO>>builder()
+    @GetMapping("search")
+    public ResponseDTO<Page<ArtMetadata>> search(@RequestParam String query, @RequestParam String searchBy, @RequestParam int page) {
+        return ResponseDTO.<Page<ArtMetadata>>builder()
                 .status(HttpStatus.OK)
-                .data(artService.search(searchDTO))
+                .data(artService.search(query, searchBy, page))
                 .build();
     }
 

@@ -21,7 +21,7 @@ public class ArtDTO {
 
     private String originUrl;
 
-    private List<String> tags;
+    private String tags;
 
     private List<CommentDTO> comments;
 

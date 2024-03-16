@@ -16,12 +16,14 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
       )}
 
       {/* main */}
-      <div className={cn(!artMatch && !profileMatch && 'ml-[75px]', 'flex-1')}>
+      <div className={cn(!artMatch && !profileMatch && 'ml-[75px]')}>
         <main className={cn('container mx-auto', !!artMatch && 'max-w-6xl')}>{children}</main>
       </div>
-      <div className='flex justify-center items-center h-16 bg-background'>
-        <p className='text-muted-foreground text-sm'>© 2024 ArtWork. All Rights Reserved.</p>
-      </div>
+      {(artMatch || profileMatch) && (
+        <div className='flex justify-center items-center h-16 bg-background'>
+          <p className='text-muted-foreground text-sm'>© 2024 ArtWork. All Rights Reserved.</p>
+        </div>
+      )}
     </>
   )
 }

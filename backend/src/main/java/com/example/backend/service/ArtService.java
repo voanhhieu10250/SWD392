@@ -34,6 +34,8 @@ public interface ArtService {
 
     PageDTO<ArtDTO> search(SearchDTO searchDTO);
 
+    Page<ArtMetadata> search(String query, String searchBy, int page);
+
     Page<ArtMetadata> getRecent(int page);
 
     List<ArtMetadata> getTopWeek();
@@ -106,6 +108,19 @@ class ArtServiceImpl implements ArtService {
                 .totalElements(page.getTotalElements())
                 .contents(page.get().map(this::convert).collect(Collectors.toList()))
                 .build();
+    }
+
+    @Override
+    public Page<ArtMetadata> search(String query, String searchBy, int page) {
+        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("id").descending());
+
+        if (searchBy == null || searchBy.isEmpty() || searchBy.equals("title"))
+            return artRepository.findAllByTitleContainsIgnoreCase(query, pageable).map(ArtMetadata::new);
+        else if (searchBy.equals("tags")){
+            return artRepository.findAllByTagsContainsIgnoreCase(query, pageable).map(ArtMetadata::new);
+        } else {
+            return artRepository.findAllByDescriptionContainsIgnoreCase(query,  pageable).map(ArtMetadata::new);
+        }
     }
 
     @Override
