@@ -1,6 +1,41 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function Package() {
+  const [showPaypalButtons, setShowPaypalButtons] = useState(false)
+  const navigate = useNavigate()
+  useEffect(() => {
+    if (showPaypalButtons) {
+      window.paypal
+        .Buttons({
+          createOrder: (data, actions) => {
+            return actions.order.create({
+              purchase_units: [
+                {
+                  amount: { value: '120' } // Adjust this value as needed
+                }
+              ]
+            })
+          },
+          onApprove: (data, actions) => {
+            return actions.order.capture().then((details) => {
+              alert(`Transaction completed by ${details.payer.name.given_name}`)
+              // Here you can add further actions like redirecting the user
+              navigate('/notification', { state: { paymentSuccess: true } })
+            })
+          },
+          onError: (err) => {
+            // Handle errors here
+            console.error('Payment Error:', err)
+
+            // Redirect to the notification page with failure status
+            navigate('/notification', { state: { paymentSuccess: false } })
+          }
+        })
+        .render('#paypal-button-container')
+    }
+  }, [navigate, showPaypalButtons])
+
   return (
     <div className=''>
       <div>
@@ -263,12 +298,13 @@ export default function Package() {
               </li>
             </ul>
           </div>
-          <a
-            className='bg-emerald-500 text-white  hover:bg-emerald-600 mt-8 block w-full py-3 px-6 border border-transparent rounded-md text-center font-medium'
-            href='/notification'
+          <button
+            className='bg-emerald-500 text-white hover:bg-emerald-600 mt-8 py-3 px-6 border border-transparent rounded-md text-center font-medium'
+            onClick={() => setShowPaypalButtons(true)} // This triggers the rendering of the PayPal button
           >
             Go to checkout
-          </a>
+          </button>
+          {showPaypalButtons && <div id='paypal-button-container'></div>}
         </div>
       </div>
     </div>
