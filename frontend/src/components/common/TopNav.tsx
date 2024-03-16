@@ -1,10 +1,12 @@
 import { ModeToggle } from './ModeToggle'
 import { Link } from 'react-router-dom'
 import SearchBox from './SearchBox'
+import useAuth from '~/hooks/useAuth'
 
 const TopNav = () => {
-  // let session = await getSession();
-  // console.log(session);
+  const { isAuthenticated, user } = useAuth()
+
+  // console.log(isAuthenticated)
 
   return (
     <div className='sticky top-0 flex justify-between px-[calc(1%+10px)] py-4 shadow-md bg-background z-50'>
@@ -17,14 +19,19 @@ const TopNav = () => {
         <SearchBox />
       </div>
       <div className='flex items-center gap-x-2'>
-        {/* {session ? (
-          <>
-            <OptionsDropdown username={session.user.username} />
-            <UploadDialog />
-          </>
+        {isAuthenticated ? (
+          // <OptionsDropdown username={session.user.username} />
+          user?.email
         ) : (
-          <LoginDialog />
-        )} */}
+          <>
+            <Link to='/login' className='text-sm font-semibold'>
+              Login
+            </Link>
+            <Link to='/register' className='text-sm font-semibold'>
+              Register
+            </Link>
+          </>
+        )}
         <ModeToggle />
       </div>
     </div>

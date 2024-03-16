@@ -1,8 +1,36 @@
-import React from 'react'
+import useAuth from '~/hooks/useAuth'
+import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik'
+import * as yup from 'yup'
+import { useNavigate } from 'react-router'
+
+const validationSchema = yup.object().shape({
+  username: yup.string().required('Username is required'),
+  email: yup.string().email('Invalid email').required('Email is required'),
+  password: yup.string().required('Password is required'),
+  passwordConfirmation: yup.string().oneOf([yup.ref('password'), ''], 'Passwords must match')
+})
+
+const initialValues = {
+  username: '',
+  email: '',
+  password: '',
+  passwordConfirmation: ''
+}
 
 export default function Register() {
+  const { register } = useAuth()
+  const navigate = useNavigate()
+
+  const handleSubmit = async (values: typeof initialValues, { setSubmitting }: FormikHelpers<typeof initialValues>) => {
+    const { username, email, password } = values
+
+    await register(email, password, username)
+    setSubmitting(false)
+    navigate('/login')
+  }
+
   return (
-    <div className='bg-white relative lg:py-20'>
+    <div className='bg-white relative'>
       <div
         className='flex flex-col items-center justify-between pt-0 pr-10 pb-0 pl-10 mt-0 mr-auto mb-0 ml-auto max-w-7xl
         xl:px-5 lg:flex-row'
@@ -12,7 +40,7 @@ export default function Register() {
             <div className='flex flex-col items-center justify-center w-full h-full relative lg:pr-10'>
               <img
                 src='https://res.cloudinary.com/macxenon/image/upload/v1631570592/Run_-_Health_qcghbu.png'
-                className='btn-'
+                alt='Register'
               />
             </div>
           </div>
@@ -21,67 +49,103 @@ export default function Register() {
               className='flex flex-col items-start justify-start pt-10 pr-10 pb-10 pl-10 bg-white shadow-2xl rounded-xl
               relative z-10'
             >
-              <p className='w-full text-4xl font-medium text-center leading-snug font-serif'>Sign up for an account</p>
-              <div className='w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8'>
-                <div className='relative'>
-                  <p
-                    className='bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600
+              <p className='w-full text-4xl font-medium text-center leading-snug font-serif'>Sign up</p>
+              <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+                {({ isSubmitting }) => (
+                  <Form className='w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8'>
+                    <div className='relative'>
+                      <p
+                        className='bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600
                     absolute'
-                  >
-                    Username
-                  </p>
-                  <input
-                    placeholder='John'
-                    type='text'
-                    className='border placeholder-gray-400 focus:outline-none
+                      >
+                        Username
+                      </p>
+                      <Field
+                        name='username'
+                        placeholder='Username'
+                        className='border placeholder-gray-400 focus:outline-none
                     focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
                     border-gray-300 rounded-md'
-                  />
-                </div>
-                <div className='relative'>
-                  <p className='bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute'>
-                    Email
-                  </p>
-                  <input
-                    placeholder='123@ex.com'
-                    type='text'
-                    className='border placeholder-gray-400 focus:outline-none
+                      />
+                      <ErrorMessage
+                        name='username'
+                        render={(value) => <p className='text-red-500 text-sm'>{value}</p>}
+                      />
+                    </div>
+                    <div className='relative'>
+                      <p className='bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute'>
+                        Email
+                      </p>
+                      <Field
+                        placeholder='123@ex.com'
+                        name='email'
+                        className='border placeholder-gray-400 focus:outline-none
                     focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
                     border-gray-300 rounded-md'
-                  />
-                </div>
-                <div className='relative'>
-                  <p
-                    className='bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600
+                      />
+                      <ErrorMessage name='email' render={(value) => <p className='text-red-500 text-sm'>{value}</p>} />
+                    </div>
+                    <div className='relative'>
+                      <p
+                        className='bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600
                     absolute'
-                  >
-                    Password
-                  </p>
-                  <input
-                    placeholder='Password'
-                    type='password'
-                    className='border placeholder-gray-400 focus:outline-none
+                      >
+                        Password
+                      </p>
+                      <Field
+                        placeholder='Password'
+                        type='password'
+                        name='password'
+                        className='border placeholder-gray-400 focus:outline-none
                     focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
                     border-gray-300 rounded-md'
-                  />
-                </div>
-                <div className='relative'>
-                  <a
-                    className='w-full inline-block pt-4 pr-5 pb-4 pl-5 text-xl font-medium text-center text-white bg-indigo-500
+                      />
+                      <ErrorMessage
+                        name='password'
+                        render={(value) => <p className='text-red-500 text-sm'>{value}</p>}
+                      />
+                    </div>
+                    <div className='relative'>
+                      <p
+                        className='bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600
+                    absolute'
+                      >
+                        Confirm Password
+                      </p>
+                      <Field
+                        placeholder='Password'
+                        type='password'
+                        name='passwordConfirmation'
+                        className='border placeholder-gray-400 focus:outline-none
+                    focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
+                    border-gray-300 rounded-md'
+                      />
+                      <ErrorMessage
+                        name='passwordConfirmation'
+                        render={(value) => <p className='text-red-500 text-sm'>{value}</p>}
+                      />
+                    </div>
+                    <div className='relative'>
+                      <button
+                        type='submit'
+                        disabled={isSubmitting}
+                        className='w-full inline-block pt-4 pr-5 pb-4 pl-5 text-xl font-medium text-center text-white bg-indigo-500
                     rounded-lg transition duration-200 hover:bg-indigo-600 ease'
-                  >
-                    Submit
-                  </a>
-                </div>
-              </div>
+                      >
+                        Submit
+                      </button>
+                    </div>
+                  </Form>
+                )}
+              </Formik>
             </div>
             <svg
-              viewbox='0 0 91 91'
+              viewBox='0 0 91 91'
               className='absolute top-0 left-0 z-0 w-32 h-32 -mt-12 -ml-12 text-yellow-300
               fill-current'
             >
-              <g stroke='none' strokewidth='1' fillrule='evenodd'>
-                <g fillrule='nonzero'>
+              <g stroke='none' strokeWidth='1' fillRule='evenodd'>
+                <g fillRule='nonzero'>
                   <g>
                     <g>
                       <circle cx='3.261' cy='3.445' r='2.72' />
@@ -168,12 +232,12 @@ export default function Register() {
               </g>
             </svg>
             <svg
-              viewbox='0 0 91 91'
+              viewBox='0 0 91 91'
               className='absolute bottom-0 right-0 z-0 w-32 h-32 -mb-12 -mr-12 text-indigo-500
               fill-current'
             >
-              <g stroke='none' strokewidth='1' fillrule='evenodd'>
-                <g fillrule='nonzero'>
+              <g stroke='none' strokeWidth='1' fillRule='evenodd'>
+                <g fillRule='nonzero'>
                   <g>
                     <g>
                       <circle cx='3.261' cy='3.445' r='2.72' />
