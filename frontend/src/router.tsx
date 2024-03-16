@@ -6,6 +6,8 @@ import AdminApp from './AdminApp'
 import Search from './pages/Search'
 import CreatorApp from './CreatorApp'
 import DashboardCreator from './pages/components/creator'
+import Register from './pages/auth/Register'
+import Login from './pages/auth/Login'
 
 export const router = createBrowserRouter([
   {
@@ -19,6 +21,14 @@ export const router = createBrowserRouter([
       {
         path: 'search',
         element: <Search />
+      },
+      {
+        path: 'register',
+        element: <Register />
+      },
+      {
+        path: 'login',
+        element: <Login />
       }
     ]
   },
