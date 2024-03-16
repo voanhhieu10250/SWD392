@@ -2,6 +2,8 @@ import useAuth from '~/hooks/useAuth'
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik'
 import * as yup from 'yup'
 import { useNavigate } from 'react-router'
+import { toast } from 'react-toastify'
+import { ResponseObj } from '~/types'
 
 const validationSchema = yup.object().shape({
   email: yup.string().email('Invalid email').required('Email is required'),
@@ -20,9 +22,14 @@ export default function Login() {
   const handleSubmit = async (values: typeof initialValues, { setSubmitting }: FormikHelpers<typeof initialValues>) => {
     const { email, password } = values
 
-    await login(email, password)
+    try {
+      await login(email, password)
+      navigate('/')
+    } catch (err) {
+      console.error(err)
+      toast.error((err as ResponseObj<null>).msg)
+    }
     setSubmitting(false)
-    navigate('/')
   }
 
   return (

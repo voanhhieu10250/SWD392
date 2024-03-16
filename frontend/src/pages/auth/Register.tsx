@@ -2,6 +2,8 @@ import useAuth from '~/hooks/useAuth'
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik'
 import * as yup from 'yup'
 import { useNavigate } from 'react-router'
+import { toast } from 'react-toastify'
+import { ResponseObj } from '~/types'
 
 const validationSchema = yup.object().shape({
   username: yup.string().required('Username is required'),
@@ -24,9 +26,14 @@ export default function Register() {
   const handleSubmit = async (values: typeof initialValues, { setSubmitting }: FormikHelpers<typeof initialValues>) => {
     const { username, email, password } = values
 
-    await register(email, password, username)
+    try {
+      await register(email, password, username)
+      navigate('/login')
+    } catch (err) {
+      console.error(err)
+      toast.error((err as ResponseObj<null>).msg)
+    }
     setSubmitting(false)
-    navigate('/login')
   }
 
   return (
