@@ -1,6 +1,18 @@
 import React from 'react'
+import useAuth from '~/hooks/useAuth'
 
 export default function Register() {
+  const { register } = useAuth()
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+    const email = formData.get('email') as string
+    const password = formData.get('password') as string
+    const username = formData.get('username') as string
+    register(email, password, username)
+  }
+
   return (
     <div className='bg-white relative lg:py-20'>
       <div
@@ -22,7 +34,7 @@ export default function Register() {
               relative z-10'
             >
               <p className='w-full text-4xl font-medium text-center leading-snug font-serif'>Sign up for an account</p>
-              <div className='w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8'>
+              <form className='w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8' onSubmit={handleSubmit}>
                 <div className='relative'>
                   <p
                     className='bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600
@@ -33,6 +45,7 @@ export default function Register() {
                   <input
                     placeholder='John'
                     type='text'
+                    name='username'
                     className='border placeholder-gray-400 focus:outline-none
                     focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
                     border-gray-300 rounded-md'
@@ -45,6 +58,7 @@ export default function Register() {
                   <input
                     placeholder='123@ex.com'
                     type='text'
+                    name='email'
                     className='border placeholder-gray-400 focus:outline-none
                     focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
                     border-gray-300 rounded-md'
@@ -60,28 +74,30 @@ export default function Register() {
                   <input
                     placeholder='Password'
                     type='password'
+                    name='password'
                     className='border placeholder-gray-400 focus:outline-none
                     focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
                     border-gray-300 rounded-md'
                   />
                 </div>
                 <div className='relative'>
-                  <a
+                  <button
+                    type='submit'
                     className='w-full inline-block pt-4 pr-5 pb-4 pl-5 text-xl font-medium text-center text-white bg-indigo-500
                     rounded-lg transition duration-200 hover:bg-indigo-600 ease'
                   >
                     Submit
-                  </a>
+                  </button>
                 </div>
-              </div>
+              </form>
             </div>
             <svg
-              viewbox='0 0 91 91'
+              viewBox='0 0 91 91'
               className='absolute top-0 left-0 z-0 w-32 h-32 -mt-12 -ml-12 text-yellow-300
               fill-current'
             >
-              <g stroke='none' strokewidth='1' fillrule='evenodd'>
-                <g fillrule='nonzero'>
+              <g stroke='none' strokeWidth='1' fillRule='evenodd'>
+                <g fillRule='nonzero'>
                   <g>
                     <g>
                       <circle cx='3.261' cy='3.445' r='2.72' />
@@ -168,12 +184,12 @@ export default function Register() {
               </g>
             </svg>
             <svg
-              viewbox='0 0 91 91'
+              viewBox='0 0 91 91'
               className='absolute bottom-0 right-0 z-0 w-32 h-32 -mb-12 -mr-12 text-indigo-500
               fill-current'
             >
-              <g stroke='none' strokewidth='1' fillrule='evenodd'>
-                <g fillrule='nonzero'>
+              <g stroke='none' strokeWidth='1' fillRule='evenodd'>
+                <g fillRule='nonzero'>
                   <g>
                     <g>
                       <circle cx='3.261' cy='3.445' r='2.72' />
