@@ -1,10 +1,10 @@
-import { Link } from 'react-router-dom'
-import { Carousel, CarouselContentWithScrollbar, CarouselItem } from '../ui/carousel'
 import { useQuery } from 'react-query'
+import { Link } from 'react-router-dom'
 import { Art } from '~/types'
 import Spinner from '../common/Spinner'
+import { Carousel, CarouselContentWithScrollbar, CarouselItem } from '../ui/carousel'
 
-const TopArtThisWeek = () => {
+const TrendingArts = () => {
   const { isLoading, error, data } = useQuery<Art[], Error>('top-art-week', () =>
     fetch('https://5f5c7a455e3a4d0016249458.mockapi.io/api/arts').then((res) => res.json())
   )
@@ -17,7 +17,7 @@ const TopArtThisWeek = () => {
 
   return (
     <div>
-      <h3 className='scroll-m-20 mt-4 mb-6 pl-2.5 text-xl font-semibold tracking-tight'>Top This Week</h3>
+      <h3 className='scroll-m-20 mt-4 mb-6 pl-2.5 text-xl font-semibold tracking-tight'>Trending Arts</h3>
       <Carousel
         opts={{
           align: 'start',
@@ -47,4 +47,4 @@ const TopArtThisWeek = () => {
   )
 }
 
-export default TopArtThisWeek
+export default TrendingArts
