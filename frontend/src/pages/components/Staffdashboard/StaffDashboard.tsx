@@ -178,9 +178,6 @@ const StaffDashboard: React.FC = () => {
             <div className="total-item">
               <div className="total-description">
                 <h6 className="total-header">Total Users</h6>
-                <div className="total-percent">
-                  <MovingIcon /> 2.6%
-                </div>
                 <h3 className="total-number">18,765</h3>
               </div>
               <div className="total-icon">
@@ -190,9 +187,6 @@ const StaffDashboard: React.FC = () => {
             <div className="total-item">
               <div className="total-description">
                 <h6 className="total-header">Total Creator</h6>
-                <div className="total-percent">
-                  <MovingIcon /> 2.6%
-                </div>
                 <h3 className="total-number">18,765</h3>
               </div>
               <div className="total-icon">
@@ -202,9 +196,6 @@ const StaffDashboard: React.FC = () => {
             <div className="total-item">
               <div className="total-description">
                 <h6 className="total-header">Total ArtWork Update </h6>
-                <div className="total-percent">
-                  <MovingIcon /> 2.6%
-                </div>
                 <h3 className="total-number">18,765</h3>
               </div>
               <div className="total-icon">

@@ -43,8 +43,8 @@ const Router = () => {
     { path: 'upload-art', element: <UploadArt /> },
 
     { path: 'top_creator', element: <TopCreator /> },
-   // { path: 'dashboard', element: <Dashboard/> },
-   // { path: 'staffdashboard', element: <StaffDashboard/> },
+    //{ path: 'dashboard', element: <Dashboard/> },
+    //{ path: 'staffdashboard', element: <StaffDashboard/> },
   ])
 }
 
