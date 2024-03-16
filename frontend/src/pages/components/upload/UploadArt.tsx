@@ -7,6 +7,8 @@ function UploadArt () {
   const [artName, setArtName] = useState('');
   const [artDescription, setArtDescription] = useState('');
   const [artType, setArtType] = useState('');
+  const [artPaying, setArtPaying] = useState('');
+  const [artPrice, setArtPrice] = useState('');
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -49,7 +51,9 @@ function UploadArt () {
               <img src={URL.createObjectURL(selectedFile)} alt="Uploaded"/>
               <p>File Name: {fileName}</p>
               <button onClick={handleClearImage}
-                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Clear Image</button>
+                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Clear
+                Image
+              </button>
             </div>
           )}
         </div>
@@ -107,6 +111,52 @@ function UploadArt () {
             />
             <span className="ml-2">Physical Art</span>
           </label>
+        </div>
+
+        <div className="mb-4">
+          <span className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Art Price</span>
+          <label htmlFor="freeArt" className="inline-flex items-center mr-4">
+            <input
+              type="radio"
+              name="free"
+              id="freeArt"
+              value="free"
+              checked={artPaying === 'free'}
+              onChange={() => setArtPaying('free')}
+              className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+            />
+            <span className="ml-2">Free</span>
+          </label>
+          <label htmlFor="paidArt" className="inline-flex items-center">
+            <input
+              type="radio"
+              name="paid"
+              id="paidArt"
+              value="paid"
+              checked={artPaying === 'paid'}
+              onChange={() => setArtPaying('paid')}
+              className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+            />
+            <span className="ml-2">Paid</span>
+          </label>
+          {artPaying === 'paid' && (
+            <div className="mt-2">
+              <label htmlFor="artPrice" className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
+                Price (USD)
+              </label>
+              <div className="flex items-center">
+                <span className="text-gray-700 dark:text-gray-300 mr-2">$</span>
+                <input
+                  type="number"
+                  value={artPrice}
+                  onChange={(e) => setArtPrice(e.target.value)}
+                  className="shadow appearance-none border rounded w-32 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  placeholder="Enter price"
+                  required
+                />
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="flex justify-center">
