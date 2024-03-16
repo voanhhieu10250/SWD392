@@ -7,6 +7,8 @@ import Search from './pages/Search'
 import CreatorApp from './CreatorApp'
 import DashboardCreator from './pages/components/creator'
 import UploadArt from './pages/components/upload/UploadArt'
+import Package from './pages/components/package'
+import Notification from './pages/components/notification'
 
 export const router = createBrowserRouter([
   {
@@ -24,6 +26,14 @@ export const router = createBrowserRouter([
       {
         path: 'upload',
         element: <UploadArt />
+      },
+      {
+        path: 'payment',
+        element: <Package />
+      },
+      {
+        path: 'notification',
+        element: <Notification />
       }
     ]
   },
