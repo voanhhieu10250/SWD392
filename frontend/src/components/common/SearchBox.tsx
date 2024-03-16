@@ -8,7 +8,7 @@ const SearchBox = () => {
     e.preventDefault()
     const data = new FormData(e.currentTarget)
 
-    navigate(('/search?q=' + data.get('query')) as string)
+    navigate(('/search?query=' + data.get('query')) as string)
   }
 
   return (
