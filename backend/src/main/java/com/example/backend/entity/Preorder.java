@@ -26,6 +26,8 @@ public class Preorder {
 
     private String status;
 
+    private Float price;
+
     @CreatedDate
     @Column(updatable = false, nullable = false)
     private Date date;

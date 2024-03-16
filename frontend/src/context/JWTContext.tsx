@@ -3,6 +3,7 @@ import axios from '../utils/axios'
 import { isValidToken, setSession } from '../utils/jwt'
 import { User } from '~/types/User'
 import { toast } from 'react-toastify'
+import { ResponseObj } from '~/types'
 
 // Define types for state and action
 type State = {
@@ -88,10 +89,12 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
         if (accessToken && isValidToken(accessToken)) {
           setSession(accessToken)
 
-          const response = await axios.get('/users/my-account')
-          const { user } = response.data.data
+          const response = await axios.get<ResponseObj<User>>('/users/my-account')
+          const user = response.data.data
 
           toast.success('Authenticated successfully.')
+
+          console.log('user', user)
 
           dispatch({
             type: 'INITIALIZE',

@@ -8,11 +8,11 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/
 const SideNav = () => {
   return (
     <div className='flex flex-col bg-background border-r border-background h-screen pt-[72px]'>
-      <NavItem href='/' tooltip='Digital art'>
+      <NavItem href='/' tooltip='Arts'>
         <HomeIcon />
       </NavItem>
 
-      <NavItem href='/top-creator' tooltip='Top creators'>
+      <NavItem href='/top-creators' tooltip='Top creators'>
         <EmojiEventsIcon />
       </NavItem>
 
