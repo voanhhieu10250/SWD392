@@ -6,11 +6,13 @@ import {FaAngleRight} from "react-icons/fa6";
 import {FaRegHeart} from "react-icons/fa";
 import Collection from "~/pages/components/details/modal/Collection.tsx";
 import Offer from "~/pages/components/details/modal/Offer.tsx";
+import ActivityLog from "~/pages/components/details/modal/ActivityLog.tsx";
 
 function PhysicalArtPage() {
   const [imageInfo, setImageInfo] = useState<{ width: number; height: number; sizeInMB: number } | null>(null);
   const [showPopup, setShowPopup] = useState(false);
   const [showPopupOffer, setShowPopupOffer] = useState(false);
+  const [showPopupActivityLog, setShowPopupActivityLog] = useState(false);
 
   const handleButtonClickCollection = () => {
     setShowPopup(true);
@@ -26,6 +28,14 @@ function PhysicalArtPage() {
 
   const handleCloseOffer = () => {
     setShowPopupOffer(false);
+  };
+
+  const handleButtonClickActivityLog = () => {
+    setShowPopupActivityLog(true);
+  };
+
+  const handleCloseActivityLog = () => {
+    setShowPopupActivityLog(false);
   };
 
   const handleImageLoad = async (event: React.SyntheticEvent<HTMLImageElement>) => {
@@ -146,12 +156,14 @@ function PhysicalArtPage() {
                   </div>
                 </div>
                 <div className="flex justify-center">
-                  <button className="mt-2 text-white hover:text-green-300 transition-all duration-200 flex items-center">
+                  <button className="mt-2 text-white hover:text-green-300 transition-all duration-200 flex items-center" onClick={handleButtonClickActivityLog}>
                     <span className="mr-1"><RiRepeatFill /></span>
                     <span className="font-bold">Traded 1 time</span>
                     <span className="ml-1"><FaAngleRight/></span>
                   </button>
                 </div>
+
+                <ActivityLog popup={showPopupActivityLog} onClose={handleCloseActivityLog}/>
               </div>
             </div>
           </div>
