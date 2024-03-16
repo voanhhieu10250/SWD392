@@ -14,6 +14,7 @@ import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik'
 import * as yup from 'yup'
 import { toast } from 'react-toastify'
 import { ResponseObj } from '~/types'
+import useAuth from '~/hooks/useAuth'
 
 const validationSchema = yup.object().shape({
   price: yup.number().min(0, 'Offered price can not less than 0').required('Offered price is required'),
@@ -21,20 +22,34 @@ const validationSchema = yup.object().shape({
 })
 
 const initialValues = {
-  price: null,
+  price: '',
   message: ''
 }
 
-const PreOrderDialog = () => {
+const PreOrderDialog = ({ creatorId }: { creatorId: number }) => {
+  const { user } = useAuth()
+
   const handleSubmit = async (
     values: typeof initialValues,
     { setSubmitting, resetForm }: FormikHelpers<typeof initialValues>
   ) => {
     const { price, message } = values
 
+    console.log(price, message, creatorId, user?.id)
+
     try {
-      // TODO: Send the offer to the server
-      // await sendOfferToServer(price, message)
+      await fetch(`${import.meta.env.VITE_API_ENDPOINT}/pre-orders`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          price,
+          message,
+          creatorId,
+          customerId: user?.id || 0
+        })
+      })
 
       toast.success('Your offer have been sent.')
       resetForm()
@@ -61,7 +76,7 @@ const PreOrderDialog = () => {
             <Form>
               <DialogHeader>
                 <DialogTitle>
-                  <h2 className='font-bold text-2xl'>Make an art pre-order</h2>
+                  <p className='font-bold text-2xl'>Make an art pre-order</p>
                 </DialogTitle>
                 <DialogDescription>
                   You will need to wait for the creator to accept the request. We won't charge anything.
@@ -94,7 +109,7 @@ const PreOrderDialog = () => {
                   <Label htmlFor='message' className='font-bold text-base'>
                     Add note (optional)
                   </Label>
-                  <Field component={Textarea} placeholder='Type your message here.' id='message' name='message' />
+                  <Field as={Textarea} placeholder='Type your message here.' id='message' name='message' />
                   <ErrorMessage name='message' render={(value) => <p className='text-red-500 text-sm'>{value}</p>} />
                 </div>
               </div>

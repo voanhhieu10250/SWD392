@@ -7,17 +7,14 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class PreorderDTO {
+public class PreOrderCreateDTO {
+    private Integer creatorId;
 
-    private Integer id;
-
-    private UserDTO creator;
-
-    private UserDTO customer;
+    private Integer customerId;
 
     private String message;
 
-    private PreOrderStatus status;
+    private PreOrderStatus status = PreOrderStatus.PENDING;
 
     private Float price;
 
