@@ -138,4 +138,12 @@ public class ArtController {
                 .data(artService.getTopWeek())
                 .build();
     }
+
+    @GetMapping("user/{id}")
+    public ResponseDTO<Page<ArtMetadata>> getArtsByUser(@PathVariable int id, @RequestParam int page) {
+        return ResponseDTO.<Page<ArtMetadata>>builder()
+                .status(HttpStatus.OK)
+                .data(artService.getArtsByUserId(id, page))
+                .build();
+    }
 }

@@ -39,6 +39,8 @@ public interface ArtService {
     Page<ArtMetadata> getRecent(int page);
 
     List<ArtMetadata> getTopWeek();
+
+    Page<ArtMetadata> getArtsByUserId(int id, int page);
 }
 
 @Service
@@ -116,10 +118,10 @@ class ArtServiceImpl implements ArtService {
 
         if (searchBy == null || searchBy.isEmpty() || searchBy.equals("title"))
             return artRepository.findAllByTitleContainsIgnoreCase(query, pageable).map(ArtMetadata::new);
-        else if (searchBy.equals("tags")){
+        else if (searchBy.equals("tags")) {
             return artRepository.findAllByTagsContainsIgnoreCase(query, pageable).map(ArtMetadata::new);
         } else {
-            return artRepository.findAllByDescriptionContainsIgnoreCase(query,  pageable).map(ArtMetadata::new);
+            return artRepository.findAllByDescriptionContainsIgnoreCase(query, pageable).map(ArtMetadata::new);
         }
     }
 
@@ -134,6 +136,12 @@ class ArtServiceImpl implements ArtService {
     public List<ArtMetadata> getTopWeek() {
         // get the first 10 arts
         return artRepository.findTopWeek().stream().map(ArtMetadata::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<ArtMetadata> getArtsByUserId(int id, int page) {
+        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("id").descending());
+        return artRepository.findAllByOwnerId(id, pageable).map(ArtMetadata::new);
     }
 
     private ArtDTO convert(Art art) {

@@ -13,11 +13,25 @@ import Notification from './pages/components/notification'
 
 import Register from './pages/auth/Register'
 import Login from './pages/auth/Login'
+import Profile from './pages/Profile'
+import ErrorPage from './pages/ErrorPage'
+import NotFound from './pages/NotFound'
+import Package from './pages/components/package'
+import TopCreator from './pages/components/top_creator'
+import Notification from './pages/components/notification'
+import UserList from './pages/Dashboard/UserList'
+import StaffList from './pages/Dashboard/StaffList'
+import CreatorList from './pages/Dashboard/CreatorList'
+import StaffDashboard from './pages/components/Staffdashboard/StaffDashboard'
+import UploadArt from './pages/components/upload/UploadArt'
+import DigitalArtPage from './pages/components/details/DigitalArtPage'
+import PhysicalArtPage from './pages/components/details/PhysicalArtPage'
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,
@@ -46,6 +60,35 @@ export const router = createBrowserRouter([
       {
         path: 'login',
         element: <Login />
+      },
+      {
+        path: 'profile/:userId',
+        element: <Profile />
+      },
+      {
+        path: 'packages',
+        element: <Package />
+      },
+      {
+        path: 'top-creators',
+        element: <TopCreator />
+      },
+      {
+        path: 'art/upload',
+        element: <UploadArt />
+      },
+      {
+        path: 'art/:artId',
+        // element: <DigitalArtPage />
+        element: <PhysicalArtPage />
+      },
+      {
+        path: 'notification',
+        element: <Notification />
+      },
+      {
+        path: '*',
+        element: <NotFound />
       }
     ]
   },
@@ -56,6 +99,22 @@ export const router = createBrowserRouter([
       {
         path: 'dashboard',
         element: <Dashboard />
+      },
+      {
+        path: 'users',
+        element: <UserList />
+      },
+      {
+        path: 'staffs',
+        element: <StaffList />
+      },
+      {
+        path: 'creators',
+        element: <CreatorList />
+      },
+      {
+        path: 'staff-dashboard',
+        element: <StaffDashboard />
       }
     ]
   },

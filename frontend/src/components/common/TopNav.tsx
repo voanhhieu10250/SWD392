@@ -2,6 +2,7 @@ import { ModeToggle } from './ModeToggle'
 import { Link } from 'react-router-dom'
 import SearchBox from './SearchBox'
 import useAuth from '~/hooks/useAuth'
+import OptionsDropdown from './OptionsDropdown'
 
 const TopNav = () => {
   const { isAuthenticated, user } = useAuth()
@@ -20,8 +21,7 @@ const TopNav = () => {
       </div>
       <div className='flex items-center gap-x-2'>
         {isAuthenticated ? (
-          // <OptionsDropdown username={session.user.username} />
-          user?.email
+          <OptionsDropdown username={user?.username || ''} userId={user?.id || 0} />
         ) : (
           <>
             <Link to='/login' className='text-sm font-semibold'>
