@@ -6,29 +6,30 @@ import com.example.backend.repository.UserRepository;
 import jakarta.persistence.NoResultException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 
 public interface UserService {
 
     User createUser(UserDTO userDTO);
+
     UserDTO getUser(int id);
+
+    User getUserByEmail(String email);
+
     void updateUser(UserDTO userDTO);
+
     void deleteUser(int id);
 
     List<UserDTO> getAllUser();
 }
 
 @Service
-class UserServiceImpl implements UserService, UserDetailsService {
+class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
@@ -46,11 +47,13 @@ class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserDTO getUser(int id) {
-        User user =userRepository.findById(id).orElseThrow(NoResultException::new);
+        User user = userRepository.findById(id).orElseThrow(NoResultException::new);
         return modelMapper.map(user, UserDTO.class);
     }
 
-
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(NoResultException::new);
+    }
 
 
     @Override
@@ -77,22 +80,5 @@ class UserServiceImpl implements UserService, UserDetailsService {
 
     private UserDTO convertToUserDTO(User user) {
         return modelMapper.map(user, UserDTO.class);
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-//        User userEntity = userRepository.findByEmail(email);
-//        if(userEntity == null){
-//            throw new UsernameNotFoundException("not Found");
-//        }
-//        //convert userentity -> userdetails
-//        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-//        //chuyen vai tro ve quyen
-//        for(Role role : userEntity.getRoles()){
-//            authorities.add(new SimpleGrantedAuthority(role.getName().toString()));
-//        }
-//        return new org.springframework.security.core.userdetails.User(email,
-//                userEntity.getPassword(), authorities);
-        return null;
     }
 }

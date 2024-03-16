@@ -11,33 +11,28 @@ import com.example.backend.service.UserService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     JwtTokenService jwtTokenService;
-
     @Autowired
     ModelMapper modelMapper;
-
     @Autowired
     UserRepository userRepository;
-
-    @Autowired
-    AuthenticationManager authenticationManager;
-
     @Autowired
     S3StorageService s3StorageService;
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/register")
     public ResponseDTO<JwtTokenService.TokenAndUser> createUser(@ModelAttribute @Valid UserDTO userDTO) throws IOException {
@@ -66,7 +61,7 @@ public class UserController {
 
         return ResponseDTO.<JwtTokenService.TokenAndUser>builder()
                 .status(200)
-                .data(jwtTokenService.createToken(user.getEmail()))
+                .data(jwtTokenService.generateToken(user))
                 .build();
     }
 
@@ -80,19 +75,28 @@ public class UserController {
     }
 
     @GetMapping("/my-account")
-    public ResponseDTO<Map<String, UserDTO>> getMyAccount(@RequestHeader("Authorization") String token) {
-        String email = jwtTokenService.getUsername(token.replace("Bearer ", ""));
-        UserDTO user = convert(userRepository.findByEmail(email));
-        Map<String, UserDTO> userData = new HashMap<>();
-        userData.put("user", user);
-        return ResponseDTO.<Map<String, UserDTO>>builder()
-                .status(200)
-                .data(userData)
+    public ResponseDTO<UserDTO> getMyAccount(@RequestHeader("Authorization") String token) {
+        String email = jwtTokenService.getTokenClaims(token.replace("Bearer ", "")).getSubject();
+        Optional<User> user = userRepository.findByEmail(email);
+
+        if (user.isEmpty()) {
+            return ResponseDTO.<UserDTO>builder()
+                    .status(HttpStatus.NOT_FOUND)
+                    .msg("User not found")
+                    .data(null)
+                    .build();
+        }
+
+        UserDTO userDTO = convert(user.get());
+
+        return ResponseDTO.<UserDTO>builder()
+                .status(HttpStatus.OK)
+                .data(userDTO)
                 .build();
     }
 
 
-    private  UserDTO convert(User user) {
+    private UserDTO convert(User user) {
         return modelMapper.map(user, UserDTO.class);
     }
 
