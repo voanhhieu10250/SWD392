@@ -35,6 +35,8 @@ public interface ArtService {
     PageDTO<ArtDTO> search(SearchDTO searchDTO);
 
     Page<ArtMetadata> getRecent(int page);
+
+    List<ArtMetadata> getTopWeek();
 }
 
 @Service
@@ -111,6 +113,12 @@ class ArtServiceImpl implements ArtService {
         Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("id").descending());
 
         return artRepository.findAll(pageable).map(ArtMetadata::new);
+    }
+
+    @Override
+    public List<ArtMetadata> getTopWeek() {
+        // get the first 10 arts
+        return artRepository.findTopWeek().stream().map(ArtMetadata::new).collect(Collectors.toList());
     }
 
     private ArtDTO convert(Art art) {

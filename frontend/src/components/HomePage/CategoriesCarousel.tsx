@@ -2,21 +2,25 @@ import { Link } from 'react-router-dom'
 import { Card, CardContent } from '../ui/card'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../ui/carousel'
 import { cn } from '~/lib/utils'
-import { Category } from '~/types'
+import { Category, ResponseObj } from '~/types'
 import { useQuery } from 'react-query'
 import Spinner from '../common/Spinner'
 
-function CategoriesCarousel() {
-  const { isLoading, error, data } = useQuery<Category[], Error>('categories', () =>
-    fetch('http://localhost:3000/categories.json').then((res) => res.json())
-  )
+const fetchCategories = async () => {
+  const res = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/category`)
+  const data = (await res.json()) as ResponseObj<Category[]>
+  return data.data
+}
 
-  if (error) {
+function CategoriesCarousel() {
+  const { isFetching, isError, data } = useQuery<Category[], Error>('categories', fetchCategories)
+
+  if (isError) {
     return <div>Failed to fetch categories</div>
   }
 
-  if (isLoading) return <Spinner />
-  if (!data) return null
+  if (isFetching) return <Spinner />
+  if (!data || data.length === 0) return null
 
   return (
     <Carousel

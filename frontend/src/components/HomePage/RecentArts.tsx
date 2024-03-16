@@ -14,7 +14,7 @@ const breakpointColumnsObj = {
 }
 
 const fetchRecentArts = async ({ pageParam = 1 }) => {
-  const res = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/arts?page=${pageParam}`)
+  const res = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/arts/recent?page=${pageParam}`)
   const data = (await res.json()) as ResponseObj<PageResponse<Art>>
   return data.data
 }
@@ -24,16 +24,16 @@ const RecentArts = () => {
     PageResponse<Art>,
     Error
   >('recent-arts', fetchRecentArts, {
-    getNextPageParam: (lastPage) => (lastPage.last ? lastPage.number + 2 : null) // number + 2 because BE is 1-based index
+    getNextPageParam: (lastPage) => (lastPage.last ? null : lastPage.number + 2) // number + 2 because BE is 1-based index
   })
 
   const [ref, inView] = useInView()
 
   useEffect(() => {
-    if (inView) {
+    if (inView && !isFetching && !isFetchingNextPage && hasNextPage) {
       fetchNextPage()
     }
-  }, [fetchNextPage, inView])
+  }, [fetchNextPage, inView, isFetchingNextPage, hasNextPage, isFetching])
 
   if (isFetching) {
     return <div>Loading...</div>
@@ -44,7 +44,7 @@ const RecentArts = () => {
   if (!data) return null
 
   return (
-    <div>
+    <>
       <Masonry
         breakpointCols={breakpointColumnsObj}
         className='flex w-full gap-x-3'
@@ -67,7 +67,7 @@ const RecentArts = () => {
       </Masonry>
       {!hasNextPage && <div className='text-center text-gray-500'>No more arts</div>}
       <div ref={ref}>{isFetchingNextPage && <Spinner />}</div>
-    </div>
+    </>
   )
 }
 

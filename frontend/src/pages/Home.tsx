@@ -7,8 +7,14 @@ export default function Home() {
     <div className='mt-6'>
       <CategoriesCarousel />
       <div className='mt-6 bg-background rounded-xl shadow-sm px-4 py-5'>
-        <TrendingArts />
-        <RecentArts />
+        <div>
+          <h3 className='scroll-m-20 mt-4 mb-6 pl-2.5 text-xl font-semibold tracking-tight'>Trending Arts</h3>
+          <TrendingArts />
+        </div>
+        <div>
+          <h3 className='scroll-m-20 mt-4 mb-4 pl-2.5 text-xl font-semibold tracking-tight'>Recent</h3>
+          <RecentArts />
+        </div>
       </div>
     </div>
   )

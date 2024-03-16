@@ -13,4 +13,7 @@ public interface ArtRepository extends JpaRepository<Art, Integer> {
 
     @Query("SELECT a FROM Art a WHERE a.title LIKE :name")
     Page<Art> searchByName(@Param("name") String name, Pageable pageable);
+
+    @Query("SELECT a FROM Art a ORDER BY a.id ASC LIMIT 10")
+    List<Art> findTopWeek();
 }

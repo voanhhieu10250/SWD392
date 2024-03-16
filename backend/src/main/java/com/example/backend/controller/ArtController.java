@@ -121,11 +121,19 @@ public class ArtController {
                 .build();
     }
 
-    @GetMapping("recent-arts")
-    public ResponseDTO<Page<ArtMetadata>> search(@RequestParam int page) {
+    @GetMapping("recent")
+    public ResponseDTO<Page<ArtMetadata>> recentArts(@RequestParam int page) {
         return ResponseDTO.<Page<ArtMetadata>>builder()
                 .status(HttpStatus.OK)
                 .data(artService.getRecent(page))
+                .build();
+    }
+
+    @GetMapping("top-week")
+    public ResponseDTO<List<ArtMetadata>> topWeekArts() {
+        return ResponseDTO.<List<ArtMetadata>>builder()
+                .status(HttpStatus.OK)
+                .data(artService.getTopWeek())
                 .build();
     }
 }
