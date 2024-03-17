@@ -4,7 +4,6 @@ import Home from './pages/Home'
 import Dashboard from './pages/Dashboard/Dashboard'
 import AdminApp from './AdminApp'
 import Search from './pages/Search'
-import CreatorApp from './CreatorApp'
 import DashboardCreator from './pages/components/creator'
 import Register from './pages/auth/Register'
 import Login from './pages/auth/Login'
@@ -19,9 +18,10 @@ import StaffList from './pages/Dashboard/StaffList'
 import CreatorList from './pages/Dashboard/CreatorList'
 import StaffDashboard from './pages/components/Staffdashboard/StaffDashboard'
 import UploadArt from './pages/components/upload/UploadArt'
-import DigitalArtPage from './pages/components/details/DigitalArtPage'
+// import DigitalArtPage from './pages/components/details/DigitalArtPage'
 import PhysicalArtPage from './pages/components/details/PhysicalArtPage'
 import ArtDetail from './pages/ArtDetail'
+import DataTable from './pages/components/creator/DataTable'
 
 export const router = createBrowserRouter([
   {
@@ -82,10 +82,19 @@ export const router = createBrowserRouter([
         // element: <DigitalArtPage />
         element: <PhysicalArtPage />
       },
-
       {
         path: 'notification',
         element: <Notification />
+      },
+      {
+        path: 'creator/dashboard',
+        element: <DashboardCreator />,
+        children: [
+          {
+            index: true,
+            element: <DataTable />
+          }
+        ]
       },
       {
         path: '*',
@@ -116,16 +125,6 @@ export const router = createBrowserRouter([
       {
         path: 'staff-dashboard',
         element: <StaffDashboard />
-      }
-    ]
-  },
-  {
-    path: 'creator',
-    element: <CreatorApp />,
-    children: [
-      {
-        path: 'dashboard',
-        element: <DashboardCreator />
       }
     ]
   }
