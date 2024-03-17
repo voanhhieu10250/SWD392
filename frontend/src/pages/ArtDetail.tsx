@@ -1,6 +1,8 @@
 import { Heart } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import { Link, Navigate, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import ActivitiLogDialog from '~/components/ArtDetailPage/ActivitiLogDialog'
 import AddCollectionDialog from '~/components/ArtDetailPage/AddCollectionDialog'
 import MakeOfferDialog from '~/components/ArtDetailPage/MakeOfferDialog'
@@ -21,12 +23,56 @@ const fetchProfile = async (id: string) => {
   const data = (await res.json()) as ResponseObj<ArtDetail>
   return data.data
 }
-
+const fetchLikes = async (id: string) => {
+  const res = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/post-likes/${id}`)
+  const data = (await res.json()) as ResponseObj<number>
+  return data.data
+}
 const ArtDetail = () => {
   const { artId } = useParams()
 
   const { isFetching, isError, data } = useQuery<ArtDetail, Error>(['profile', artId], () => fetchProfile(artId || '0'))
+  const { data: likesData } = useQuery<number, Error>(['likes', artId], () => fetchLikes(artId || '0'))
   const { user } = useAuth()
+  console.log('userId: ', user?.id)
+  console.log('ArtId', artId)
+  const [likes, setLikes] = useState(data ? data.likes : 0)
+  const [isLiked, setIsLiked] = useState(false) // Assume initially not liked
+
+  // Update like state based on fetched data
+  useEffect(() => {
+    if (data) {
+      setLikes(data.likes)
+      // Here you could also update isLiked based on whether the user has liked this art
+    }
+  }, [data])
+
+  // Handle like button click
+  const handleLike = async () => {
+    if (!user) {
+      // User is not logged in, show a toast message
+      toast.error('You must be logged in to like this artwork.')
+      return // Exit the function early
+    }
+
+    const newLikeState = !isLiked
+    const newLikesCount = newLikeState ? likes + 1 : likes - 1
+    setIsLiked(newLikeState)
+    setLikes(newLikesCount)
+
+    // Call your API to update likes in the backend
+    const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/post-likes/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ user: { id: user?.id }, art: { id: artId } })
+    })
+
+    if (!response.ok) {
+      // Handle potential errors here
+    }
+  }
 
   if (isError) {
     return <div>Failed to fetch profile</div>
@@ -102,9 +148,9 @@ const ArtDetail = () => {
 
             <p className='text-muted-foreground text-sm break-words'>{transformTags(data.tags || '')}</p>
             <div className='flex items-center gap-3'>
-              <button className='p-1 flex items-center space-x-1'>
-                <Heart />
-                <span className='text-sm font-semibold'>{data.likes || 0} likes</span>
+              <button className='p-1 flex items-center space-x-1' onClick={handleLike}>
+                <Heart color={isLiked ? 'red' : 'currentColor'} />
+                <span className='text-sm font-semibold'>{likes} likes</span>
               </button>
               <AddCollectionDialog artId={data.id} />
             </div>
