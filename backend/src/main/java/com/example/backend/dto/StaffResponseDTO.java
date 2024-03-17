@@ -1,6 +1,5 @@
 package com.example.backend.dto;
 
-import com.example.backend.dto.PermissionDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
@@ -18,8 +17,6 @@ public class StaffResponseDTO {
     private Boolean isBanned;
 
     private Boolean isAdmin;
-
-    private Set<PermissionDTO> permissions;
 
     @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Asia/Ho_Chi_Minh")
     private Date createdAt;

@@ -28,6 +28,8 @@ public class Art {
     )
     private List<Category> categories;
 
+    private String artType;
+
     private String originUrl;
 
     private String tags;

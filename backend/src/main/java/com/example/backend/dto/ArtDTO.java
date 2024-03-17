@@ -19,6 +19,8 @@ public class ArtDTO {
 
     private List<CategoryDTO> categories;
 
+    private String artType;
+
     private String originUrl;
 
     private String tags;

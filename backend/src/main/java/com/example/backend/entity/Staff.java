@@ -4,6 +4,7 @@ import com.example.backend.entity.utils.TimeAuditable;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Set;
 
@@ -26,11 +27,12 @@ public class Staff extends TimeAuditable {
 
     private Boolean isAdmin;
 
-    @ManyToMany
-    @JoinTable(
-            name = "staff_permissions",
-            joinColumns = @JoinColumn(name = "staff_id"),
-            inverseJoinColumns = @JoinColumn(name = "permission_id")
-    )
-    private Set<Permission> permissions;
+    private static final BCryptPasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
+
+    public void setPassword(String password) {
+        if (password != null) {
+            this.password = PASSWORD_ENCODER.encode(password);
+        }
+    }
+
 }
