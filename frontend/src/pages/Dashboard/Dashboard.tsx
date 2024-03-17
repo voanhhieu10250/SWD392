@@ -108,44 +108,36 @@ const Dashboard: React.FC = () => {
             <List className='menu-item'>
               <div className='menu-item-header'>Manage</div>
               <ListItem disablePadding className='item-checked'>
-                <ListItemButton>
+                <ListItemButton component={Link} to='/admin/dashboard'>
                   <ListItemIcon>
                     <SpeedIcon className='item-icon-checked' />
                   </ListItemIcon>
-                  <Link to='/dashboard'>
-                    <ListItemText primary='Dashboard' />
-                  </Link>
+                  <ListItemText primary='Dashboard' />
                 </ListItemButton>
               </ListItem>
               <ListItem disablePadding>
-                <ListItemButton>
+                <ListItemButton component={Link} to='/admin/users'>
                   <ListItemIcon>
                     <PersonIcon />
                   </ListItemIcon>
-                  <Link to='/users'>
-                    <ListItemText primary='User' />
-                  </Link>
+                  <ListItemText primary='User' />
                 </ListItemButton>
               </ListItem>
 
               <ListItem disablePadding>
-                <ListItemButton>
+                <ListItemButton component={Link} to='/admin/artworks'>
                   <ListItemIcon>
                     <EditCalendarIcon />
                   </ListItemIcon>
-                  <Link to='/artworks'>
-                    <ListItemText primary='Artwork' />
-                  </Link>
+                  <ListItemText primary='Artwork' />
                 </ListItemButton>
               </ListItem>
               <ListItem disablePadding>
-                <ListItemButton>
+                <ListItemButton component={Link} to='/admin/reports'>
                   <ListItemIcon>
                     <Flag />
                   </ListItemIcon>
-                  <Link to='/reports'>
-                    <ListItemText primary='Report' />
-                  </Link>
+                  <ListItemText primary='Report' />
                 </ListItemButton>
               </ListItem>
             </List>
