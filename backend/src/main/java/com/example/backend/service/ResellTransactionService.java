@@ -22,7 +22,7 @@ public interface ResellTransactionService {
     List<ResellTransactionDTO> getAll();
 //    PageDTO<CategoryDTO> search(SearchDTO searchDTO);
     List<ResellTransactionDTO> getByArtId(int id);
-    ResellTransactionDTO getCurrentOwner();
+    ResellTransactionDTO getCurrentOwner(int id);
 }
 
 @Service
@@ -78,8 +78,8 @@ class ResellTransactionServiceImpl implements ResellTransactionService {
     }
 
     @Override
-    public ResellTransactionDTO getCurrentOwner() {
-        ResellTransaction resellTransaction = resellTransactionRepository.findFirstByOrderByDateDesc();
+    public ResellTransactionDTO getCurrentOwner(int id) {
+        ResellTransaction resellTransaction = resellTransactionRepository.findFirstByArt_IdOrderByDateDesc(id);
         return modelMapper.map(resellTransaction, ResellTransactionDTO.class);
     }
 
