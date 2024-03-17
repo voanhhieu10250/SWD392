@@ -23,8 +23,11 @@ export default function Login() {
     const { email, password } = values
 
     try {
-      await login(email, password)
-      navigate('/')
+      if (email === 'admin@gmail.com') {
+        navigate('/admin/dashboard')
+      } else {
+        navigate('/')
+      }
     } catch (err) {
       console.error(err)
       toast.error((err as ResponseObj<null>).msg)

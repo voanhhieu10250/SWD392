@@ -112,7 +112,7 @@ const Dashboard: React.FC = () => {
                   <ListItemIcon>
                     <SpeedIcon className='item-icon-checked' />
                   </ListItemIcon>
-                  <Link to='/dashboard'>
+                  <Link to='/admin/dashboard'>
                     <ListItemText primary='Dashboard' />
                   </Link>
                 </ListItemButton>
@@ -122,7 +122,7 @@ const Dashboard: React.FC = () => {
                   <ListItemIcon>
                     <PersonIcon />
                   </ListItemIcon>
-                  <Link to='/users'>
+                  <Link to='/admin/users'>
                     <ListItemText primary='User' />
                   </Link>
                 </ListItemButton>
@@ -133,7 +133,7 @@ const Dashboard: React.FC = () => {
                   <ListItemIcon>
                     <EditCalendarIcon />
                   </ListItemIcon>
-                  <Link to='/artworks'>
+                  <Link to='/admin/artworks'>
                     <ListItemText primary='Artwork' />
                   </Link>
                 </ListItemButton>
@@ -143,7 +143,7 @@ const Dashboard: React.FC = () => {
                   <ListItemIcon>
                     <Flag />
                   </ListItemIcon>
-                  <Link to='/reports'>
+                  <Link to='/admin/reports'>
                     <ListItemText primary='Report' />
                   </Link>
                 </ListItemButton>
