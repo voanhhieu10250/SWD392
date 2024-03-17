@@ -16,6 +16,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import SearchIcon from '@mui/icons-material/Search';
 import SpeedIcon from '@mui/icons-material/Speed';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
+import { Link } from 'react-router-dom';
 
 // Define the TypeScript types for report data
 interface Report {
@@ -43,7 +44,19 @@ const ReportList: React.FC = () => {
 
         fetchReportData();
     }, []);
+    const [selectedItem, setSelectedItem] = useState('')
 
+    const handleItemClick = (item) => {
+        setSelectedItem(item)
+    }
+    const menuItems = [
+        { key: 'dashboard', label: 'Dashboard', icon: <SpeedIcon />, link: '/admin/dashboard' },
+        { key: 'users', label: 'User', icon: <PersonIcon />, link: '/admin/users' },
+        { key: 'artwork', label: 'Artwork', icon: <PersonIcon />, link: '/admin/artworks' },
+        { key: 'report', label: 'Report', icon: <PersonIcon />, link: '/admin/reports' }
+
+        // Thêm các item menu khác ở đây
+    ]
     return (
         <div id="Dashboard">
             <div className="menu">
@@ -63,57 +76,21 @@ const ReportList: React.FC = () => {
                             </ListItem>
                         </List>
                     </nav>
-                    <nav aria-label="secondary mailbox folders">
-                        <List className="menu-item">
-                            <div className="menu-item-header">Manage</div>
-                            <ListItem disablePadding className="item-checked">
-                                <ListItemButton>
-                                    <ListItemIcon>
-                                        <SpeedIcon className="item-icon-checked" />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Dashboard" />
-                                </ListItemButton>
-                            </ListItem>
-                            <ListItem disablePadding>
-                                <ListItemButton>
-                                    <ListItemIcon>
-                                        <PersonIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary="User" />
-                                </ListItemButton>
-                            </ListItem>
-                            <ListItem disablePadding>
-                                <ListItemButton>
-                                    <ListItemIcon>
-                                        <PersonIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Staff" />
-                                </ListItemButton>
-                            </ListItem>
-                            <ListItem disablePadding>
-                                <ListItemButton>
-                                    <ListItemIcon>
-                                        <PersonIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Creator" />
-                                </ListItemButton>
-                            </ListItem>
-                            <ListItem disablePadding>
-                                <ListItemButton>
-                                    <ListItemIcon>
-                                        <EditCalendarIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Artwork" />
-                                </ListItemButton>
-                            </ListItem>
-                            <ListItem disablePadding>
-                                <ListItemButton>
-                                    <ListItemIcon>
-                                        <Flag />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Report" />
-                                </ListItemButton>
-                            </ListItem>
+                    <nav aria-label='secondary mailbox folders'>
+                        <List>
+                            {menuItems.map((item) => (
+                                <ListItem
+                                    disablePadding
+                                    key={item.key}
+                                    onClick={() => handleItemClick(item.key)}
+                                    className={selectedItem === item.key ? 'item-checked' : ''}
+                                >
+                                    <ListItemButton component={Link} to={item.link}>
+                                        <ListItemIcon>{item.icon}</ListItemIcon>
+                                        <ListItemText primary={item.label} />
+                                    </ListItemButton>
+                                </ListItem>
+                            ))}
                         </List>
                     </nav>
                 </Box>

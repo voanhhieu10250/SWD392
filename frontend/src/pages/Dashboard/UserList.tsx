@@ -17,6 +17,7 @@ import ListItemText from '@mui/material/ListItemText';
 import './Dashboard.css';
 import { Flag } from 'lucide-react';
 import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom'
 
 const UserList: React.FC = () => {
   const [dataGrid, setDataGrid] = useState<any[]>([]);
@@ -34,10 +35,23 @@ const UserList: React.FC = () => {
     fetchData();
   }, []);
 
+  const [selectedItem, setSelectedItem] = useState('')
+
+  const handleItemClick = (item) => {
+    setSelectedItem(item)
+  }
+  const menuItems = [
+    { key: 'dashboard', label: 'Dashboard', icon: <SpeedIcon />, link: '/admin/dashboard' },
+    { key: 'users', label: 'User', icon: <PersonIcon />, link: '/admin/users' },
+    { key: 'artwork', label: 'Artwork', icon: <PersonIcon />, link: '/admin/artworks' },
+    { key: 'report', label: 'Report', icon: <PersonIcon />, link: '/admin/reports' }
+
+    // Thêm các item menu khác ở đây
+  ]
   return (
     <div id="Dashboard">
       <div className="menu">
-      <Box className="important" sx={{ width: '100%', maxWidth: 280, bgcolor: 'background.paper', overflowY: 'auto' }}>
+        <Box className="important" sx={{ width: '100%', maxWidth: 280, bgcolor: 'background.paper', overflowY: 'auto' }}>
           <nav aria-label="main mailbox folders">
             <List>
               <ListItem disablePadding>
@@ -53,49 +67,28 @@ const UserList: React.FC = () => {
               </ListItem>
             </List>
           </nav>
-          <nav aria-label="secondary mailbox folders">
-            <List className="menu-item">
-              <div className="menu-item-header">Manage</div>
-              <ListItem disablePadding className="item-checked">
-                <ListItemButton>
-                  <ListItemIcon>
-                    <SpeedIcon className="item-icon-checked" />
-                  </ListItemIcon>
-                  <ListItemText primary="Dashboard" />
-                </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <PersonIcon />
-                  </ListItemIcon>
-                    <ListItemText primary="User" />
-                </ListItemButton>
-              </ListItem>
-              
-              <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <EditCalendarIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Artwork" />
-                </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <MonetizationOnIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Report" />
-                </ListItemButton>
-              </ListItem>              
+          <nav aria-label='secondary mailbox folders'>
+            <List>
+              {menuItems.map((item) => (
+                <ListItem
+                  disablePadding
+                  key={item.key}
+                  onClick={() => handleItemClick(item.key)}
+                  className={selectedItem === item.key ? 'item-checked' : ''}
+                >
+                  <ListItemButton component={Link} to={item.link}>
+                    <ListItemIcon>{item.icon}</ListItemIcon>
+                    <ListItemText primary={item.label} />
+                  </ListItemButton>
+                </ListItem>
+              ))}
             </List>
           </nav>
         </Box>
       </div>
       <div className="content">
         <div className="header">
-        <div className="search">
+          <div className="search">
             <SearchIcon />
             <TextField id="standard-basic" className="txt-search" variant="standard" />
             <div className="btn-search">
@@ -115,7 +108,7 @@ const UserList: React.FC = () => {
                     <Table>
                       <TableHead>
                         <TableRow>
-                        <TableCell>id</TableCell>
+                          <TableCell>id</TableCell>
                           <TableCell>userName</TableCell>
                           <TableCell>Email</TableCell>
                           <TableCell>About</TableCell>
