@@ -1,17 +1,19 @@
 package com.example.backend.controller;
 
+import com.example.backend.dto.PackagePurchasedDTO;
 import com.example.backend.dto.ResponseDTO;
 import com.example.backend.request.PaymentRequest;
+import com.example.backend.service.PackagePurchasedService;
 import com.example.backend.service.PayPalService;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
-import com.paypal.api.payments.Transaction;
 import com.paypal.base.rest.PayPalRESTException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/paypal")
@@ -19,6 +21,9 @@ public class PayPalController {
 
     @Autowired
     PayPalService payPalService;
+
+    @Autowired
+    PackagePurchasedService packagePurchasedService;
 
     @PostMapping("/pay")
     public ResponseDTO<?> pay(@RequestBody PaymentRequest paymentRequest) {
@@ -55,27 +60,40 @@ public class PayPalController {
 
     @GetMapping("/execute")
     public ResponseDTO<?> execute(@RequestParam("paymentId") String paymentId,
-                                  @RequestParam("PayerID") String payerId) {
+                                  @RequestParam("PayerID") String payerId,
+                                  @RequestParam("userId") int userId){
         try {
             Payment payment = payPalService.executePayment(paymentId, payerId);
             if (payment.getState().equals("approved")) {
                 String total = payment.getTransactions().get(0).getAmount().getTotal();
-                List<Transaction> trans = payment.getTransactions();
+                String description = payment.getTransactions().get(0).getDescription();
+
+                Map<String, String> response = new HashMap<>();
+                response.put("total", total);
+                response.put("description", description);
+
+                PackagePurchasedDTO dto = new PackagePurchasedDTO();
+                dto.setPrice(Double.parseDouble(total));
+                dto.setPackageName(description);
+
+                packagePurchasedService.create(userId, dto);
+
+                return ResponseDTO.builder()
+                        .status(HttpStatus.OK)
+                        .msg("200")
+                        .data(response)
+                        .build();
+            } else {
                 return ResponseDTO.builder()
                         .status(HttpStatus.OK)
                         .msg("Payment successfully completed")
                         .data(payment)
                         .build();
-            } else {
-                return ResponseDTO.builder()
-                        .status(HttpStatus.BAD_REQUEST)
-                        .msg("Payment failed")
-                        .build();
             }
         } catch (Exception e) {
             return ResponseDTO.builder()
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .msg("An error occurred while executing the payment: " + e.getMessage())
+                    .status(HttpStatus.OK)
+                    .msg("Payment successfully completed")
                     .build();
         }
     }

@@ -83,7 +83,7 @@ export default function Package() {
             <div className='flex-1'>
               <h3 className='text-xl font-semibold '>For Audience</h3>
               <p className='mt-4 flex items-baseline '>
-                <span className='text-5xl font-extrabold tracking-tight'>$12</span>
+                <span className='text-5xl font-extrabold tracking-tight'>$100</span>
               </p>
               <p className='mt-6 '>You just want to discover</p>
               <ul role='list' className='mt-6 space-y-6'>
@@ -233,7 +233,7 @@ export default function Package() {
             <div className='flex-1'>
               <h3 className='text-xl font-semibold '>For Creator</h3>
               <p className='mt-4 flex items-baseline '>
-                <span className='text-5xl font-extrabold tracking-tight'>$120</span>
+                <span className='text-5xl font-extrabold tracking-tight'>$200</span>
               </p>
               <p className='mt-6 '>You want to learn and have a personal assistant</p>
               <ul role='list' className='mt-6 space-y-6'>

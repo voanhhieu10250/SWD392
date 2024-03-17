@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify' // Đảm bảo đã cài đặt thư viện này hoặc một thư viện toast tương tự
-import Spinner from '~/components/common/Spinner' // Giả sử đường dẫn này đúng
+import { toast } from 'react-toastify'
+import Spinner from '~/components/common/Spinner'
+import useAuth from '~/hooks/useAuth'
 
 const SuccessPage = () => {
+  const { user, reAuthenticate } = useAuth()
   const [loading, setLoading] = useState(true)
   const location = useLocation()
   const navigate = useNavigate()
@@ -12,46 +14,37 @@ const SuccessPage = () => {
     const queryParams = new URLSearchParams(location.search)
     const paymentId = queryParams.get('paymentId')
     const PayerID = queryParams.get('PayerID')
+    // console.log('paymentId: ', paymentId)
+    // console.log('PayerID: ', PayerID)
 
-    // Gọi API để gửi dữ liệu về BE
     const verifyPayment = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/paypal/execute?paymentId=${paymentId}&PayerID=${PayerID}`)
+        const response = await fetch(
+          `http://localhost:8080/paypal/execute?paymentId=${paymentId}&PayerID=${PayerID}&userId=${user?.id}`
+        )
         const data = await response.json()
 
-        // Kiểm tra kết quả trả về từ BE
         if (response.ok && data.msg === '200') {
-          // Giả sử trạng thái thành công là 'approved'
+          console.log('Payment: ', data)
           toast.success('Thanh toán thành công!')
+          await reAuthenticate()
         } else {
           toast.error('Thanh toán thất bại.')
         }
-      } catch (error: any) {
-        toast.error('Có lỗi xảy ra: ' + error.message)
+      } catch (error) {
+        toast.error('Có lỗi xảy ra: ' + (error as Error).message)
       } finally {
         setLoading(false)
-        navigate('/payment') // Chuyển hướng ngay cả khi có lỗi
+        navigate('/payment', { replace: true })
       }
     }
 
-    if (paymentId && PayerID) {
+    if (paymentId && PayerID && user) {
       verifyPayment()
-    } else {
-      toast.error('Thông tin thanh toán không đầy đủ.')
-      setLoading(false)
-      navigate('/payment') // Chuyển hướng ngay cả khi thông tin không đầy đủ
     }
-  }, [location, navigate])
+  }, [location, navigate, user])
 
-  return (
-    <div>
-      {loading ? (
-        <Spinner /> // Hiển thị spinner khi đang tải
-      ) : (
-        <div>Đang chuyển hướng...</div>
-      )}
-    </div>
-  )
+  return <div>{loading ? <Spinner /> : <div>Đang chuyển hướng...</div>}</div>
 }
 
 export default SuccessPage

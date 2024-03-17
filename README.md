@@ -10,6 +10,8 @@
   * https://docs.google.com/document/d/1DcidFu6Hgqx-nbZlWsuZa72MCnsTSQ7RQZpXUBVrIFc/edit
 ### SRS
   * https://docs.google.com/document/d/10Uju1HHMQ4VTWjepDqrQMyYKZDGHVJKwPMJFVKIEp9M/edit
+### SDD
+  * https://docs.google.com/document/d/1_IYiwqwqozV-PsOZI2wkiLajcK5Tx6P-jyfcu_t5cI0/edit
 ### usecase
   * https://app.diagrams.net/#G1qcH_bdoMw8L2fpCngC_32ftbQDjE4b25
 ### figma

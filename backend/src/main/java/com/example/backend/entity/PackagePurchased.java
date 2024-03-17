@@ -16,7 +16,12 @@ public class PackagePurchased {
 
     private double price;
 
+    private String packageName;
+
     @CreatedDate
     @Column(updatable = false, nullable = false)
     private Date date;
+
+    @ManyToOne
+    private User user;
 }

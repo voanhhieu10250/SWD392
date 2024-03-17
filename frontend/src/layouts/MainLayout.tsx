@@ -18,7 +18,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
       )}
 
       {/* main */}
-      <div className={cn(!artMatch && !profileMatch && 'ml-[75px]')}>
+      <div className={cn(!artMatch && !profileMatch && 'ml-[75px]', 'flex-1')}>
         <main className={cn({ 'container mx-auto': !loginMatch && !registerMatch }, !!artMatch && 'max-w-6xl')}>
           {children}
         </main>
