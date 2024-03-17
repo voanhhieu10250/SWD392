@@ -20,12 +20,16 @@ import TopCreator from './pages/components/top_creator'
 import UploadArt from './pages/components/upload/UploadArt'
 // import DigitalArtPage from './pages/components/details/DigitalArtPage'
 import ArtDetail from './pages/ArtDetail'
+
 import PhysicalArtPage from './pages/components/details/PhysicalArtPage'
 import CreatorDashboard from './components/CreatorDashboard/CreatorDashboard'
 import HistoryBuyPackage from './pages/components/creator/HistoryBuyPackage'
 import TransactionHistory from './pages/components/creator/HistoryPhysicalArt'
 import PreOrder from './pages/components/creator/PreOrder'
 import ChatDisplay from './components/CreatorDashboard/PreOrder/ChatDisplay'
+
+import SuccessPage from './pages/components/notification/SuccesPage'
+
 
 export const router = createBrowserRouter([
   {
@@ -68,6 +72,10 @@ export const router = createBrowserRouter([
       {
         path: 'packages',
         element: <Package />
+      },
+      {
+        path: 'success',
+        element: <SuccessPage />
       },
       {
         path: 'top-creators',
