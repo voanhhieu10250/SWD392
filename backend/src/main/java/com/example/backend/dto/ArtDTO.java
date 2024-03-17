@@ -31,11 +31,13 @@ public class ArtDTO {
 
     private String watermarkedUrl;
 
-    private Integer downloads;
+    private Integer downloads = 0;
 
-    private Integer likes;
+    private Integer likes = 0;
 
-    private boolean status;
+    private boolean status = true;
 
     private MultipartFile artFile;
+
+    private Integer ownerId;
 }

@@ -15,6 +15,11 @@ const OptionsDropdown = ({ username, userId }: { username: string; userId: numbe
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end'>
         <DropdownMenuItem>
+          <Link to='/upload' className='w-full'>
+            Upload Art
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
           <Link to={'/profile/' + userId} className='w-full'>
             Profile
           </Link>

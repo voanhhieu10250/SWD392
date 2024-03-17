@@ -5,6 +5,7 @@ import com.example.backend.dto.ArtMetadata;
 import com.example.backend.dto.PageDTO;
 import com.example.backend.dto.SearchDTO;
 import com.example.backend.entity.Art;
+import com.example.backend.entity.User;
 import com.example.backend.repository.ArtRepository;
 import jakarta.persistence.NoResultException;
 import org.modelmapper.ModelMapper;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 
 public interface ArtService {
 
-    void create(ArtDTO artDTO);
+    int create(ArtDTO artDTO);
 
     ArtDTO getById(int id);
 
@@ -50,12 +51,20 @@ class ArtServiceImpl implements ArtService {
     ModelMapper modelMapper;
     @Autowired
     private ArtRepository artRepository;
+    @Autowired
+    private UserService userService;
 
     @Override
     @Transactional
-    public void create(ArtDTO artDTO) {
+    public int create(ArtDTO artDTO) {
+        User owner = userService.findById(artDTO.getOwnerId());
+
         Art product = modelMapper.map(artDTO, Art.class);
-        artRepository.save(product);
+
+        product.setOwner(owner);
+
+        Art created = artRepository.save(product);
+        return created.getId();
     }
 
     @Override
