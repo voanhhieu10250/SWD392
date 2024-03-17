@@ -1,4 +1,3 @@
-import React from 'react';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTrigger } from '../ui/dialog';
 import { Button } from '../ui/button';
 import { Flag } from 'lucide-react';
@@ -6,9 +5,10 @@ import { toast } from 'react-toastify';
 import useAuth from '~/hooks/useAuth';
 import { ResponseObj } from '~/types';
 
+
 const ReportPopup = ({ creatorId }: { creatorId: number }) => {
     const { user } = useAuth();
-
+    
     const handleReport = (selectedOption: string) => {
         try {
             // Send report request to the server with selected option
@@ -53,3 +53,7 @@ const ReportPopup = ({ creatorId }: { creatorId: number }) => {
 };
 
 export default ReportPopup;
+function useState(arg0: string): [any, any] {
+    throw new Error('Function not implemented.');
+}
+
