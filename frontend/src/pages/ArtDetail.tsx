@@ -109,11 +109,11 @@ const ArtDetail = () => {
               <AddCollectionDialog artId={data.id} />
             </div>
           </div>
-          {data.owner && <ReportPopup creatorId={data.owner.id} />}
           {data.artType === ArtType.physical && (
             <>
               {data.owner && user && data.owner?.id !== user?.id && <MakeOfferDialog creatorId={data.owner.id} />}
-              <ActivitiLogDialog artId={artId}/>
+              {data.owner && <ReportPopup artId={data.owner.id} />}
+              <ActivitiLogDialog />
             </>
           )}
         </div>
