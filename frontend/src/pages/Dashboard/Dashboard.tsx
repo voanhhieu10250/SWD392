@@ -19,7 +19,7 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import { styled } from '@mui/material/styles'
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import './Dashboard.css'
 import { Flag } from 'lucide-react'
 
@@ -81,7 +81,24 @@ const Dashboard: React.FC = () => {
     { id: 2, name: 'Jane Smith', age: 25 },
     { id: 3, name: 'Peter Parker', age: 22 }
   ]
+  const navigate = useNavigate()
 
+  const handleNavigate = (path) => {
+    navigate(path)
+  }
+  const [selectedItem, setSelectedItem] = useState('')
+
+  const handleItemClick = (item) => {
+    setSelectedItem(item)
+  }
+  const menuItems = [
+    { key: 'dashboard', label: 'Dashboard', icon: <SpeedIcon />, link: '/admin/dashboard' },
+    { key: 'users', label: 'User', icon: <PersonIcon />, link: '/admin/users' },
+    { key: 'artwork', label: 'Artwork', icon: <PersonIcon />, link: '/admin/artworks' },
+    { key: 'report', label: 'Report', icon: <PersonIcon />, link: '/admin/reports' }
+
+    // Thêm các item menu khác ở đây
+  ]
   return (
     <div id='Dashboard'>
       <div className='menu'>
@@ -105,41 +122,20 @@ const Dashboard: React.FC = () => {
             </List>
           </nav>
           <nav aria-label='secondary mailbox folders'>
-            <List className='menu-item'>
-              <div className='menu-item-header'>Manage</div>
-              <ListItem disablePadding className='item-checked'>
-                <ListItemButton component={Link} to='/admin/dashboard'>
-                  <ListItemIcon>
-                    <SpeedIcon className='item-icon-checked' />
-                  </ListItemIcon>
-                  <ListItemText primary='Dashboard' />
-                </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton component={Link} to='/admin/users'>
-                  <ListItemIcon>
-                    <PersonIcon />
-                  </ListItemIcon>
-                  <ListItemText primary='User' />
-                </ListItemButton>
-              </ListItem>
-
-              <ListItem disablePadding>
-                <ListItemButton component={Link} to='/admin/artworks'>
-                  <ListItemIcon>
-                    <EditCalendarIcon />
-                  </ListItemIcon>
-                  <ListItemText primary='Artwork' />
-                </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton component={Link} to='/admin/reports'>
-                  <ListItemIcon>
-                    <Flag />
-                  </ListItemIcon>
-                  <ListItemText primary='Report' />
-                </ListItemButton>
-              </ListItem>
+            <List>
+              {menuItems.map((item) => (
+                <ListItem
+                  disablePadding
+                  key={item.key}
+                  onClick={() => handleItemClick(item.key)}
+                  className={selectedItem === item.key ? 'item-checked' : ''}
+                >
+                  <ListItemButton component={Link} to={item.link}>
+                    <ListItemIcon>{item.icon}</ListItemIcon>
+                    <ListItemText primary={item.label} />
+                  </ListItemButton>
+                </ListItem>
+              ))}
             </List>
           </nav>
         </Box>
