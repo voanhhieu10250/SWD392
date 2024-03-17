@@ -5,17 +5,28 @@ import ActivityLog from './ActivityLog'
 import {ResellTransaction, ResponseObj} from "~/types";
 import {useQuery} from "react-query";
 import {format} from 'date-fns';
+import {useEffect, useState} from "react";
 
-const fetchCurrentOwner = async () => {
-  const res = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/resell-transaction/current-owner`)
+const fetchCurrentOwner = async (artId: string) => {
+  const res = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/resell-transaction/art/${artId}/current-owner`)
   const data = (await res.json()) as ResponseObj<ResellTransaction>
   return data.data
 }
 
-const ActivitiLogDialog = () => {
+const ActivitiLogDialog = ({artId}: {artId: string | undefined}) => {
+  const [tradedLength, setTradedLength] = useState(0);
 
-  const {data} = useQuery<ResellTransaction | Error>('currentOwner',() => fetchCurrentOwner());
-  console.log(data)
+  const {data} = useQuery<ResellTransaction | Error>('currentOwner',() => fetchCurrentOwner(artId || '0'));
+
+  useEffect(() => {
+    const fetchTraded = async () => {
+      const res = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/resell-transaction/art/${artId}`);
+      const data = (await res.json()) as ResponseObj<ResellTransaction>;
+      setTradedLength(data.data.length)
+    }
+
+    fetchTraded();
+  }, []);
 
   const formatDate = (date: Date): string => {
     return format(date, 'MMM d, yyyy');
@@ -59,7 +70,7 @@ const ActivitiLogDialog = () => {
               <span className='mr-1'>
                 <RiRepeatFill/>
               </span>
-              <span className='font-bold'>Traded 1 time</span>
+              <span className='font-bold'>Traded {tradedLength} time</span>
               <span className='ml-1'>
                 <FaAngleRight/>
               </span>

@@ -113,7 +113,7 @@ const ArtDetail = () => {
             <>
               {data.owner && user && data.owner?.id !== user?.id && <MakeOfferDialog creatorId={data.owner.id} />}
               {data.owner && <ReportPopup artId={data.owner.id} />}
-              <ActivitiLogDialog />
+              <ActivitiLogDialog artId={artId}/>
             </>
           )}
         </div>
