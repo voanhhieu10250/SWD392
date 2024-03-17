@@ -1,9 +1,6 @@
 package com.example.backend.service;
 
-import com.example.backend.dto.PreOrderCreateDTO;
-import com.example.backend.dto.PreOrderOfferDTO;
-import com.example.backend.dto.PreOrderRequestDTO;
-import com.example.backend.dto.PreorderDTO;
+import com.example.backend.dto.*;
 import com.example.backend.entity.Preorder;
 import com.example.backend.entity.User;
 import com.example.backend.repository.PreOrderRepository;
@@ -23,6 +20,8 @@ public interface PreOrderService {
     List<PreOrderRequestDTO> getCustomerRequests(Integer customerId);
 
     PreorderDTO getById(Integer id);
+
+    void update(Integer id, PreOrderUpdateDTO dto);
 }
 
 @Service
@@ -70,5 +69,14 @@ class PreOrderServiceImpl implements PreOrderService {
     public PreorderDTO getById(Integer id) {
         Preorder preorder = preOrderRepository.findById(id).orElseThrow(NoResultException::new);
         return modelMapper.map(preorder, PreorderDTO.class);
+    }
+
+    @Override
+    public void update(Integer id, PreOrderUpdateDTO dto) {
+        Preorder preorder = preOrderRepository.findById(id).orElseThrow(NoResultException::new);
+        preorder.setReply(dto.getReply());
+        preorder.setStatus(dto.getStatus());
+
+        preOrderRepository.save(preorder);
     }
 }

@@ -25,6 +25,8 @@ public class Preorder {
 
     private String message;
 
+    private String reply;
+
     @Enumerated(EnumType.STRING)
     private PreOrderStatus status;
 

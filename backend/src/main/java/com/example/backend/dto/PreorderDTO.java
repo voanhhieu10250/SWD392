@@ -17,6 +17,8 @@ public class PreorderDTO {
 
     private String message;
 
+    private String reply;
+
     private PreOrderStatus status;
 
     private Float price;
