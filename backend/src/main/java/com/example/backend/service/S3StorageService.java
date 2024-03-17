@@ -10,6 +10,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.*;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,8 +48,7 @@ class S3StorageServiceImpl implements S3StorageService {
     private S3Client s3Client;
 
     private InputStream addWatermark(MultipartFile file) throws IOException {
-        String watermarkText = "Artwork sharing\nnot free\nContact for license"; // Example multi-line watermark
-        String[] lines = watermarkText.split("\n"); // Splitting the watermark text into lines
+        String watermarkText = "Artwork premium content"; // Giữ nguyên nội dung
 
         BufferedImage originalImage = ImageIO.read(file.getInputStream());
         int width = originalImage.getWidth();
@@ -58,28 +58,32 @@ class S3StorageServiceImpl implements S3StorageService {
         Graphics2D w = (Graphics2D) watermarkedImage.getGraphics();
         try {
             w.drawImage(originalImage, 0, 0, null);
-            AlphaComposite alphaChannel = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f);
+            AlphaComposite alphaChannel = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f); // Độ mờ
             w.setComposite(alphaChannel);
             w.setColor(Color.PINK);
-            w.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 64));
+            w.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 70)); // Giảm kích thước font xuống một chút
+
+            // Để watermark xiên theo chiều ngược lại, chỉnh sửa góc xoay
+            AffineTransform origTransform = w.getTransform();
+            AffineTransform newTransform = (AffineTransform)(origTransform.clone());
+            // Xoay ngược (-45 độ)
+            double rotationRequired = Math.toRadians(-30); // Sử dụng góc âm để xoay theo chiều ngược lại
+            double locationX = width / 2.0;
+            double locationY = height / 2.0;
+            newTransform.rotate(rotationRequired, locationX, locationY);
+            w.setTransform(newTransform);
+
+            // Tính vị trí để văn bản được căn giữa sau khi xoay
             FontMetrics fontMetrics = w.getFontMetrics();
+            Rectangle2D rect = fontMetrics.getStringBounds(watermarkText, w);
+            int x = (width - (int) rect.getWidth()) / 2;
+            int y = (height - (int) rect.getHeight()) / 2 + fontMetrics.getAscent();
 
-            // Calculate the total height of all lines
-            int totalHeight = (fontMetrics.getHeight() * lines.length) + (lines.length - 1) * 5; // Adjust line spacing if necessary
+            w.drawString(watermarkText, x, y);
 
-            // Initial Y position so that all lines are centered as a block
-            int startY = (height - totalHeight) / 2;
-
-            for (String line : lines) {
-                Rectangle2D rect = fontMetrics.getStringBounds(line, w);
-                int centerX = (width - (int) rect.getWidth()) / 2;
-                int centerY = startY + fontMetrics.getAscent(); // Move down to baseline for each line
-
-                w.drawString(line, centerX, centerY);
-                startY += fontMetrics.getHeight() + 5; // Move to the next line, adjust spacing as needed
-            }
+            w.setTransform(origTransform); // Khôi phục lại transform gốc
         } finally {
-            w.dispose(); // Ensure graphics resources are freed
+            w.dispose();
         }
 
         ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -89,6 +93,8 @@ class S3StorageServiceImpl implements S3StorageService {
         InputStream is = new ByteArrayInputStream(byteArray);
         return is;
     }
+
+
 
 
 
