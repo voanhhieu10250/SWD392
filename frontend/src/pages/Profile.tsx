@@ -3,6 +3,7 @@ import { useQuery } from 'react-query'
 import { Navigate, useParams } from 'react-router'
 import ArtList from '~/components/ProfilePage/ArtList'
 import PreOrderDialog from '~/components/ProfilePage/PreOrderDialog'
+import { Badge } from '~/components/ui/badge'
 import { Button } from '~/components/ui/button'
 import useAuth from '~/hooks/useAuth'
 import { ResponseObj } from '~/types'
@@ -67,8 +68,20 @@ const Profile = () => {
 
       <div className='flex flex-col md:flex-row items-start gap-5'>
         <div className='w-full md:basis-1/3 space-y-5'>
-          <div className='bg-background rounded-xl shadow-sm p-5 text-sm space-y-5'>
+          <div className='bg-background rounded-xl shadow-sm p-5 text-sm space-y-3'>
             <p className='text-sm font-semibold'>About</p>
+            <div className='flex items-center gap-2'>
+              {data.isPremiumAudience && (
+                <div className='font-semibold text-sm'>
+                  <Badge className='bg-orange-400 hover:bg-orange-400'>Premium</Badge>
+                </div>
+              )}
+              {data.isCreator && (
+                <div className='font-semibold text-sm'>
+                  <Badge className='bg-green-500 hover:bg-green-500'>Creator</Badge>
+                </div>
+              )}
+            </div>
             <div>{data.about || 'This user has not written anything about themselves yet.'}</div>
           </div>
 

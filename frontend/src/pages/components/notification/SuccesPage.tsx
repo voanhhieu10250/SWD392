@@ -42,7 +42,7 @@ const SuccessPage = () => {
     if (paymentId && PayerID && user) {
       verifyPayment()
     }
-  }, [location, navigate, user])
+  }, [location, navigate, user, reAuthenticate])
 
   return <div>{loading ? <Spinner /> : <div>Đang chuyển hướng...</div>}</div>
 }
