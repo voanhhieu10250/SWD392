@@ -1,10 +1,7 @@
 package com.example.backend.controller;
 
 
-import com.example.backend.dto.PreOrderCreateDTO;
-import com.example.backend.dto.PreOrderOfferDTO;
-import com.example.backend.dto.PreOrderRequestDTO;
-import com.example.backend.dto.ResponseDTO;
+import com.example.backend.dto.*;
 import com.example.backend.service.PreOrderService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,8 +44,8 @@ public class PreOrderController {
     }
 
     @GetMapping("{id}")
-    public ResponseDTO<PreOrderRequestDTO> getById(@PathVariable Integer id) {
-        return ResponseDTO.<PreOrderRequestDTO>builder()
+    public ResponseDTO<PreorderDTO> getById(@PathVariable Integer id) {
+        return ResponseDTO.<PreorderDTO>builder()
                 .status(HttpStatus.OK)
                 .msg("ok")
                 .data(preOrderService.getById(id))

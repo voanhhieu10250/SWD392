@@ -26,6 +26,7 @@ import TransactionHistory from './pages/components/creator/HistoryPhysicalArt'
 import PreOrder from './pages/PreOrder'
 import ChatDisplay from './components/CreatorDashboard/PreOrder/ChatDisplay'
 import SuccessPage from './pages/components/notification/SuccesPage'
+import PreOrderOffer from './pages/PreOrderOffer'
 
 export const router = createBrowserRouter([
   {
@@ -103,7 +104,17 @@ export const router = createBrowserRouter([
             element: <CreatorDashboard />
           },
           {
-            path: 'preorder',
+            path: 'preorder-offers',
+            element: <PreOrderOffer />,
+            children: [
+              {
+                path: ':itemId',
+                element: <ChatDisplay />
+              }
+            ]
+          },
+          {
+            path: 'preorder-orders',
             element: <PreOrder />,
             children: [
               {

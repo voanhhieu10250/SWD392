@@ -7,6 +7,7 @@ import com.example.backend.dto.PreorderDTO;
 import com.example.backend.entity.Preorder;
 import com.example.backend.entity.User;
 import com.example.backend.repository.PreOrderRepository;
+import jakarta.persistence.NoResultException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,6 +68,7 @@ class PreOrderServiceImpl implements PreOrderService {
 
     @Override
     public PreorderDTO getById(Integer id) {
-        return null;
+        Preorder preorder = preOrderRepository.findById(id).orElseThrow(NoResultException::new);
+        return modelMapper.map(preorder, PreorderDTO.class);
     }
 }

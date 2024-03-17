@@ -1,4 +1,4 @@
-import {User} from "~/types/User.ts";
+import { User } from '~/types/User.ts'
 
 export type Category = {
   id: string
@@ -65,4 +65,10 @@ export type ResellTransaction = {
   art: Art
   buyerUser: User
   sellerUser: User
+}
+
+export enum PreOrderStatus {
+  PENDING = 'PENDING',
+  ACCEPTED = 'ACCEPTED',
+  REJECTED = 'REJECTED'
 }

@@ -1,64 +1,94 @@
 import { format } from 'date-fns'
+import { useQuery } from 'react-query'
+import { Navigate, useMatch, useParams } from 'react-router'
+import Spinner from '~/components/common/Spinner'
 import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar'
 import { Button } from '~/components/ui/button'
 import { Separator } from '~/components/ui/separator'
 import { Textarea } from '~/components/ui/textarea'
+import { ResponseObj } from '~/types'
+import { User } from '~/types/User'
+
+type PreOrder = {
+  id: number
+  creator: User
+  customer: User
+  message: string
+  status: string
+  price: number
+  date: string
+}
+
+const fetchPreOrderDetail = async (id: string) => {
+  const res = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/pre-orders/${id}`)
+  const data = (await res.json()) as ResponseObj<PreOrder>
+  return data.data
+}
 
 const ChatDisplay = () => {
-  const mail = {
-    name: 'John Doe',
-    date: '2022-09-01T00:00:00',
-    text: 'Hello, I would like to preorder your new art piece. I am interested in the digital version. Can you please provide me with more information?'
+  const { itemId } = useParams()
+  const orderMatch = useMatch('/creator/dashboard/preorder-orders/:id')
+
+  const { isFetching, isError, data } = useQuery<PreOrder, Error>(['preorder', itemId], () =>
+    fetchPreOrderDetail(itemId || '0')
+  )
+
+  if (isError) {
+    return <div className='p-8 text-center text-muted-foreground'>Failed to fetch pre-order</div>
   }
+
+  if (isFetching) return <Spinner />
+  if (!data) return <Navigate to='/404' replace />
 
   return (
     <div className='flex h-full flex-col'>
-      {mail ? (
-        <div className='flex flex-1 flex-col'>
-          <div className='flex items-start p-4'>
-            <div className='flex items-start gap-4 text-sm'>
-              <Avatar>
-                <AvatarImage alt={mail.name} />
-                <AvatarFallback>
-                  {mail.name
-                    .split(' ')
-                    .map((chunk) => chunk[0])
-                    .join('')}
-                </AvatarFallback>
-              </Avatar>
-              <div className='grid gap-1'>
-                <div className='font-semibold'>{mail.name}</div>
-                <div className='line-clamp-1 font-bold'>
-                  Offer: <span className='text-red-500'>{'200'}$</span>
-                </div>
+      <div className='flex flex-1 flex-col'>
+        <div className='flex items-start p-4'>
+          <div className='flex items-start gap-4 text-sm'>
+            <Avatar>
+              <AvatarImage alt={data.customer.avatar} />
+              <AvatarFallback>
+                {data.customer.username
+                  .split(' ')
+                  .map((chunk) => chunk[0])
+                  .join('')}
+              </AvatarFallback>
+            </Avatar>
+            <div className='grid gap-1'>
+              <div className='font-semibold'>{data.customer.username}</div>
+              <div className='line-clamp-1 font-bold'>
+                Offer: <span className='text-red-500'>{data.price}$</span>
               </div>
             </div>
-            {mail.date && (
-              <div className='ml-auto text-xs text-muted-foreground'>{format(new Date(mail.date), 'PPpp')}</div>
-            )}
           </div>
-          <Separator />
-          <div className='flex-1 whitespace-pre-wrap p-4 text-sm'>{mail.text}</div>
-          <Separator className='mt-auto' />
-          <div className='p-4'>
-            <form>
-              <div className='grid gap-4'>
-                <Textarea className='p-4' placeholder={`Reply ${mail.name}...`} />
-                <div className='flex items-center justify-end gap-3'>
-                  <Button onClick={(e) => e.preventDefault()} size='sm' variant='destructive'>
-                    Reject
-                  </Button>
-                  <Button onClick={(e) => e.preventDefault()} size='sm'>
-                    Accept
-                  </Button>
-                </div>
-              </div>
-            </form>
-          </div>
+          {data.date && (
+            <div className='ml-auto text-xs text-muted-foreground'>{format(new Date(data.date), 'PPpp')}</div>
+          )}
         </div>
-      ) : (
-        <div className='p-8 text-center text-muted-foreground'>No message selected</div>
-      )}
+        <Separator />
+        <div className='flex-1 whitespace-pre-wrap p-4 text-sm'>{data.message}</div>
+
+        {!orderMatch && (
+          <>
+            <Separator className='mt-auto' />
+            <div className='p-4'>
+              <form>
+                <div className='grid gap-4'>
+                  <Textarea className='p-4' placeholder={`Reply ${data.customer.username}...`} />
+                  <div className='flex items-center justify-end gap-3'>
+                    <Button onClick={(e) => e.preventDefault()} size='sm' variant='destructive'>
+                      Reject
+                    </Button>
+                    <Button onClick={(e) => e.preventDefault()} size='sm'>
+                      Accept
+                    </Button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   )
 }

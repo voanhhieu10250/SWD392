@@ -1,10 +1,10 @@
 import { Navigate, Outlet } from 'react-router'
-import OrderList from '~/components/CreatorDashboard/PreOrder/OrderList'
+import OfferList from '~/components/CreatorDashboard/PreOrder/OfferList'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '~/components/ui/resizable'
 import { Separator } from '~/components/ui/separator'
 import useAuth from '~/hooks/useAuth'
 
-const PreOrder = () => {
+const PreOrderOffer = () => {
   const { user, isInitialized } = useAuth()
 
   if (isInitialized && !user) return <Navigate to='/login' replace />
@@ -19,11 +19,11 @@ const PreOrder = () => {
     >
       <ResizablePanel defaultSize={440} minSize={30}>
         <div className='flex items-center px-4 py-2'>
-          <h1 className='text-xl font-bold'>Your Order</h1>
+          <h1 className='text-xl font-bold'>Your Offers</h1>
         </div>
         <Separator />
         <div className='m-0 mt-4'>
-          <OrderList />
+          <OfferList />
         </div>
       </ResizablePanel>
       <ResizableHandle withHandle />
@@ -34,4 +34,4 @@ const PreOrder = () => {
   )
 }
 
-export default PreOrder
+export default PreOrderOffer
