@@ -71,7 +71,7 @@ class ResellTransactionServiceImpl implements ResellTransactionService {
 
     @Override
     public List<ResellTransactionDTO> getByArtId(int id) {
-        List<ResellTransaction> list = resellTransactionRepository.findByArt_Id(id);
+        List<ResellTransaction> list = resellTransactionRepository.findByArt_IdOrderByDateDesc(id);
         return list.stream()
                 .map(this::convert)
                 .collect(Collectors.toList());
