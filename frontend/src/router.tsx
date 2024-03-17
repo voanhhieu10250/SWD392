@@ -1,28 +1,35 @@
 import { createBrowserRouter } from 'react-router-dom'
-import App from './App'
-import Home from './pages/Home'
-import Dashboard from './pages/Dashboard/Dashboard'
 import AdminApp from './AdminApp'
-import Search from './pages/Search'
-import CreatorApp from './CreatorApp'
-import DashboardCreator from './pages/components/creator'
-import Register from './pages/auth/Register'
-import Login from './pages/auth/Login'
-import Profile from './pages/Profile'
+import App from './App'
+import CreatorList from './pages/Dashboard/CreatorList'
+import Dashboard from './pages/Dashboard/Dashboard'
+import StaffList from './pages/Dashboard/StaffList'
+import UserList from './pages/Dashboard/UserList'
 import ErrorPage from './pages/ErrorPage'
+import Home from './pages/Home'
 import NotFound from './pages/NotFound'
+import Profile from './pages/Profile'
+import Search from './pages/Search'
+import Login from './pages/auth/Login'
+import Register from './pages/auth/Register'
+import StaffDashboard from './pages/components/Staffdashboard/StaffDashboard'
+import CreatorDashboardLayout from './pages/components/creator'
+import Notification from './pages/components/notification'
 import Package from './pages/components/package'
 import TopCreator from './pages/components/top_creator'
-import Notification from './pages/components/notification'
-import UserList from './pages/Dashboard/UserList'
-import StaffList from './pages/Dashboard/StaffList'
-import CreatorList from './pages/Dashboard/CreatorList'
-import StaffDashboard from './pages/components/Staffdashboard/StaffDashboard'
 import UploadArt from './pages/components/upload/UploadArt'
-import DigitalArtPage from './pages/components/details/DigitalArtPage'
-import PhysicalArtPage from './pages/components/details/PhysicalArtPage'
+// import DigitalArtPage from './pages/components/details/DigitalArtPage'
 import ArtDetail from './pages/ArtDetail'
+
+import PhysicalArtPage from './pages/components/details/PhysicalArtPage'
+import CreatorDashboard from './components/CreatorDashboard/CreatorDashboard'
+import HistoryBuyPackage from './pages/components/creator/HistoryBuyPackage'
+import TransactionHistory from './pages/components/creator/HistoryPhysicalArt'
+import PreOrder from './pages/components/creator/PreOrder'
+import ChatDisplay from './components/CreatorDashboard/PreOrder/ChatDisplay'
+
 import SuccessPage from './pages/components/notification/SuccesPage'
+
 
 export const router = createBrowserRouter([
   {
@@ -87,10 +94,37 @@ export const router = createBrowserRouter([
         // element: <DigitalArtPage />
         element: <PhysicalArtPage />
       },
-
       {
         path: 'notification',
         element: <Notification />
+      },
+      {
+        path: 'creator/dashboard',
+        element: <CreatorDashboardLayout />,
+        children: [
+          {
+            index: true,
+            element: <CreatorDashboard />
+          },
+          {
+            path: 'preorder',
+            element: <PreOrder />,
+            children: [
+              {
+                path: ':itemId',
+                element: <ChatDisplay />
+              }
+            ]
+          },
+          {
+            path: 'purchase',
+            element: <HistoryBuyPackage />
+          },
+          {
+            path: 'resell',
+            element: <TransactionHistory />
+          }
+        ]
       },
       {
         path: '*',
@@ -121,16 +155,6 @@ export const router = createBrowserRouter([
       {
         path: 'staff-dashboard',
         element: <StaffDashboard />
-      }
-    ]
-  },
-  {
-    path: 'creator',
-    element: <CreatorApp />,
-    children: [
-      {
-        path: 'dashboard',
-        element: <DashboardCreator />
       }
     ]
   }

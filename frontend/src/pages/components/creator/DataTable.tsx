@@ -163,7 +163,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   )
 }
 
-export default function DataTable({ onDetailClick }) {
+export default function DataTable() {
   const [order, setOrder] = React.useState<Order>('asc')
   const [orderBy, setOrderBy] = React.useState<keyof Data>('offer')
 
@@ -231,7 +231,7 @@ export default function DataTable({ onDetailClick }) {
                       <Switch checked={!!row.status} onChange={(event) => handleStatusChange(event, row.id)} />
                     </TableCell>
                     <TableCell align='right'>
-                      <IconButton onClick={() => onDetailClick(row)}>...</IconButton>
+                      <IconButton onClick={() => {}}>...</IconButton>
                     </TableCell>
                   </TableRow>
                 )
