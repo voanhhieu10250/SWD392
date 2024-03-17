@@ -12,7 +12,8 @@ const SuccessPage = () => {
     const queryParams = new URLSearchParams(location.search)
     const paymentId = queryParams.get('paymentId')
     const PayerID = queryParams.get('PayerID')
-
+    console.log('paymentId: ', paymentId)
+    console.log('PayerID: ', PayerID)
     // Gọi API để gửi dữ liệu về BE
     const verifyPayment = async () => {
       try {
