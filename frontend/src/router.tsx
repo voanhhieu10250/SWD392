@@ -25,6 +25,9 @@ import HistoryBuyPackage from './pages/components/creator/HistoryBuyPackage'
 import TransactionHistory from './pages/components/creator/HistoryPhysicalArt'
 import PreOrder from './pages/PreOrder'
 import SuccessPage from './pages/components/notification/SuccesPage'
+import PreOrderOffer from './pages/PreOrderOffer'
+import ReportList from './pages/Dashboard/ReportList'
+import ArtWorkList from './pages/Dashboard/ArtworkList'
 
 export const router = createBrowserRouter([
   {
@@ -137,7 +140,6 @@ export const router = createBrowserRouter([
         path: 'users',
         element: <UserList />
       },
-      
       {
         path: 'reports',
         element: <ReportList />
@@ -150,7 +152,6 @@ export const router = createBrowserRouter([
         path: 'staff-dashboard',
         element: <StaffDashboard />
       }
-      
     ]
   }
 ])

@@ -5,13 +5,13 @@ import com.example.backend.request.PaymentRequest;
 import com.example.backend.service.PayPalService;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
-import com.paypal.api.payments.Transaction;
 import com.paypal.base.rest.PayPalRESTException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/paypal")
@@ -59,12 +59,17 @@ public class PayPalController {
         try {
             Payment payment = payPalService.executePayment(paymentId, payerId);
             if (payment.getState().equals("approved")) {
-            String total = payment.getTransactions().get(0).getAmount().getTotal();
-                List<Transaction> trans = payment.getTransactions();
+                String total = payment.getTransactions().get(0).getAmount().getTotal();
+                String description = payment.getTransactions().get(0).getDescription();
+
+                Map<String, String> response = new HashMap<>();
+                response.put("total", total);
+                response.put("description", description);
+
                 return ResponseDTO.builder()
                         .status(HttpStatus.OK)
                         .msg("200")
-                        .data(payment)
+                        .data(response)
                         .build();
             } else {
                 return ResponseDTO.builder()
