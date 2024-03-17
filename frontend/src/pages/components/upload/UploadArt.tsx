@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React, { useState } from 'react'
 import axiosInstance from '~/utils/axios'
 
@@ -33,7 +34,7 @@ function UploadArt() {
     }
 
     const formData = new FormData()
-    formData.append('file', selectedFile)
+    formData.append('artFile', selectedFile)
     formData.append('artName', artName)
     formData.append('artDescription', artDescription)
     formData.append('artType', artType)
@@ -42,13 +43,19 @@ function UploadArt() {
     if (artPaying === 'paid') {
       formData.append('artPrice', artPrice)
     }
-
+    
     try {
-      const response = await axiosInstance.post('/arts/ ', formData, {
-        headers: {
+      let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: 'http://localhost:8080/arts/',
+        headers: { 
           'Content-Type': 'multipart/form-data'
-        }
-      })
+        },
+        data: formData
+      };
+
+      const response = await axios.request(config);
 
       console.log(response.data)
       alert('Art uploaded successfully!')
@@ -57,7 +64,8 @@ function UploadArt() {
       console.error('Upload error:', error)
       alert('An error occurred. Please try again.')
     }
-  }
+}
+
 
   return (
     <div className='max-w-xl mx-auto'>
