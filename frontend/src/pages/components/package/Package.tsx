@@ -17,8 +17,8 @@ export default function Package() {
             currency: 'USD',
             intent: 'sale',
             method: 'paypal',
-            cancelUrl: import.meta.env.VITE_API_ENDPOINT + '/cancel',
-            successUrl: import.meta.env.VITE_API_ENDPOINT + '/success'
+            cancelUrl: 'http://localhost:3000/cancel',
+            successUrl: 'http://localhost:3000/success'
           }
         : {
             description: 'Audience Premium',
@@ -26,9 +26,8 @@ export default function Package() {
             currency: 'USD',
             intent: 'sale',
             method: 'paypal',
-            cancelUrl: import.meta.env.VITE_API_ENDPOINT + '/cancel',
-
-            successUrl: import.meta.env.VITE_API_ENDPOINT + '/success'
+            cancelUrl: 'http://localhost:3000/cancel',
+            successUrl: 'http://localhost:3000/success'
           }
     console.log(orderData.successUrl)
     try {
