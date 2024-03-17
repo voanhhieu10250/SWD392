@@ -21,6 +21,7 @@ import StaffDashboard from './pages/components/Staffdashboard/StaffDashboard'
 import UploadArt from './pages/components/upload/UploadArt'
 import DigitalArtPage from './pages/components/details/DigitalArtPage'
 import PhysicalArtPage from './pages/components/details/PhysicalArtPage'
+import ArtDetail from './pages/ArtDetail'
 
 export const router = createBrowserRouter([
   {
@@ -74,6 +75,10 @@ export const router = createBrowserRouter([
       },
       {
         path: 'art/:artId',
+        element: <ArtDetail />
+      },
+      {
+        path: 'art2/:artId',
         // element: <DigitalArtPage />
         element: <PhysicalArtPage />
       },
