@@ -77,6 +77,7 @@ export const router = createBrowserRouter([
         // element: <DigitalArtPage />
         element: <PhysicalArtPage />
       },
+      
       {
         path: 'notification',
         element: <Notification />
