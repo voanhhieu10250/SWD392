@@ -73,7 +73,7 @@ public class UserController {
     }
 
 
-    @GetMapping
+    @GetMapping("/")
     public ResponseDTO<List<UserDTO>> getAll() {
         return ResponseDTO.<List<UserDTO>>builder()
                 .status(HttpStatus.OK)

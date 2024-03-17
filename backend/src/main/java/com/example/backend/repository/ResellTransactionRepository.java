@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface ResellTransactionRepository extends JpaRepository<ResellTransaction, Integer> {
     List<ResellTransaction> findByArt_Id(int id);
-    ResellTransaction findFirstByOrderByDateDesc();
+
+    ResellTransaction findFirstByArt_IdOrderByDateDesc(int id);
 }
