@@ -1,0 +1,26 @@
+#application.properties
+server.port=8080
+
+#----=======================DATABASE=======================----
+spring.datasource.url=jdbc:mysql://localhost:3306/ArtworkSharingPlatform
+spring.datasource.username=root
+spring.datasource.password=
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect
+spring.jpa.generate-ddl=true
+spring.jpa.show-sql=true
+
+#----=======================AUTH=======================----
+jwt.secret=Castto123243242423432Castto123243242423432Castto123243242423432
+
+#----=======================AWS=======================----
+cloud.aws.credentials.access-key=AKIA4MTWL3ET3M4ZYFYP
+cloud.aws.credentials.secret-key=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
+cloud.aws.region.static=ap-southeast-1
+cloud.aws.s3.bucket-name=mutantorchid
+
+#----=======================File Upload=======================----
+spring.servlet.multipart.enabled=true
+spring.servlet.multipart.max-file-size=10MB
+spring.servlet.multipart.max-request-size=20MB

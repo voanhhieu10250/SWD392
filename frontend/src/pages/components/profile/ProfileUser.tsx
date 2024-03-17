@@ -1,4 +1,3 @@
-import React from 'react'
 import BannerProfile from './BannerProfile'
 import ContentProfile from './ContentProfile'
 import axios from 'axios'
@@ -9,7 +8,7 @@ export default function ProfileUser() {
   const { userId } = useParams()
   console.log(userId)
   const fetchUser = async () => {
-    const res = await axios.get(`http://13.250.106.122/users/${userId}`)
+    const res = await axios.get(`/users/${userId}`)
     return res.data
   }
   const { data, isLoading, error } = useQuery(['user', userId], fetchUser)

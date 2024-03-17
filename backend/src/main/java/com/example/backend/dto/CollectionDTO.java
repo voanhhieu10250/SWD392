@@ -1,14 +1,14 @@
 package com.example.backend.dto;
 
-import com.example.backend.entity.User;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class CollectionDTO {
 
     private Integer id;
 
-    private User userId;
+    private UserDTO user;
 
     private String title;
 
@@ -17,4 +17,6 @@ public class CollectionDTO {
     private Boolean isPrivate;
 
     private String featuredImageUrl;
+
+    private MultipartFile featuredImageFile;
 }

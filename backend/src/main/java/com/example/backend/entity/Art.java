@@ -26,14 +26,13 @@ public class Art {
             joinColumns = @JoinColumn(name = "art_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    private List<Category> artType;
+    private List<Category> categories;
+
+    private String artType;
 
     private String originUrl;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "art_tags", joinColumns = @JoinColumn(name = "art_id"))
-    @Column(name = "tag")
-    private List<String> tags;
+    private String tags;
 
     @OneToMany(mappedBy = "art")
     private List<Comment> comments;

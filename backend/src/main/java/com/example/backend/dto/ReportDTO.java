@@ -14,9 +14,9 @@ public class ReportDTO {
 
     private Integer id;
 
-    private User reporter;
+    private UserDTO reporter;
 
-    private User reported;
+    private UserDTO reported;
 
     private ArtDTO art;
 

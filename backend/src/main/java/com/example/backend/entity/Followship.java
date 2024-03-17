@@ -12,8 +12,8 @@ public class Followship {
     private Integer id;
 
     @ManyToOne
-    private User follower;
+    private User followerUser;
 
     @ManyToOne
-    private User following;
+    private User followingUser;
 }

@@ -1,5 +1,6 @@
 package com.example.backend.entity;
 
+import com.example.backend.entity.enums.PreOrderStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -24,7 +25,10 @@ public class Preorder {
 
     private String message;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private PreOrderStatus status;
+
+    private Float price;
 
     @CreatedDate
     @Column(updatable = false, nullable = false)
