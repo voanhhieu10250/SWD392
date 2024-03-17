@@ -51,4 +51,13 @@ public class PreOrderController {
                 .data(preOrderService.getById(id))
                 .build();
     }
+
+    @PutMapping("{id}")
+    public ResponseDTO<Void> update(@PathVariable Integer id, @RequestBody @Valid PreOrderUpdateDTO dto) {
+        preOrderService.update(id, dto);
+        return ResponseDTO.<Void>builder()
+                .status(HttpStatus.OK)
+                .msg("ok")
+                .build();
+    }
 }

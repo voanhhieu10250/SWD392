@@ -6,7 +6,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar'
 import { Button } from '~/components/ui/button'
 import { Separator } from '~/components/ui/separator'
 import { Textarea } from '~/components/ui/textarea'
-import { ResponseObj } from '~/types'
+import { cn } from '~/lib/utils'
+import { PreOrderStatus, ResponseObj } from '~/types'
 import { User } from '~/types/User'
 
 type PreOrder = {
@@ -14,6 +15,7 @@ type PreOrder = {
   creator: User
   customer: User
   message: string
+  reply: string
   status: string
   price: number
   date: string
@@ -59,6 +61,18 @@ const ChatDisplay = () => {
               <div className='line-clamp-1 font-bold'>
                 Offer: <span className='text-red-500'>{data.price}$</span>
               </div>
+              <div className='line-clamp-1 font-bold'>
+                Status:{' '}
+                <span
+                  className={cn('font-bold', {
+                    'text-orange-500': data.status === PreOrderStatus.PENDING,
+                    'text-red-500': data.status === PreOrderStatus.REJECTED,
+                    'text-green-500': data.status === PreOrderStatus.ACCEPTED
+                  })}
+                >
+                  {data.status}
+                </span>
+              </div>
             </div>
           </div>
           {data.date && (
@@ -66,7 +80,9 @@ const ChatDisplay = () => {
           )}
         </div>
         <Separator />
-        <div className='flex-1 whitespace-pre-wrap p-4 text-sm'>{data.message}</div>
+        <div className='flex-1 rounded-xl overflow-hidden border-border p-4 text-sm'>
+          <div className='whitespace-pre-wrap'>{data.message}</div>
+        </div>
 
         {!orderMatch && (
           <>

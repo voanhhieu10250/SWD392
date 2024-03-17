@@ -1,14 +1,10 @@
 package com.example.backend.dto;
 
 import com.example.backend.entity.enums.PreOrderStatus;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
-public class PreorderDTO {
-
+public class PreOrderUpdateDTO {
     private Integer id;
 
     private UserDTO creator;
@@ -20,9 +16,4 @@ public class PreorderDTO {
     private String reply;
 
     private PreOrderStatus status;
-
-    private Float price;
-
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Asia/Ho_Chi_Minh")
-    private Date date;
 }
