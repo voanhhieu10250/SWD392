@@ -19,7 +19,7 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import { styled } from '@mui/material/styles'
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import './Dashboard.css'
 import { Flag } from 'lucide-react'
 
@@ -81,11 +81,6 @@ const Dashboard: React.FC = () => {
     { id: 2, name: 'Jane Smith', age: 25 },
     { id: 3, name: 'Peter Parker', age: 22 }
   ]
-  const navigate = useNavigate()
-
-  const handleNavigate = (path) => {
-    navigate(path)
-  }
   const [selectedItem, setSelectedItem] = useState('')
 
   const handleItemClick = (item) => {
@@ -137,7 +132,7 @@ const Dashboard: React.FC = () => {
                 </ListItem>
               ))}
             </List>
-          </nav>
+          </nav> 
         </Box>
       </div>
       <div className='content'>
@@ -179,7 +174,7 @@ const Dashboard: React.FC = () => {
             <div className='total-item'>
               <div className='total-description'>
                 <h6 className='total-header'>Total Users</h6>
-                <h3 className='total-number'>18,765</h3>
+                <h3 className='total-number'>4</h3>
               </div>
               <div className='total-icon'>
                 <EqualizerIcon />
@@ -187,8 +182,8 @@ const Dashboard: React.FC = () => {
             </div>
             <div className='total-item'>
               <div className='total-description'>
-                <h6 className='total-header'>Total Creator</h6>
-                <h3 className='total-number'>18,765</h3>
+                <h6 className='total-header'>Total Report</h6>
+                <h3 className='total-number'>0</h3>
               </div>
               <div className='total-icon'>
                 <EqualizerIcon />
@@ -197,7 +192,7 @@ const Dashboard: React.FC = () => {
             <div className='total-item'>
               <div className='total-description'>
                 <h6 className='total-header'>Total ArtWork Update </h6>
-                <h3 className='total-number'>18,765</h3>
+                <h3 className='total-number'>7</h3>
               </div>
               <div className='total-icon'>
                 <IconButton style={{ width: 60, height: 36 }}>
