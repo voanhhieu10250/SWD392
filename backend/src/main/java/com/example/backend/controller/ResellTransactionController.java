@@ -59,9 +59,9 @@ public class ResellTransactionController {
                 .build();
     }
 
-    @GetMapping("/current-owner")
-    public ResponseDTO<ResellTransactionDTO> getCurrentOwner() {
-        ResellTransactionDTO resellTransactionDTO = resellTransactionService.getCurrentOwner();
+    @GetMapping("/art/{id}/current-owner")
+    public ResponseDTO<ResellTransactionDTO> getCurrentOwner(@PathVariable("id") int id) {
+        ResellTransactionDTO resellTransactionDTO = resellTransactionService.getCurrentOwner(id);
         return ResponseDTO.<ResellTransactionDTO>builder().status(HttpStatus.OK).data(resellTransactionDTO).build();
     }
 }

@@ -11,18 +11,6 @@ import { ResponseObj } from '~/types'
 const ReportPopup = ({ creatorId }: { creatorId: number }) => {
 
     const { user } = useAuth();
-    
-    const handleReport = (selectedOption: string) => {
-        try {
-            // Send report request to the server with selected option
-            console.log('Report submitted:', selectedOption);
-            toast.success('Report submitted successfully.');
-        } catch (error) {
-            console.error('Error submitting report:', error);
-            toast.error((error as ResponseObj<null>).msg || 'An error occurred while submitting the report.');
-        }
-    };
-
 
   const handleReport = (selectedOption: string) => {
     try {
