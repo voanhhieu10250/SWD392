@@ -4,8 +4,10 @@ import { Link, Navigate, useParams } from 'react-router-dom'
 import ActivitiLogDialog from '~/components/ArtDetailPage/ActivitiLogDialog'
 import AddCollectionDialog from '~/components/ArtDetailPage/AddCollectionDialog'
 import MakeOfferDialog from '~/components/ArtDetailPage/MakeOfferDialog'
+import ReportPopup from '~/components/ArtDetailPage/ReportPopup'
 import ShareDialog from '~/components/ArtDetailPage/ShareDialog'
 import Spinner from '~/components/common/Spinner'
+import { Badge } from '~/components/ui/badge'
 import useAuth from '~/hooks/useAuth'
 import { Art, ArtType, ResponseObj } from '~/types'
 import { User } from '~/types/User'
@@ -65,26 +67,40 @@ const ArtDetail = () => {
         </div>
         <div className='flex-1 flex items-center gap-3 flex-row-reverse md:flex-row'>
           <ShareDialog value={'http://localhost:3000/art/' + artId} />
-          <div className='p-1 flex items-center space-x-1'>
-            {/* <Download /> */}
-            <span className='text-sm font-semibold'>{data.downloads || 0} Premium downloads</span>
-          </div>
+          {data.artType === ArtType.digital && (
+            <div className='p-1 flex items-center space-x-1'>
+              <span className='text-sm font-semibold'>{data.downloads || 0} Premium downloads</span>
+            </div>
+          )}
         </div>
       </div>
 
       <div className='flex flex-col md:flex-row gap-5 relative items-start'>
         {/* main image  */}
         <div className='relative md:w-[63%] h-auto rounded-xl overflow-hidden shadow-sm'>
-          <img src={data.originUrl} alt='Art work' className='w-full h-auto' />
+          {data.artType === ArtType.physical ? (
+            <img src={data.originUrl} alt='Art work' className='w-full h-auto' />
+          ) : (
+            <img
+              src={user?.isPremiumAudience ? data.originUrl : data.watermarkedUrl}
+              alt='Art work'
+              className='w-full h-auto'
+            />
+          )}
         </div>
 
         {/* details */}
         <div className='w-full flex-1 sticky top-24 space-y-5'>
           <div className='bg-background rounded-xl overflow-hidden space-y-4 pt-6 pb-4 px-4 shadow-sm'>
-            <p className='text-xl font-semibold'>{data.title}</p>
-            <p className='leading-tight'>{data.description}</p>
+            <p className='text-xl font-semibold break-all'>{data.title}</p>
+            <div className='!mt-1'>
+              <Badge variant={data.artType === ArtType.physical ? 'destructive' : 'secondary'}>
+                {data.artType === ArtType.digital ? 'Digital art' : 'Physical art'}
+              </Badge>
+            </div>
+            <p className='leading-tight break-all'>{data.description}</p>
 
-            <p className='text-muted-foreground text-sm'>{transformTags(data.tags || '')}</p>
+            <p className='text-muted-foreground text-sm break-words'>{transformTags(data.tags || '')}</p>
             <div className='flex items-center gap-3'>
               <button className='p-1 flex items-center space-x-1'>
                 <Heart />
@@ -93,6 +109,7 @@ const ArtDetail = () => {
               <AddCollectionDialog artId={data.id} />
             </div>
           </div>
+          {data.owner && <ReportPopup creatorId={data.owner.id} />}
           {data.artType === ArtType.physical && (
             <>
               {data.owner && user && data.owner?.id !== user?.id && <MakeOfferDialog creatorId={data.owner.id} />}
