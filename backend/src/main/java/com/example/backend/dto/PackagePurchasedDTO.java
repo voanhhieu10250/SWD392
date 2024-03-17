@@ -13,6 +13,8 @@ public class PackagePurchasedDTO {
 
     private double price;
 
+    private String packageName;
+
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Asia/Ho_Chi_Minh")
     private Date date;
 }

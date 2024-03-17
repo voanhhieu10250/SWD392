@@ -2,7 +2,7 @@ package com.example.backend.service;
 
 import com.example.backend.dto.PackagePurchasedDTO;
 import com.example.backend.entity.PackagePurchased;
-import com.example.backend.entity.Report;
+import com.example.backend.entity.User;
 import com.example.backend.repository.PackagePurchasedRepository;
 import jakarta.persistence.NoResultException;
 import org.modelmapper.ModelMapper;
@@ -10,15 +10,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public interface PackagePurchasedService {
 
-    void create(PackagePurchasedDTO packagePurchasedDTO);
+    void create(int userId, PackagePurchasedDTO packagePurchasedDTO);
+
     PackagePurchasedDTO getById(int id);
+
     void update(PackagePurchasedDTO packagePurchasedDTO);
+
     void delete(int id);
+
     List<PackagePurchasedDTO> getAll();
 //    PageDTO<CategoryDTO> search(SearchDTO searchDTO);
 }
@@ -27,15 +32,26 @@ public interface PackagePurchasedService {
 class PackagePurchasedServiceImpl implements PackagePurchasedService {
 
     @Autowired
-    private PackagePurchasedRepository packagePurchasedRepository;
-
-    @Autowired
     ModelMapper modelMapper;
+    @Autowired
+    private PackagePurchasedRepository packagePurchasedRepository;
+    @Autowired
+    private UserService userService;
 
     @Override
     @Transactional
-    public void create(PackagePurchasedDTO packagePurchasedDTO) {
-        PackagePurchased packagePurchased = modelMapper.map(packagePurchasedDTO, PackagePurchased.class);
+    public void create(int userId, PackagePurchasedDTO dto) {
+        User user = userService.findById(userId);
+
+        if (dto.getPackageName().equals("Creator")) {
+            user.setIsCreator(true);
+        } else {
+            user.setIsPremiumAudience(true);
+        }
+        PackagePurchased packagePurchased = modelMapper.map(dto, PackagePurchased.class);
+        packagePurchased.setUser(user);
+        packagePurchased.setDate(new Date());
+
         packagePurchasedRepository.save(packagePurchased);
     }
 

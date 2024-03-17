@@ -18,13 +18,6 @@ public class PackagePurchasedController {
     @Autowired
     PackagePurchasedService packagePurchasedService;
 
-
-    @PostMapping("/")
-    public ResponseDTO<Void> create(@RequestBody @Valid PackagePurchasedDTO packagePurchasedDTO) {
-        packagePurchasedService.create(packagePurchasedDTO);
-        return ResponseDTO.<Void>builder().status(HttpStatus.OK).msg("200").build();
-    }
-
     @GetMapping("/{id}")
     public ResponseDTO<PackagePurchasedDTO> get(@PathVariable("id") int id) {
         PackagePurchasedDTO commentLikeDTO = packagePurchasedService.getById(id);
