@@ -1,3 +1,5 @@
+import {User} from "~/types/User.ts";
+
 export type Category = {
   id: string
   name: string
@@ -53,4 +55,14 @@ export interface PageResponse<T> {
   first: boolean
   numberOfElements: number
   empty: boolean
+}
+
+export type ResellTransaction = {
+  id: number
+  amount: bigint
+  date: Date
+  transactionFee: number
+  art: Art
+  buyerUser: User
+  sellerUser: User
 }

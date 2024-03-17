@@ -21,6 +21,8 @@ public interface ResellTransactionService {
     void delete(int id);
     List<ResellTransactionDTO> getAll();
 //    PageDTO<CategoryDTO> search(SearchDTO searchDTO);
+    List<ResellTransactionDTO> getByArtId(int id);
+    ResellTransactionDTO getCurrentOwner();
 }
 
 @Service
@@ -65,6 +67,20 @@ class ResellTransactionServiceImpl implements ResellTransactionService {
         return lists.stream()
                 .map(this::convert)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ResellTransactionDTO> getByArtId(int id) {
+        List<ResellTransaction> list = resellTransactionRepository.findByArt_Id(id);
+        return list.stream()
+                .map(this::convert)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public ResellTransactionDTO getCurrentOwner() {
+        ResellTransaction resellTransaction = resellTransactionRepository.findFirstByOrderByDateDesc();
+        return modelMapper.map(resellTransaction, ResellTransactionDTO.class);
     }
 
     private ResellTransactionDTO convert(ResellTransaction resellTransaction) {
