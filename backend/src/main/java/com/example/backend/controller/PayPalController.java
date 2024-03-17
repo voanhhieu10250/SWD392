@@ -5,10 +5,13 @@ import com.example.backend.request.PaymentRequest;
 import com.example.backend.service.PayPalService;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
+import com.paypal.api.payments.Transaction;
 import com.paypal.base.rest.PayPalRESTException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/paypal")
@@ -56,6 +59,8 @@ public class PayPalController {
         try {
             Payment payment = payPalService.executePayment(paymentId, payerId);
             if (payment.getState().equals("approved")) {
+                String total = payment.getTransactions().get(0).getAmount().getTotal();
+                List<Transaction> trans = payment.getTransactions();
                 return ResponseDTO.builder()
                         .status(HttpStatus.OK)
                         .msg("Payment successfully completed")
@@ -64,13 +69,13 @@ public class PayPalController {
             } else {
                 return ResponseDTO.builder()
                         .status(HttpStatus.BAD_REQUEST)
-                        .msg("Payment was not approved")
+                        .msg("Payment failed")
                         .build();
             }
-        } catch (PayPalRESTException e) {
+        } catch (Exception e) {
             return ResponseDTO.builder()
-                    .status(HttpStatus.BAD_REQUEST)
-                    .msg(e.getMessage())
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .msg("An error occurred while executing the payment: " + e.getMessage())
                     .build();
         }
     }

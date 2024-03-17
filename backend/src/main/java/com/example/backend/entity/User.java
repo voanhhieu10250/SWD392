@@ -29,11 +29,11 @@ public class User extends TimeAuditable {
 
     private String about;
 
-    private Boolean isBanned;
+    private Boolean isBanned = false;
 
-    private Boolean isPremiumAudience;
+    private Boolean isPremiumAudience = false;
 
-    private Boolean isCreator;
+    private Boolean isCreator = false;
 
     private static final BCryptPasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 

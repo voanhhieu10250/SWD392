@@ -47,7 +47,8 @@ class S3StorageServiceImpl implements S3StorageService {
     private S3Client s3Client;
 
     private InputStream addWatermark(MultipartFile file) throws IOException {
-        String watermarkText = "GROUP 3 :>";
+        String watermarkText = "Artwork sharing\nnot free\nContact for license"; // Example multi-line watermark
+        String[] lines = watermarkText.split("\n"); // Splitting the watermark text into lines
 
         BufferedImage originalImage = ImageIO.read(file.getInputStream());
         int width = originalImage.getWidth();
@@ -59,14 +60,24 @@ class S3StorageServiceImpl implements S3StorageService {
             w.drawImage(originalImage, 0, 0, null);
             AlphaComposite alphaChannel = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f);
             w.setComposite(alphaChannel);
-            w.setColor(Color.BLACK);
+            w.setColor(Color.PINK);
             w.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 64));
             FontMetrics fontMetrics = w.getFontMetrics();
-            Rectangle2D rect = fontMetrics.getStringBounds(watermarkText, w);
 
-            int centerX = (width - (int) rect.getWidth()) / 2;
-            int centerY = height / 2;
-            w.drawString(watermarkText, centerX, centerY);
+            // Calculate the total height of all lines
+            int totalHeight = (fontMetrics.getHeight() * lines.length) + (lines.length - 1) * 5; // Adjust line spacing if necessary
+
+            // Initial Y position so that all lines are centered as a block
+            int startY = (height - totalHeight) / 2;
+
+            for (String line : lines) {
+                Rectangle2D rect = fontMetrics.getStringBounds(line, w);
+                int centerX = (width - (int) rect.getWidth()) / 2;
+                int centerY = startY + fontMetrics.getAscent(); // Move down to baseline for each line
+
+                w.drawString(line, centerX, centerY);
+                startY += fontMetrics.getHeight() + 5; // Move to the next line, adjust spacing as needed
+            }
         } finally {
             w.dispose(); // Ensure graphics resources are freed
         }
@@ -75,10 +86,10 @@ class S3StorageServiceImpl implements S3StorageService {
         ImageIO.write(watermarkedImage, "png", os);
         byte[] byteArray = os.toByteArray();
 
-        // Correctly use the size of the output stream as the file size
         InputStream is = new ByteArrayInputStream(byteArray);
         return is;
     }
+
 
 
 
