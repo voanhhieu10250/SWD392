@@ -1,10 +1,13 @@
-import { Navigate, Outlet } from 'react-router'
+import { useState } from 'react'
+import { Navigate } from 'react-router'
+import ChatDisplay from '~/components/CreatorDashboard/PreOrder/ChatDisplay'
 import OfferList from '~/components/CreatorDashboard/PreOrder/OfferList'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '~/components/ui/resizable'
 import { Separator } from '~/components/ui/separator'
 import useAuth from '~/hooks/useAuth'
 
 const PreOrderOffer = () => {
+  const [selectedId, setSelectedId] = useState<number>(0)
   const { user, isInitialized } = useAuth()
 
   if (isInitialized && !user) return <Navigate to='/login' replace />
@@ -23,12 +26,12 @@ const PreOrderOffer = () => {
         </div>
         <Separator />
         <div className='m-0 mt-4'>
-          <OfferList />
+          <OfferList setSelectedId={setSelectedId} selectedId={selectedId} />
         </div>
       </ResizablePanel>
       <ResizableHandle withHandle />
       <ResizablePanel defaultSize={655}>
-        <Outlet />
+        <ChatDisplay orderMatch={false} itemId={selectedId} />
       </ResizablePanel>
     </ResizablePanelGroup>
   )

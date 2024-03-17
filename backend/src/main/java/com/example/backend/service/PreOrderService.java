@@ -74,7 +74,6 @@ class PreOrderServiceImpl implements PreOrderService {
     @Override
     public void update(Integer id, PreOrderUpdateDTO dto) {
         Preorder preorder = preOrderRepository.findById(id).orElseThrow(NoResultException::new);
-        preorder.setMessage(dto.getMessage());
         preorder.setReply(dto.getReply());
         preorder.setStatus(dto.getStatus());
 
