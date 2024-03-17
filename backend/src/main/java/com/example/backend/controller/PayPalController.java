@@ -1,7 +1,9 @@
 package com.example.backend.controller;
 
+import com.example.backend.dto.PackagePurchasedDTO;
 import com.example.backend.dto.ResponseDTO;
 import com.example.backend.request.PaymentRequest;
+import com.example.backend.service.PackagePurchasedService;
 import com.example.backend.service.PayPalService;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
@@ -19,6 +21,9 @@ public class PayPalController {
 
     @Autowired
     PayPalService payPalService;
+
+    @Autowired
+    PackagePurchasedService packagePurchasedService;
 
     @PostMapping("/pay")
     public ResponseDTO<?> pay(@RequestBody PaymentRequest paymentRequest) {
@@ -55,7 +60,8 @@ public class PayPalController {
 
     @GetMapping("/execute")
     public ResponseDTO<?> execute(@RequestParam("paymentId") String paymentId,
-                                  @RequestParam("PayerID") String payerId) {
+                                  @RequestParam("PayerID") String payerId,
+                                  @RequestParam("userId") int userId){
         try {
             Payment payment = payPalService.executePayment(paymentId, payerId);
             if (payment.getState().equals("approved")) {
@@ -65,6 +71,12 @@ public class PayPalController {
                 Map<String, String> response = new HashMap<>();
                 response.put("total", total);
                 response.put("description", description);
+
+                PackagePurchasedDTO dto = new PackagePurchasedDTO();
+                dto.setPrice(Double.parseDouble(total));
+                dto.setPackageName(description);
+
+                packagePurchasedService.create(userId, dto);
 
                 return ResponseDTO.builder()
                         .status(HttpStatus.OK)

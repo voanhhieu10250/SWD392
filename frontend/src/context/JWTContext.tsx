@@ -69,12 +69,14 @@ const AuthContext = createContext<{
   login: (email: string, password: string) => Promise<void>
   logout: () => void
   register: (email: string, password: string, username: string) => Promise<void>
+  reAuthenticate: () => Promise<void>
 }>({
   ...initialState,
   method: 'jwt',
   login: () => Promise.resolve(),
   logout: () => {},
-  register: () => Promise.resolve()
+  register: () => Promise.resolve(),
+  reAuthenticate: () => Promise.resolve()
 })
 
 // Define AuthProvider component with TypeScript types
@@ -127,6 +129,31 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 
     initialize()
   }, [])
+
+  const reAuthenticate = async () => {
+    try {
+      const response = await axios.get<ResponseObj<User>>('/users/my-account')
+      const user = response.data.data
+
+      dispatch({
+        type: 'INITIALIZE',
+        payload: {
+          isAuthenticated: true,
+          user
+        }
+      })
+    } catch (err) {
+      console.error(err)
+      toast.error('Failed to re-authenticate.')
+      dispatch({
+        type: 'INITIALIZE',
+        payload: {
+          isAuthenticated: false,
+          user: null
+        }
+      })
+    }
+  }
 
   const login = async (email: string, password: string) => {
     const response = await axios.post('/login', {
@@ -181,7 +208,8 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
         method: 'jwt',
         login,
         logout,
-        register
+        register,
+        reAuthenticate
       }}
     >
       {children}
