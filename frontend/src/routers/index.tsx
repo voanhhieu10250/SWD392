@@ -1,12 +1,12 @@
 import { Navigate, useRoutes } from 'react-router-dom'
-import Login from '../pages/auth/Login'
 import MainLayout from '~/layouts/main'
 import Main from '~/pages/components/main'
-import Search from '../pages/components/search/Search'
 import ProfileUser from '~/pages/components/profile'
+import Login from '../pages/auth/Login'
+import Search from '../pages/components/search/Search'
 
-import Package from '~/pages/components/package'
 import Notification from '~/pages/components/notification'
+import Package from '~/pages/components/package'
 
 import DigitalArtPage from '~/pages/components/details/DigitalArtPage.tsx'
 import PhysicalArtPage from '~/pages/components/details/PhysicalArtPage.tsx'
@@ -19,12 +19,12 @@ import UploadArt from '~/pages/components/upload/UploadArt.tsx'
 
 import Dashboard from '~/pages/Dashboard/Dashboard'
 
-import DashboardCreator from '~/pages/components/creator/DashboardCreator'
+import CreatorDashboardLayout from '~/pages/components/creator/CreatorDashboardLayout'
 
-import StaffDashboard from '~/pages/components/Staffdashboard/StaffDashboard'
-import UserList from '~/pages/Dashboard/UserList'
-import StaffList from '~/pages/Dashboard/StaffList'
 import CreatorList from '~/pages/Dashboard/CreatorList'
+import StaffList from '~/pages/Dashboard/StaffList'
+import UserList from '~/pages/Dashboard/UserList'
+import StaffDashboard from '~/pages/components/Staffdashboard/StaffDashboard'
 
 
 const Router = () => {
@@ -52,7 +52,7 @@ const Router = () => {
     { path: 'top_creator', element: <TopCreator /> },
 
     // { path: 'dashboard', element: <Dashboard/> },
-    { path: 'creator_dashboard', element: <DashboardCreator /> }
+    { path: 'creator_dashboard', element: <CreatorDashboardLayout /> }
 
     { path: 'dashboard', element: <Dashboard/> },
     { path: 'userlist', element: <UserList/> },
