@@ -1,16 +1,24 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import axiosInstance from '~/utils/axios'
+import { useNavigate } from 'react-router'
+import { toast } from 'react-toastify'
+import useAuth from '~/hooks/useAuth'
 
 function UploadArt() {
+  const { user } = useAuth()
+  const navigate = useNavigate()
+
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [fileName, setFileName] = useState<string>('')
 
   const [artName, setArtName] = useState('')
   const [artDescription, setArtDescription] = useState('')
   const [artType, setArtType] = useState('')
-  const [artPaying, setArtPaying] = useState('')
-  const [artPrice, setArtPrice] = useState('')
+  const [tags, setTags] = useState('')
+
+  if (!user) {
+    return <div className='h-40 grid place-items-center'>You must be logged in to upload art</div>
+  }
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -35,37 +43,34 @@ function UploadArt() {
 
     const formData = new FormData()
     formData.append('artFile', selectedFile)
-    formData.append('artName', artName)
-    formData.append('artDescription', artDescription)
+    formData.append('title', artName)
+    formData.append('description', artDescription)
     formData.append('artType', artType)
-    formData.append('artPaying', artPaying)
+    formData.append('tags', tags)
+    formData.append('ownerId', user.id.toString())
 
-    if (artPaying === 'paid') {
-      formData.append('artPrice', artPrice)
-    }
-    
     try {
-      let config = {
+      const config = {
         method: 'post',
         maxBodyLength: Infinity,
         url: 'http://localhost:8080/arts/',
-        headers: { 
+        headers: {
           'Content-Type': 'multipart/form-data'
         },
         data: formData
-      };
+      }
 
-      const response = await axios.request(config);
+      const response = await axios.request(config)
 
       console.log(response.data)
-      alert('Art uploaded successfully!')
+      toast.success('Art uploaded successfully!')
+      navigate('/art/' + response.data.data)
       // Clear form or manage state as needed after successful upload
     } catch (error) {
       console.error('Upload error:', error)
-      alert('An error occurred. Please try again.')
+      toast.error('An error occurred. Please try again.')
     }
-}
-
+  }
 
   return (
     <div className='max-w-xl mx-auto'>
@@ -168,49 +173,18 @@ function UploadArt() {
         </div>
 
         <div className='mb-4'>
-          <span className='block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2'>Art Price</span>
-          <label htmlFor='freeArt' className='inline-flex items-center mr-4'>
-            <input
-              type='radio'
-              name='free'
-              id='freeArt'
-              value='free'
-              checked={artPaying === 'free'}
-              onChange={() => setArtPaying('free')}
-              className='form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out'
-            />
-            <span className='ml-2'>Free</span>
+          <label htmlFor='tags' className='block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2'>
+            Tags
           </label>
-          <label htmlFor='paidArt' className='inline-flex items-center'>
-            <input
-              type='radio'
-              name='paid'
-              id='paidArt'
-              value='paid'
-              checked={artPaying === 'paid'}
-              onChange={() => setArtPaying('paid')}
-              className='form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out'
-            />
-            <span className='ml-2'>Paid</span>
-          </label>
-          {artPaying === 'paid' && (
-            <div className='mt-2'>
-              <label htmlFor='artPrice' className='block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2'>
-                Price (USD)
-              </label>
-              <div className='flex items-center'>
-                <span className='text-gray-700 dark:text-gray-300 mr-2'>$</span>
-                <input
-                  type='number'
-                  value={artPrice}
-                  onChange={(e) => setArtPrice(e.target.value)}
-                  className='shadow appearance-none border rounded w-32 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-                  placeholder='Enter price'
-                  required
-                />
-              </div>
-            </div>
-          )}
+          <input
+            id='tags'
+            type='text'
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
+            className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+            placeholder='Separate tags with commas'
+            required
+          />
         </div>
 
         <div className='flex justify-center'>

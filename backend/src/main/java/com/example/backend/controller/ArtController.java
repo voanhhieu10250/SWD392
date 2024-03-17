@@ -28,7 +28,7 @@ public class ArtController {
     S3StorageService s3StorageService;
 
     @PostMapping("/")
-    public ResponseDTO<Void> create(@ModelAttribute @Valid ArtDTO artDTO) throws IllegalStateException, IOException, S3Exception {
+    public ResponseDTO<Integer> create(@ModelAttribute @Valid ArtDTO artDTO) throws IllegalStateException, IOException, S3Exception {
         if (artDTO.getArtFile() != null && !artDTO.getArtFile().isEmpty()) {
             // Get the original file name
             String originalFilename = artDTO.getArtFile().getOriginalFilename();
@@ -49,10 +49,11 @@ public class ArtController {
         }
 
         // Proceed with the creation process in your service layer
-        artService.create(artDTO);
-        return ResponseDTO.<Void>builder()
+        int artId = artService.create(artDTO);
+        return ResponseDTO.<Integer>builder()
                 .status(HttpStatus.OK)
                 .msg("ok")
+                .data(artId)
                 .build();
     }
 
