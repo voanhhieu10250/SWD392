@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -14,19 +15,29 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import './Dashboard.css';
-
+import { Flag } from 'lucide-react';
+import axios from 'axios';
 
 const UserList: React.FC = () => {
-    const dataGrid = [
-        { id: 1, name: 'John Doe', age: 30 },
-        { id: 2, name: 'Jane Smith', age: 25 },
-        { id: 3, name: 'Peter Parker', age: 22 },
-        ];
+  const [dataGrid, setDataGrid] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/users/');
+        setDataGrid(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div id="Dashboard">
       <div className="menu">
-        <Box className="important" sx={{ width: '100%', maxWidth: 280, bgcolor: 'background.paper', overflowY: 'auto' }}>
+      <Box className="important" sx={{ width: '100%', maxWidth: 280, bgcolor: 'background.paper', overflowY: 'auto' }}>
           <nav aria-label="main mailbox folders">
             <List>
               <ListItem disablePadding>
@@ -61,22 +72,7 @@ const UserList: React.FC = () => {
                     <ListItemText primary="User" />
                 </ListItemButton>
               </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <PersonIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Staff" />
-                </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <PersonIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Creator" />
-                </ListItemButton>
-              </ListItem>
+              
               <ListItem disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
@@ -99,7 +95,7 @@ const UserList: React.FC = () => {
       </div>
       <div className="content">
         <div className="header">
-          <div className="search">
+        <div className="search">
             <SearchIcon />
             <TextField id="standard-basic" className="txt-search" variant="standard" />
             <div className="btn-search">
@@ -108,17 +104,10 @@ const UserList: React.FC = () => {
               </Button>
             </div>
           </div>
-          <div className="action">
-            <NotificationsIcon />
-            <PeopleIcon />
-            <div className="avatar">
-              <img src="https://minimal-assets-api.vercel.app/assets/images/avatars/avatar_default.jpg" alt="" />
-            </div>
-          </div>
         </div>
         <div className="container">
-        <div className="row-3-7" style={{ margin: '24px' }}>
-           <div className="col-7">
+          <div className="row-3-7" style={{ margin: '24px' }}>
+            <div className="col-7">
               <span className="circle-chart-title">Top User</span>
               <Grid style={{ width: '100%' }} item xs={12} lg={8}>
                 <Paper elevation={0} variant="outlined">
@@ -126,21 +115,20 @@ const UserList: React.FC = () => {
                     <Table>
                       <TableHead>
                         <TableRow>
-                         <TableCell>Name</TableCell>
+                        <TableCell>id</TableCell>
+                          <TableCell>userName</TableCell>
                           <TableCell>Email</TableCell>
-                          <TableCell>CreateAt</TableCell>
-                          <TableCell>About</TableCell>   
-                          <TableCell>Status</TableCell>                      
+                          <TableCell>About</TableCell>
                           <TableCell></TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
                         {dataGrid.map((row) => (
                           <TableRow key={row.id}>
+                            <TableCell>{row.id}</TableCell>
                             <TableCell>{row.name}</TableCell>
-                            <TableCell>{row.name}</TableCell>
-                            <TableCell>{row.age}</TableCell>
-                            <TableCell>{row.age}</TableCell>
+                            <TableCell>{row.email}</TableCell>
+                            <TableCell>{row.about}</TableCell>
                             <TableCell align="right">
                               <Button>
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
@@ -156,9 +144,9 @@ const UserList: React.FC = () => {
                     </Table>
                   </TableContainer>
                 </Paper>
-                </Grid>
-                </div>
-        </div>
+              </Grid>
+            </div>
+          </div>
         </div>
       </div>
     </div>

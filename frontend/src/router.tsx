@@ -1,9 +1,9 @@
 import { createBrowserRouter } from 'react-router-dom'
 import AdminApp from './AdminApp'
 import App from './App'
-import CreatorList from './pages/Dashboard/CreatorList'
+
 import Dashboard from './pages/Dashboard/Dashboard'
-import StaffList from './pages/Dashboard/StaffList'
+
 import UserList from './pages/Dashboard/UserList'
 import ErrorPage from './pages/ErrorPage'
 import Home from './pages/Home'
@@ -26,7 +26,6 @@ import TransactionHistory from './pages/components/creator/HistoryPhysicalArt'
 import PreOrder from './pages/PreOrder'
 import ChatDisplay from './components/CreatorDashboard/PreOrder/ChatDisplay'
 import SuccessPage from './pages/components/notification/SuccesPage'
-import PreOrderOffer from './pages/PreOrderOffer'
 
 export const router = createBrowserRouter([
   {
@@ -151,18 +150,20 @@ export const router = createBrowserRouter([
         path: 'users',
         element: <UserList />
       },
+      
       {
-        path: 'staffs',
-        element: <StaffList />
+        path: 'reports',
+        element: <ReportList />
       },
       {
-        path: 'creators',
-        element: <CreatorList />
+        path: 'artworks',
+        element: <ArtWorkList />
       },
       {
         path: 'staff-dashboard',
         element: <StaffDashboard />
       }
+      
     ]
   }
 ])
