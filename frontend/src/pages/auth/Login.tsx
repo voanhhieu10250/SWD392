@@ -26,6 +26,7 @@ export default function Login() {
       if (email === 'admin@gmail.com') {
         navigate('/admin/dashboard')
       } else {
+        await login(email, password)
         navigate('/')
       }
     } catch (err) {

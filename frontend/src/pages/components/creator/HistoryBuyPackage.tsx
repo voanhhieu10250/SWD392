@@ -1,103 +1,56 @@
-import React from 'react'
-import {
-  Box,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TablePagination
-} from '@mui/material'
+import { format } from 'date-fns'
+import { useQuery } from 'react-query'
+import Spinner from '~/components/common/Spinner'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table'
+import useAuth from '~/hooks/useAuth'
+import { ResponseObj } from '~/types'
 
-interface PackageData {
+interface Package {
   id: number
   packageName: string
-  purchaseDate: string
-  status: 'Active' | 'Expired'
+  date: string
+  price: number
 }
-function createPackageData(
-  id: number,
-  packageName: string,
-  purchaseDate: string,
-  status: 'Active' | 'Expired'
-): PackageData {
-  return {
-    id,
-    packageName,
-    purchaseDate,
-    status
-  }
+const fetchPurchasedHistory = async (userId: number) => {
+  const res = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/package-purchased/${userId}`)
+  const data = (await res.json()) as ResponseObj<Package[]>
+  return data.data
 }
-const packageRows = [
-  createPackageData(1, 'Basic Package', '01/01/2023', 'Active'),
-  createPackageData(2, 'Premium Package', '15/02/2023', 'Expired')
-  // Thêm dữ liệu mẫu tại đây
-]
 function HistoryBuyPackage() {
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(5)
+  const { user } = useAuth()
+  const { isFetching, isError, data } = useQuery<Package[], Error>(['package-purchased', user?.id], () =>
+    fetchPurchasedHistory(user?.id || 0)
+  )
 
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage)
+  if (isError) {
+    return <div>Failed to fetch purchased history</div>
   }
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10))
-    setPage(0)
-  }
-
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - packageRows.length) : 0
+  if (isFetching) return <Spinner />
+  if (!data || data.length === 0) return null
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', mb: 2 }}>
-        <TableContainer>
-          <Table sx={{ width: '100%' }}>
-            <TableHead>
-              <TableRow>
-                <TableCell sx={{ fontWeight: 'bold' }}>Package Name</TableCell>
-                <TableCell align='right' sx={{ fontWeight: 'bold' }}>
-                  Purchase Date
-                </TableCell>
-                <TableCell align='right' sx={{ fontWeight: 'bold' }}>
-                  Status
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {(rowsPerPage > 0
-                ? packageRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                : packageRows
-              ).map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell component='th' scope='row'>
-                    {row.packageName}
-                  </TableCell>
-                  <TableCell align='right'>{row.purchaseDate}</TableCell>
-                  <TableCell align='right'>{row.status}</TableCell>
-                </TableRow>
-              ))}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 53 * emptyRows }}>
-                  <TableCell colSpan={3} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component='div'
-          count={packageRows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
-    </Box>
+    <Table>
+      {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
+      <TableHeader>
+        <TableRow>
+          <TableHead className='w-[100px]'>ID</TableHead>
+          <TableHead>Package Name</TableHead>
+          <TableHead>Date</TableHead>
+          <TableHead className='text-right'>Price</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {data.map((item) => (
+          <TableRow key={item.id}>
+            <TableCell className='font-medium'>{item.id}</TableCell>
+            <TableCell className='font-semibold text-blue-500'>{item.packageName}</TableCell>
+            <TableCell className='font-semibold'>{format(item.date, 'MMM d, yyyy')}</TableCell>
+            <TableCell className='text-right font-semibold text-red-500'>${item.price}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   )
 }
 

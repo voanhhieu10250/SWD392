@@ -25,6 +25,8 @@ public interface PackagePurchasedService {
     void delete(int id);
 
     List<PackagePurchasedDTO> getAll();
+
+    List<PackagePurchasedDTO> getAllByUserId(int userId);
 //    PageDTO<CategoryDTO> search(SearchDTO searchDTO);
 }
 
@@ -78,6 +80,14 @@ class PackagePurchasedServiceImpl implements PackagePurchasedService {
     @Override
     public List<PackagePurchasedDTO> getAll() {
         List<PackagePurchased> lists = packagePurchasedRepository.findAll();
+        return lists.stream()
+                .map(this::convert)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PackagePurchasedDTO> getAllByUserId(int userId) {
+        List<PackagePurchased> lists = packagePurchasedRepository.findAllByUserId(userId);
         return lists.stream()
                 .map(this::convert)
                 .collect(Collectors.toList());
