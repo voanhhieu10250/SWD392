@@ -22,6 +22,8 @@ public class PreOrderController {
     @PostMapping
     public ResponseDTO<Void> create(@RequestBody @Valid PreOrderCreateDTO dto) {
         preOrderService.create(dto);
-        return ResponseDTO.<Void>builder().status(HttpStatus.CREATED).msg("ok").build();
+        return ResponseDTO.<Void>builder()
+                .status(HttpStatus.CREATED)
+                .msg("ok").build();
     }
 }
