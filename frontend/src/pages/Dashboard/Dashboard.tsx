@@ -116,22 +116,7 @@ const Dashboard: React.FC = () => {
                     <ListItemText primary="User" />
                 </ListItemButton>
               </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <PersonIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Staff" />
-                </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <PersonIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Creator" />
-                </ListItemButton>
-              </ListItem>
+              
               <ListItem disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
@@ -145,7 +130,9 @@ const Dashboard: React.FC = () => {
                   <ListItemIcon>
                     <Flag />
                   </ListItemIcon>
+                  <Link to="/reportlist">           
                   <ListItemText primary="Report" />
+                  </Link>  
                 </ListItemButton>
               </ListItem>              
             </List>
