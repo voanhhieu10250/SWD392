@@ -1,9 +1,11 @@
-import { Heart } from 'lucide-react'
+import { Heart, Flag } from 'lucide-react'
+import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import ActivitiLogDialog from '~/components/ArtDetailPage/ActivitiLogDialog'
 import AddCollectionDialog from '~/components/ArtDetailPage/AddCollectionDialog'
 import MakeOfferDialog from '~/components/ArtDetailPage/MakeOfferDialog'
+import ReportPopup from '~/components/ArtDetailPage/ReportPopup'
 import ShareDialog from '~/components/ArtDetailPage/ShareDialog'
 import Spinner from '~/components/common/Spinner'
 import useAuth from '~/hooks/useAuth'
@@ -20,12 +22,19 @@ const fetchProfile = async (id: string) => {
   return data.data
 }
 
+
 const ArtDetail = () => {
   const { artId } = useParams()
 
   const { isFetching, isError, data } = useQuery<ArtDetail, Error>(['profile', artId], () => fetchProfile(artId || '0'))
   const { user } = useAuth()
+  const [showReportPopup, setShowReportPopup] = useState<boolean>(false); // State to manage the visibility of the ReportPopup
 
+  const toggleReportPopup = () => {
+    setShowReportPopup(!showReportPopup); // Toggle the state to show/hide the ReportPopup
+  }
+
+ 
   if (isError) {
     return <div>Failed to fetch profile</div>
   }
@@ -91,11 +100,13 @@ const ArtDetail = () => {
                 <span className='text-sm font-semibold'>{data.likes || 0} likes</span>
               </button>
               <AddCollectionDialog artId={data.id} />
+              
             </div>
           </div>
           {data.artType === ArtType.physical && (
             <>
               {data.owner && user && data.owner?.id !== user?.id && <MakeOfferDialog creatorId={data.owner.id} />}
+              {data.owner && user && data.owner?.id !== user?.id && <ReportPopup creatorId={data.owner.id} />}
               <ActivitiLogDialog />
             </>
           )}
