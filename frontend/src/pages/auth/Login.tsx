@@ -1,88 +1,295 @@
-import React, { FC, useState } from 'react'
-import { useAuth } from './AuthProvider'
+import useAuth from '~/hooks/useAuth'
+import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik'
+import * as yup from 'yup'
+import { useNavigate } from 'react-router'
+import { toast } from 'react-toastify'
+import { ResponseObj } from '~/types'
 
-const Login: FC = () => {
-  const [username, setUsername] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
-  const auth = useAuth()
+const validationSchema = yup.object().shape({
+  email: yup.string().email('Invalid email').required('Email is required'),
+  password: yup.string().required('Password is required')
+})
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault()
-    if (auth && auth.login) {
-      auth.login(username, password)
+const initialValues = {
+  email: '',
+  password: ''
+}
+
+export default function Login() {
+  const { login } = useAuth()
+  const navigate = useNavigate()
+
+  const handleSubmit = async (values: typeof initialValues, { setSubmitting }: FormikHelpers<typeof initialValues>) => {
+    const { email, password } = values
+
+    try {
+      await login(email, password)
+      navigate('/')
+    } catch (err) {
+      console.error(err)
+      toast.error((err as ResponseObj<null>).msg)
     }
+    setSubmitting(false)
   }
+
   return (
-    <div className='container mx-auto'>
-      <div className='flex justify-center px-6 my-12'>
-        <div className='w-full xl:w-3/4 lg:w-11/12 flex'>
-          <div
-            className='w-full h-auto bg-gray-400 hidden lg:block lg:w-1/2 bg-cover rounded-l-lg'
-            style={{
-              backgroundImage: "url('https://source.unsplash.com/K4mSJ7kc0As/600x800')"
-            }}
-          ></div>
-          <div className='w-full lg:w-1/2 bg-white p-5 rounded-lg lg:rounded-l-none'>
-            <h3 className='pt-4 text-2xl text-center'>Welcome Back!</h3>
-            <form className='px-8 pt-6 pb-8 mb-4 bg-white rounded' onSubmit={handleSubmit}>
-              <div className='mb-4'>
-                <label className='block mb-2 text-sm font-bold text-gray-700' htmlFor='username'>
-                  Username
-                </label>
-                <input
-                  className='w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline'
-                  id='username'
-                  type='text'
-                  placeholder='Username'
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-              </div>
-              <div className='mb-4'>
-                <label className='block mb-2 text-sm font-bold text-gray-700' htmlFor='password'>
-                  Password
-                </label>
-                <input
-                  className='w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline'
-                  id='password'
-                  type='password'
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder='*************'
-                />
-                {/* <p className='text-xs italic text-red-500'>Please choose a password.</p> */}
-              </div>
-              <div className='mb-4'>
-                <input className='mr-2 leading-tight' type='checkbox' id='checkbox_id' />
-                <label className='text-sm' htmlFor='checkbox_id'>
-                  Remember Me
-                </label>
-              </div>
-              <div className='mb-6 text-center'>
-                <button
-                  className='w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline'
-                  type='submit'
-                >
-                  Sign In
-                </button>
-              </div>
-              <hr className='mb-6 border-t' />
-              <div className='text-center'>
-                <a className='inline-block text-sm text-blue-500 align-baseline hover:text-blue-800' href='#'>
-                  Create an Account!
-                </a>
-              </div>
-              <div className='text-center'>
-                <a className='inline-block text-sm text-blue-500 align-baseline hover:text-blue-800' href='#'>
-                  Forgot Password?
-                </a>
-              </div>
-            </form>
+    <div className='bg-white relative'>
+      <div
+        className='flex flex-col items-center justify-between pt-0 pr-10 pb-0 pl-10 mt-0 mr-auto mb-0 ml-auto max-w-7xl
+        xl:px-5 lg:flex-row'
+      >
+        <div className='flex flex-col items-center w-full pt-5 pr-10 pb-20 pl-10 lg:pt-20 lg:flex-row'>
+          <div className='w-full bg-cover relative max-w-md lg:max-w-2xl lg:w-7/12'>
+            <div className='flex flex-col items-center justify-center w-full h-full relative lg:pr-10'>
+              <img
+                src='https://res.cloudinary.com/macxenon/image/upload/v1631570592/Run_-_Health_qcghbu.png'
+                alt='Login'
+              />
+            </div>
+          </div>
+          <div className='w-full mt-20 mr-0 mb-0 ml-0 relative z-10 max-w-2xl lg:mt-0 lg:w-5/12'>
+            <div
+              className='flex flex-col items-start justify-start pt-10 pr-10 pb-10 pl-10 bg-white shadow-2xl rounded-xl
+              relative z-10'
+            >
+              <p className='w-full text-4xl font-medium text-center leading-snug font-serif'>Sign in</p>
+              <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+                {({ isSubmitting }) => (
+                  <Form className='w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8'>
+                    <div className='relative'>
+                      <p className='bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600 absolute'>
+                        Email
+                      </p>
+                      <Field
+                        placeholder='123@ex.com'
+                        name='email'
+                        className='border placeholder-gray-400 focus:outline-none
+                    focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
+                    border-gray-300 rounded-md'
+                      />
+                      <ErrorMessage name='email' render={(value) => <p className='text-red-500 text-sm'>{value}</p>} />
+                    </div>
+                    <div className='relative'>
+                      <p
+                        className='bg-white pt-0 pr-2 pb-0 pl-2 -mt-3 mr-0 mb-0 ml-2 font-medium text-gray-600
+                    absolute'
+                      >
+                        Password
+                      </p>
+                      <Field
+                        placeholder='Password'
+                        type='password'
+                        name='password'
+                        className='border placeholder-gray-400 focus:outline-none
+                    focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
+                    border-gray-300 rounded-md'
+                      />
+                      <ErrorMessage
+                        name='password'
+                        render={(value) => <p className='text-red-500 text-sm'>{value}</p>}
+                      />
+                    </div>
+                    <div className='relative'>
+                      <button
+                        type='submit'
+                        disabled={isSubmitting}
+                        className='w-full inline-block pt-4 pr-5 pb-4 pl-5 text-xl font-medium text-center text-white bg-indigo-500
+                    rounded-lg transition duration-200 hover:bg-indigo-600 ease'
+                      >
+                        Submit
+                      </button>
+                    </div>
+                  </Form>
+                )}
+              </Formik>
+            </div>
+            <svg
+              viewBox='0 0 91 91'
+              className='absolute top-0 left-0 z-0 w-32 h-32 -mt-12 -ml-12 text-yellow-300
+              fill-current'
+            >
+              <g stroke='none' strokeWidth='1' fillRule='evenodd'>
+                <g fillRule='nonzero'>
+                  <g>
+                    <g>
+                      <circle cx='3.261' cy='3.445' r='2.72' />
+                      <circle cx='15.296' cy='3.445' r='2.719' />
+                      <circle cx='27.333' cy='3.445' r='2.72' />
+                      <circle cx='39.369' cy='3.445' r='2.72' />
+                      <circle cx='51.405' cy='3.445' r='2.72' />
+                      <circle cx='63.441' cy='3.445' r='2.72' />
+                      <circle cx='75.479' cy='3.445' r='2.72' />
+                      <circle cx='87.514' cy='3.445' r='2.719' />
+                    </g>
+                    <g transform='translate(0 12)'>
+                      <circle cx='3.261' cy='3.525' r='2.72' />
+                      <circle cx='15.296' cy='3.525' r='2.719' />
+                      <circle cx='27.333' cy='3.525' r='2.72' />
+                      <circle cx='39.369' cy='3.525' r='2.72' />
+                      <circle cx='51.405' cy='3.525' r='2.72' />
+                      <circle cx='63.441' cy='3.525' r='2.72' />
+                      <circle cx='75.479' cy='3.525' r='2.72' />
+                      <circle cx='87.514' cy='3.525' r='2.719' />
+                    </g>
+                    <g transform='translate(0 24)'>
+                      <circle cx='3.261' cy='3.605' r='2.72' />
+                      <circle cx='15.296' cy='3.605' r='2.719' />
+                      <circle cx='27.333' cy='3.605' r='2.72' />
+                      <circle cx='39.369' cy='3.605' r='2.72' />
+                      <circle cx='51.405' cy='3.605' r='2.72' />
+                      <circle cx='63.441' cy='3.605' r='2.72' />
+                      <circle cx='75.479' cy='3.605' r='2.72' />
+                      <circle cx='87.514' cy='3.605' r='2.719' />
+                    </g>
+                    <g transform='translate(0 36)'>
+                      <circle cx='3.261' cy='3.686' r='2.72' />
+                      <circle cx='15.296' cy='3.686' r='2.719' />
+                      <circle cx='27.333' cy='3.686' r='2.72' />
+                      <circle cx='39.369' cy='3.686' r='2.72' />
+                      <circle cx='51.405' cy='3.686' r='2.72' />
+                      <circle cx='63.441' cy='3.686' r='2.72' />
+                      <circle cx='75.479' cy='3.686' r='2.72' />
+                      <circle cx='87.514' cy='3.686' r='2.719' />
+                    </g>
+                    <g transform='translate(0 49)'>
+                      <circle cx='3.261' cy='2.767' r='2.72' />
+                      <circle cx='15.296' cy='2.767' r='2.719' />
+                      <circle cx='27.333' cy='2.767' r='2.72' />
+                      <circle cx='39.369' cy='2.767' r='2.72' />
+                      <circle cx='51.405' cy='2.767' r='2.72' />
+                      <circle cx='63.441' cy='2.767' r='2.72' />
+                      <circle cx='75.479' cy='2.767' r='2.72' />
+                      <circle cx='87.514' cy='2.767' r='2.719' />
+                    </g>
+                    <g transform='translate(0 61)'>
+                      <circle cx='3.261' cy='2.846' r='2.72' />
+                      <circle cx='15.296' cy='2.846' r='2.719' />
+                      <circle cx='27.333' cy='2.846' r='2.72' />
+                      <circle cx='39.369' cy='2.846' r='2.72' />
+                      <circle cx='51.405' cy='2.846' r='2.72' />
+                      <circle cx='63.441' cy='2.846' r='2.72' />
+                      <circle cx='75.479' cy='2.846' r='2.72' />
+                      <circle cx='87.514' cy='2.846' r='2.719' />
+                    </g>
+                    <g transform='translate(0 73)'>
+                      <circle cx='3.261' cy='2.926' r='2.72' />
+                      <circle cx='15.296' cy='2.926' r='2.719' />
+                      <circle cx='27.333' cy='2.926' r='2.72' />
+                      <circle cx='39.369' cy='2.926' r='2.72' />
+                      <circle cx='51.405' cy='2.926' r='2.72' />
+                      <circle cx='63.441' cy='2.926' r='2.72' />
+                      <circle cx='75.479' cy='2.926' r='2.72' />
+                      <circle cx='87.514' cy='2.926' r='2.719' />
+                    </g>
+                    <g transform='translate(0 85)'>
+                      <circle cx='3.261' cy='3.006' r='2.72' />
+                      <circle cx='15.296' cy='3.006' r='2.719' />
+                      <circle cx='27.333' cy='3.006' r='2.72' />
+                      <circle cx='39.369' cy='3.006' r='2.72' />
+                      <circle cx='51.405' cy='3.006' r='2.72' />
+                      <circle cx='63.441' cy='3.006' r='2.72' />
+                      <circle cx='75.479' cy='3.006' r='2.72' />
+                      <circle cx='87.514' cy='3.006' r='2.719' />
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </svg>
+            <svg
+              viewBox='0 0 91 91'
+              className='absolute bottom-0 right-0 z-0 w-32 h-32 -mb-12 -mr-12 text-indigo-500
+              fill-current'
+            >
+              <g stroke='none' strokeWidth='1' fillRule='evenodd'>
+                <g fillRule='nonzero'>
+                  <g>
+                    <g>
+                      <circle cx='3.261' cy='3.445' r='2.72' />
+                      <circle cx='15.296' cy='3.445' r='2.719' />
+                      <circle cx='27.333' cy='3.445' r='2.72' />
+                      <circle cx='39.369' cy='3.445' r='2.72' />
+                      <circle cx='51.405' cy='3.445' r='2.72' />
+                      <circle cx='63.441' cy='3.445' r='2.72' />
+                      <circle cx='75.479' cy='3.445' r='2.72' />
+                      <circle cx='87.514' cy='3.445' r='2.719' />
+                    </g>
+                    <g transform='translate(0 12)'>
+                      <circle cx='3.261' cy='3.525' r='2.72' />
+                      <circle cx='15.296' cy='3.525' r='2.719' />
+                      <circle cx='27.333' cy='3.525' r='2.72' />
+                      <circle cx='39.369' cy='3.525' r='2.72' />
+                      <circle cx='51.405' cy='3.525' r='2.72' />
+                      <circle cx='63.441' cy='3.525' r='2.72' />
+                      <circle cx='75.479' cy='3.525' r='2.72' />
+                      <circle cx='87.514' cy='3.525' r='2.719' />
+                    </g>
+                    <g transform='translate(0 24)'>
+                      <circle cx='3.261' cy='3.605' r='2.72' />
+                      <circle cx='15.296' cy='3.605' r='2.719' />
+                      <circle cx='27.333' cy='3.605' r='2.72' />
+                      <circle cx='39.369' cy='3.605' r='2.72' />
+                      <circle cx='51.405' cy='3.605' r='2.72' />
+                      <circle cx='63.441' cy='3.605' r='2.72' />
+                      <circle cx='75.479' cy='3.605' r='2.72' />
+                      <circle cx='87.514' cy='3.605' r='2.719' />
+                    </g>
+                    <g transform='translate(0 36)'>
+                      <circle cx='3.261' cy='3.686' r='2.72' />
+                      <circle cx='15.296' cy='3.686' r='2.719' />
+                      <circle cx='27.333' cy='3.686' r='2.72' />
+                      <circle cx='39.369' cy='3.686' r='2.72' />
+                      <circle cx='51.405' cy='3.686' r='2.72' />
+                      <circle cx='63.441' cy='3.686' r='2.72' />
+                      <circle cx='75.479' cy='3.686' r='2.72' />
+                      <circle cx='87.514' cy='3.686' r='2.719' />
+                    </g>
+                    <g transform='translate(0 49)'>
+                      <circle cx='3.261' cy='2.767' r='2.72' />
+                      <circle cx='15.296' cy='2.767' r='2.719' />
+                      <circle cx='27.333' cy='2.767' r='2.72' />
+                      <circle cx='39.369' cy='2.767' r='2.72' />
+                      <circle cx='51.405' cy='2.767' r='2.72' />
+                      <circle cx='63.441' cy='2.767' r='2.72' />
+                      <circle cx='75.479' cy='2.767' r='2.72' />
+                      <circle cx='87.514' cy='2.767' r='2.719' />
+                    </g>
+                    <g transform='translate(0 61)'>
+                      <circle cx='3.261' cy='2.846' r='2.72' />
+                      <circle cx='15.296' cy='2.846' r='2.719' />
+                      <circle cx='27.333' cy='2.846' r='2.72' />
+                      <circle cx='39.369' cy='2.846' r='2.72' />
+                      <circle cx='51.405' cy='2.846' r='2.72' />
+                      <circle cx='63.441' cy='2.846' r='2.72' />
+                      <circle cx='75.479' cy='2.846' r='2.72' />
+                      <circle cx='87.514' cy='2.846' r='2.719' />
+                    </g>
+                    <g transform='translate(0 73)'>
+                      <circle cx='3.261' cy='2.926' r='2.72' />
+                      <circle cx='15.296' cy='2.926' r='2.719' />
+                      <circle cx='27.333' cy='2.926' r='2.72' />
+                      <circle cx='39.369' cy='2.926' r='2.72' />
+                      <circle cx='51.405' cy='2.926' r='2.72' />
+                      <circle cx='63.441' cy='2.926' r='2.72' />
+                      <circle cx='75.479' cy='2.926' r='2.72' />
+                      <circle cx='87.514' cy='2.926' r='2.719' />
+                    </g>
+                    <g transform='translate(0 85)'>
+                      <circle cx='3.261' cy='3.006' r='2.72' />
+                      <circle cx='15.296' cy='3.006' r='2.719' />
+                      <circle cx='27.333' cy='3.006' r='2.72' />
+                      <circle cx='39.369' cy='3.006' r='2.72' />
+                      <circle cx='51.405' cy='3.006' r='2.72' />
+                      <circle cx='63.441' cy='3.006' r='2.72' />
+                      <circle cx='75.479' cy='3.006' r='2.72' />
+                      <circle cx='87.514' cy='3.006' r='2.719' />
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </svg>
           </div>
         </div>
       </div>
     </div>
   )
 }
-
-export default Login

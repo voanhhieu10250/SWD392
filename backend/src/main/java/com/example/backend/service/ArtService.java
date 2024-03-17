@@ -1,18 +1,20 @@
 package com.example.backend.service;
 
 import com.example.backend.dto.ArtDTO;
+import com.example.backend.dto.ArtMetadata;
 import com.example.backend.dto.PageDTO;
 import com.example.backend.dto.SearchDTO;
 import com.example.backend.entity.Art;
 import com.example.backend.repository.ArtRepository;
+import jakarta.persistence.NoResultException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import jakarta.persistence.NoResultException;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -21,22 +23,33 @@ import java.util.stream.Collectors;
 public interface ArtService {
 
     void create(ArtDTO artDTO);
+
     ArtDTO getById(int id);
+
     void update(ArtDTO artDTO);
+
     void delete(int id);
+
     List<ArtDTO> getAll();
+
     PageDTO<ArtDTO> search(SearchDTO searchDTO);
+
+    Page<ArtMetadata> search(String query, String searchBy, int page);
+
+    Page<ArtMetadata> getRecent(int page);
+
+    List<ArtMetadata> getTopWeek();
+
+    Page<ArtMetadata> getArtsByUserId(int id, int page);
 }
 
 @Service
 class ArtServiceImpl implements ArtService {
 
     @Autowired
-    private ArtRepository artRepository;
-
-    @Autowired
     ModelMapper modelMapper;
-
+    @Autowired
+    private ArtRepository artRepository;
 
     @Override
     @Transactional
@@ -97,6 +110,38 @@ class ArtServiceImpl implements ArtService {
                 .totalElements(page.getTotalElements())
                 .contents(page.get().map(this::convert).collect(Collectors.toList()))
                 .build();
+    }
+
+    @Override
+    public Page<ArtMetadata> search(String query, String searchBy, int page) {
+        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("id").descending());
+
+        if (searchBy == null || searchBy.isEmpty() || searchBy.equals("title"))
+            return artRepository.findAllByTitleContainsIgnoreCase(query, pageable).map(ArtMetadata::new);
+        else if (searchBy.equals("tags")) {
+            return artRepository.findAllByTagsContainsIgnoreCase(query, pageable).map(ArtMetadata::new);
+        } else {
+            return artRepository.findAllByDescriptionContainsIgnoreCase(query, pageable).map(ArtMetadata::new);
+        }
+    }
+
+    @Override
+    public Page<ArtMetadata> getRecent(int page) {
+        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("id").descending());
+
+        return artRepository.findAll(pageable).map(ArtMetadata::new);
+    }
+
+    @Override
+    public List<ArtMetadata> getTopWeek() {
+        // get the first 10 arts
+        return artRepository.findTopWeek().stream().map(ArtMetadata::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<ArtMetadata> getArtsByUserId(int id, int page) {
+        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("id").descending());
+        return artRepository.findAllByOwnerId(id, pageable).map(ArtMetadata::new);
     }
 
     private ArtDTO convert(Art art) {

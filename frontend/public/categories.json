@@ -1,0 +1,57 @@
+[
+  {
+    "id": 1,
+    "name": "All",
+    "image": "https://www.artfol-image.me/medium/64d1541cf1af5d2f7ea684fa/f936e7c6781b49ac877499c171368759.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Crafts",
+    "image": "https://www.artfol-image.me/6076cd1b0af80755d5c8a287/316835a0-52b1-4426-911e-c2c086340d4b.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Fan Art",
+    "image": "https://i.imgur.com/5k8HBZT.png"
+  },
+  {
+    "id": 4,
+    "name": "Sketches",
+    "image": "https://i.imgur.com/jxAqUZs.png"
+  },
+  {
+    "id": 5,
+    "name": "Portraits",
+    "image": "https://i.imgur.com/BCw19Qc.png"
+  },
+  {
+    "id": 6,
+    "name": "Landscape",
+    "image": "https://cdna.artstation.com/p/assets/images/images/025/369/996/small/angel-ganev-2020-3-30.jpg"
+  },
+ {
+    "id": 7,
+    "name": "Illustration",
+    "image": "https://i.imgur.com/05dGrc2.png"
+  },
+  {
+    "id": 8,
+    "name": "Character Art",
+    "image": "https://i.imgur.com/jxAqUZs.png"
+  },
+  {
+    "id": 9,
+    "name": "3D",
+    "image": "https://i.imgur.com/NAzmli8.png"
+  },
+  {
+    "id": 10,
+    "name": "Photography",
+    "image": "https://i.imgur.com/23FCPuR.png"
+  },
+  {
+    "id": 11,
+    "name": "Comics",
+    "image": "https://i.imgur.com/6rp0Xs2.png"
+  }
+]

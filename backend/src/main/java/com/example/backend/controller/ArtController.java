@@ -2,13 +2,13 @@ package com.example.backend.controller;
 
 
 import com.example.backend.dto.ArtDTO;
-import com.example.backend.dto.PageDTO;
+import com.example.backend.dto.ArtMetadata;
 import com.example.backend.dto.ResponseDTO;
-import com.example.backend.dto.SearchDTO;
 import com.example.backend.service.ArtService;
 import com.example.backend.service.S3StorageService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import software.amazon.awssdk.services.s3.model.S3Exception;
@@ -18,11 +18,11 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/art")
+@RequestMapping("arts")
 public class ArtController {
 
     @Autowired
-     ArtService artService;
+    ArtService artService;
 
     @Autowired
     S3StorageService s3StorageService;
@@ -66,7 +66,6 @@ public class ArtController {
     }
 
 
-
     @GetMapping("/")
     public ResponseDTO<List<ArtDTO>> getAll() {
         return ResponseDTO.<List<ArtDTO>>builder()
@@ -74,7 +73,6 @@ public class ArtController {
                 .data(artService.getAll())
                 .build();
     }
-
 
 
     @PutMapping("/")
@@ -108,7 +106,6 @@ public class ArtController {
     }
 
 
-
     @DeleteMapping("/{id}")
     public ResponseDTO<Void> delete(@PathVariable int id) {
         artService.delete(id);
@@ -118,11 +115,35 @@ public class ArtController {
                 .build();
     }
 
-    @PostMapping("/search")
-    public ResponseDTO<PageDTO<ArtDTO>> search(@RequestBody @Valid SearchDTO searchDTO) {
-        return ResponseDTO.<PageDTO<ArtDTO>>builder()
+    @GetMapping("search")
+    public ResponseDTO<Page<ArtMetadata>> search(@RequestParam String query, @RequestParam String searchBy, @RequestParam int page) {
+        return ResponseDTO.<Page<ArtMetadata>>builder()
                 .status(HttpStatus.OK)
-                .data(artService.search(searchDTO))
+                .data(artService.search(query, searchBy, page))
+                .build();
+    }
+
+    @GetMapping("recent")
+    public ResponseDTO<Page<ArtMetadata>> recentArts(@RequestParam int page) {
+        return ResponseDTO.<Page<ArtMetadata>>builder()
+                .status(HttpStatus.OK)
+                .data(artService.getRecent(page))
+                .build();
+    }
+
+    @GetMapping("top-week")
+    public ResponseDTO<List<ArtMetadata>> topWeekArts() {
+        return ResponseDTO.<List<ArtMetadata>>builder()
+                .status(HttpStatus.OK)
+                .data(artService.getTopWeek())
+                .build();
+    }
+
+    @GetMapping("user/{id}")
+    public ResponseDTO<Page<ArtMetadata>> getArtsByUser(@PathVariable int id, @RequestParam int page) {
+        return ResponseDTO.<Page<ArtMetadata>>builder()
+                .status(HttpStatus.OK)
+                .data(artService.getArtsByUserId(id, page))
                 .build();
     }
 }

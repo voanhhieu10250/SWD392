@@ -1,9 +1,8 @@
-import { Box, Modal, Typography } from '@mui/material'
-import React, { useState } from 'react'
-import { Avatar, AvatarImage } from '~/components/ui/avatar'
 import CameraAltIcon from '@mui/icons-material/CameraAlt'
-import { User } from '~/types/User'
+import { Box, Modal, Typography } from '@mui/material'
 import axios from 'axios'
+import React, { useState } from 'react'
+import { User } from '~/types/User'
 
 const colors = ['gray', 'red', 'orange', 'green', 'lightblue', 'blue', 'purple', 'pink', 'black']
 interface Props {
@@ -59,7 +58,7 @@ export default function BannerProfile({ user }: Props) {
   const handleCloseEditOrder = () => {
     setOpenPreOrder(false)
   }
-  const [name, setName] = useState(user.userName)
+  const [name, setName] = useState(user.username)
   const [about, setAbout] = useState(user.about)
   const [imageSrc, setImageSrc] = useState(user.bannerImg)
   const [imageAvatarSrc, setImageAvatarSrc] = useState(user.avatar)
@@ -211,7 +210,7 @@ export default function BannerProfile({ user }: Props) {
                           </span>
                         </label>
                       </div>
-                      <div className=' flex items-center pl-1 font-bold'>{user.userName}</div>
+                      <div className=' flex items-center pl-1 font-bold'>{user.username}</div>
                     </div>
                     {/* edit about */}
                     <div>
@@ -332,7 +331,7 @@ export default function BannerProfile({ user }: Props) {
               </Box>
             </Modal>
           </div>
-          <div className='pt-4 font-bold text-3xl text-white'>{user.userName}</div>
+          <div className='pt-4 font-bold text-3xl text-white'>{user.username}</div>
           <div className='pt-3 text-xl text-white'>{user.about}</div>
         </div>
       </div>

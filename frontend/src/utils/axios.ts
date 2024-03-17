@@ -1,13 +1,13 @@
-import axios from 'axios';
+import axios from 'axios'
 // ----------------------------------------------------------------------
 
 const axiosInstance = axios.create({
-  baseURL: "HOST_API",
-});
+  baseURL: import.meta.env.VITE_API_ENDPOINT as string
+})
 
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => Promise.reject((error.response && error.response.data) || 'Something went wrong')
-);
+)
 
-export default axiosInstance;
+export default axiosInstance
