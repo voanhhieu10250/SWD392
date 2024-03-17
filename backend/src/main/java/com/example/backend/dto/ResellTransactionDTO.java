@@ -1,5 +1,6 @@
 package com.example.backend.dto;
 
+import com.example.backend.entity.enums.ResellStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
@@ -23,4 +24,6 @@ public class ResellTransactionDTO {
 
     private long amount;
 
+    private ResellStatus status;
+    private String message;
 }

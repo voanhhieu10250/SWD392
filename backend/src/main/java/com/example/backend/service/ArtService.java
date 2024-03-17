@@ -42,6 +42,8 @@ public interface ArtService {
     List<ArtMetadata> getTopWeek();
 
     Page<ArtMetadata> getArtsByUserId(int id, int page);
+
+    Art findById(int id);
 }
 
 @Service
@@ -151,6 +153,11 @@ class ArtServiceImpl implements ArtService {
     public Page<ArtMetadata> getArtsByUserId(int id, int page) {
         Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("id").descending());
         return artRepository.findAllByOwnerId(id, pageable).map(ArtMetadata::new);
+    }
+
+    @Override
+    public Art findById(int id) {
+        return artRepository.findById(id).orElseThrow(NoResultException::new);
     }
 
     private ArtDTO convert(Art art) {

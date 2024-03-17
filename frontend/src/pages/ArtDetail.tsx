@@ -150,15 +150,17 @@ const ArtDetail = () => {
             <div className='flex items-center gap-3'>
               <button className='p-1 flex items-center space-x-1' onClick={handleLike}>
                 <Heart color={isLiked ? 'red' : 'currentColor'} />
-                <span className='text-sm font-semibold'>{likes} likes</span>
+                <span className='text-sm font-semibold'>{likes || 0} likes</span>
               </button>
               <AddCollectionDialog artId={data.id} />
             </div>
           </div>
           {data.artType === ArtType.physical && (
             <>
-              {data.owner && user && data.owner?.id !== user?.id && <MakeOfferDialog creatorId={data.owner.id} />}
-              {data.owner && <ReportPopup creatorId={data.owner.id} />}
+              <div className='space-x-2'>
+                {data.owner && <MakeOfferDialog creatorId={data.owner.id} />}
+                {data.owner && <ReportPopup creatorId={data.owner.id} />}
+              </div>
               <ActivitiLogDialog artId={artId} />
             </>
           )}

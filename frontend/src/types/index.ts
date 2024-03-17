@@ -72,3 +72,9 @@ export enum PreOrderStatus {
   ACCEPTED = 'ACCEPTED',
   REJECTED = 'REJECTED'
 }
+
+export enum ResellStatus {
+  PENDING = 'PENDING',
+  ACCEPTED = 'ACCEPTED',
+  REJECTED = 'REJECTED'
+}

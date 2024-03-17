@@ -28,6 +28,7 @@ import SuccessPage from './pages/components/notification/SuccesPage'
 import ReportList from './pages/Dashboard/ReportList'
 import ArtWorkList from './pages/Dashboard/ArtworkList'
 import PreOrderOffer from './pages/PreOrderOffer'
+import ResellTransaction from './components/CreatorDashboard/ResellTransaction'
 
 export const router = createBrowserRouter([
   {
@@ -118,7 +119,7 @@ export const router = createBrowserRouter([
           },
           {
             path: 'resell',
-            element: <TransactionHistory />
+            element: <ResellTransaction />
           }
         ]
       },

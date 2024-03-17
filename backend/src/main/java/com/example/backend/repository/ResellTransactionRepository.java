@@ -9,4 +9,6 @@ public interface ResellTransactionRepository extends JpaRepository<ResellTransac
     List<ResellTransaction> findByArt_IdOrderByDateDesc(int id);
 
     ResellTransaction findFirstByArt_IdOrderByDateDesc(int id);
+
+    List<ResellTransaction> findAllByBuyerUser_IdOrSellerUser_IdOrderByDateDesc(int id, int id1);
 }

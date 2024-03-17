@@ -1,6 +1,8 @@
 package com.example.backend.controller;
 
 
+import com.example.backend.dto.ResellMetadata;
+import com.example.backend.dto.ResellTransactionAddDTO;
 import com.example.backend.dto.ResellTransactionDTO;
 import com.example.backend.dto.ResponseDTO;
 import com.example.backend.service.ResellTransactionService;
@@ -12,23 +14,23 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/resell-transaction")
+@RequestMapping("resell-transaction")
 public class ResellTransactionController {
 
     @Autowired
     ResellTransactionService resellTransactionService;
 
 
-    @PostMapping("/")
-    public ResponseDTO<Void> create(@RequestBody @Valid ResellTransactionDTO resellTransactionDTO) {
+    @PostMapping
+    public ResponseDTO<Void> create(@RequestBody ResellTransactionAddDTO resellTransactionDTO) {
         resellTransactionService.create(resellTransactionDTO);
         return ResponseDTO.<Void>builder().status(HttpStatus.OK).msg("200").build();
     }
 
-    @GetMapping("/{id}")
-    public ResponseDTO<ResellTransactionDTO> get(@PathVariable("id") int id) {
-        ResellTransactionDTO resellTransactionDTO = resellTransactionService.getById(id);
-        return ResponseDTO.<ResellTransactionDTO>builder().status(HttpStatus.OK).data(resellTransactionDTO).build();
+    @GetMapping("{id}")
+    public ResponseDTO<List<ResellMetadata>> get(@PathVariable("id") int id) {
+        List<ResellMetadata> resellTransactionDTO = resellTransactionService.getByUserId(id);
+        return ResponseDTO.<List<ResellMetadata>>builder().status(HttpStatus.OK).data(resellTransactionDTO).build();
     }
 
     @DeleteMapping("/{id}")
