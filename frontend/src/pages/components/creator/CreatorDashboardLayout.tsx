@@ -1,11 +1,14 @@
 import { NavLink } from 'react-router-dom'
-import { Outlet, useNavigate } from 'react-router'
+import { Navigate, Outlet, useNavigate } from 'react-router'
 import useAuth from '~/hooks/useAuth'
 import { cn } from '~/lib/utils'
 
 export default function CreatorDashboardLayout() {
   const navigate = useNavigate()
-  const { logout } = useAuth()
+  const { logout, isInitialized, user } = useAuth()
+
+  if (!isInitialized) return null
+  if (!user) return <Navigate to='/login' replace />
 
   return (
     <div className='flex flex-1'>

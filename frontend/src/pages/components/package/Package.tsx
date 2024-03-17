@@ -1,5 +1,3 @@
-import { Button } from '@mui/material'
-import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useAuth from '~/hooks/useAuth'
 import axiosInstance from '~/utils/axios'
@@ -7,6 +5,7 @@ import axiosInstance from '~/utils/axios'
 export default function Package() {
   const navigate = useNavigate()
   const { user } = useAuth()
+
   const handleCheckout = async (packageName: string) => {
     // Xác định dữ liệu order dựa trên gói được chọn
     const orderData =
@@ -48,26 +47,6 @@ export default function Package() {
       navigate('/notification', { state: { paymentSuccess: false } })
     }
   }
-  // fetch('URL_API_BE/checkout', {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json'
-  //   },
-  //   body: JSON.stringify(orderData)
-  // })
-  //   .then((response) => response.json())
-  //   .then((data) => {
-  //     console.log('Success:', data)
-  //     if (data.success) {
-  //       window.location.href = data.paymentUrl
-  //     } else {
-  //       navigate('/notification', { state: { paymentSuccess: false } })
-  //     }
-  //   })
-  //   .catch((error) => {
-  //     console.error('Error:', error)
-  //     navigate('/notification', { state: { paymentSuccess: false } })
-  //   })
 
   return (
     <div className=''>

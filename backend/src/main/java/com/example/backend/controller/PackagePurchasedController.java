@@ -18,12 +18,6 @@ public class PackagePurchasedController {
     @Autowired
     PackagePurchasedService packagePurchasedService;
 
-    @GetMapping("/{id}")
-    public ResponseDTO<PackagePurchasedDTO> get(@PathVariable("id") int id) {
-        PackagePurchasedDTO commentLikeDTO = packagePurchasedService.getById(id);
-        return ResponseDTO.<PackagePurchasedDTO>builder().status(HttpStatus.OK).data(commentLikeDTO).build();
-    }
-
     @DeleteMapping("/{id}")
     public ResponseDTO<Void> delete(@PathVariable("id") int id) {
         packagePurchasedService.delete(id);
@@ -36,11 +30,11 @@ public class PackagePurchasedController {
         return ResponseDTO.<Void>builder().status(HttpStatus.OK).build();
     }
 
-    @GetMapping("/")
-    public ResponseDTO<List<PackagePurchasedDTO>> getAll() {
+    @GetMapping("{userId}")
+    public ResponseDTO<List<PackagePurchasedDTO>> getAll(@PathVariable("userId") int userId) {
         return ResponseDTO.<List<PackagePurchasedDTO>>builder()
                 .status(HttpStatus.OK)
-                .data(packagePurchasedService.getAll())
+                .data(packagePurchasedService.getAllByUserId(userId))
                 .build();
     }
 }
