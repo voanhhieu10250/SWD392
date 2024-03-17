@@ -10,6 +10,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.*;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,7 +48,7 @@ class S3StorageServiceImpl implements S3StorageService {
     private S3Client s3Client;
 
     private InputStream addWatermark(MultipartFile file) throws IOException {
-        String watermarkText = "GROUP 3 :>";
+        String watermarkText = "Artwork premium content"; // Giữ nguyên nội dung
 
         BufferedImage originalImage = ImageIO.read(file.getInputStream());
         int width = originalImage.getWidth();
@@ -57,28 +58,44 @@ class S3StorageServiceImpl implements S3StorageService {
         Graphics2D w = (Graphics2D) watermarkedImage.getGraphics();
         try {
             w.drawImage(originalImage, 0, 0, null);
-            AlphaComposite alphaChannel = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f);
+            AlphaComposite alphaChannel = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f); // Độ mờ
             w.setComposite(alphaChannel);
-            w.setColor(Color.BLACK);
-            w.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 64));
+            w.setColor(Color.PINK);
+            w.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 70)); // Giảm kích thước font xuống một chút
+
+            // Để watermark xiên theo chiều ngược lại, chỉnh sửa góc xoay
+            AffineTransform origTransform = w.getTransform();
+            AffineTransform newTransform = (AffineTransform)(origTransform.clone());
+            // Xoay ngược (-45 độ)
+            double rotationRequired = Math.toRadians(-30); // Sử dụng góc âm để xoay theo chiều ngược lại
+            double locationX = width / 2.0;
+            double locationY = height / 2.0;
+            newTransform.rotate(rotationRequired, locationX, locationY);
+            w.setTransform(newTransform);
+
+            // Tính vị trí để văn bản được căn giữa sau khi xoay
             FontMetrics fontMetrics = w.getFontMetrics();
             Rectangle2D rect = fontMetrics.getStringBounds(watermarkText, w);
+            int x = (width - (int) rect.getWidth()) / 2;
+            int y = (height - (int) rect.getHeight()) / 2 + fontMetrics.getAscent();
 
-            int centerX = (width - (int) rect.getWidth()) / 2;
-            int centerY = height / 2;
-            w.drawString(watermarkText, centerX, centerY);
+            w.drawString(watermarkText, x, y);
+
+            w.setTransform(origTransform); // Khôi phục lại transform gốc
         } finally {
-            w.dispose(); // Ensure graphics resources are freed
+            w.dispose();
         }
 
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         ImageIO.write(watermarkedImage, "png", os);
         byte[] byteArray = os.toByteArray();
 
-        // Correctly use the size of the output stream as the file size
         InputStream is = new ByteArrayInputStream(byteArray);
         return is;
     }
+
+
+
 
 
 
