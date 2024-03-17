@@ -26,6 +26,9 @@ import TransactionHistory from './pages/components/creator/HistoryPhysicalArt'
 import PreOrder from './pages/PreOrder'
 import ChatDisplay from './components/CreatorDashboard/PreOrder/ChatDisplay'
 import SuccessPage from './pages/components/notification/SuccesPage'
+import ArtWorkList from './pages/Dashboard/ArtworkList'
+import ReportList from './pages/Dashboard/ReportList'
+import PreOrderOffer from './pages/PreOrderOffer'
 
 export const router = createBrowserRouter([
   {
