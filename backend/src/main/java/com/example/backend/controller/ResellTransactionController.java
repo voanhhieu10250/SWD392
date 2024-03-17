@@ -50,4 +50,18 @@ public class ResellTransactionController {
                 .data(resellTransactionService.getAll())
                 .build();
     }
+
+    @GetMapping("/art/{id}")
+    public ResponseDTO<List<ResellTransactionDTO>> getByArtId(@PathVariable("id") int id) {
+        return ResponseDTO.<List<ResellTransactionDTO>>builder()
+                .status(HttpStatus.OK)
+                .data(resellTransactionService.getByArtId(id))
+                .build();
+    }
+
+    @GetMapping("/current-owner")
+    public ResponseDTO<ResellTransactionDTO> getCurrentOwner() {
+        ResellTransactionDTO resellTransactionDTO = resellTransactionService.getCurrentOwner();
+        return ResponseDTO.<ResellTransactionDTO>builder().status(HttpStatus.OK).data(resellTransactionDTO).build();
+    }
 }

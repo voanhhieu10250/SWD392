@@ -1,2 +1,2 @@
-import DashboardCreator from './DashboardCreator'
-export default DashboardCreator
+import CreatorDashboardLayout from './CreatorDashboardLayout'
+export default CreatorDashboardLayout

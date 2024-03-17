@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router'
+import { Outlet, useLocation } from 'react-router'
 import { ThemeProvider } from './components/theme-provider'
 import TopNav from './components/common/TopNav'
 import MainLayout from './layouts/MainLayout'
@@ -7,6 +7,8 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 function App() {
+  const creatorDashboard = useLocation()
+
   return (
     <AuthProvider>
       <div className='min-h-screen bg-background font-sans antialiased'>
@@ -14,9 +16,13 @@ function App() {
           <div className='bg-secondary flex flex-col min-h-screen'>
             <TopNav />
 
-            <MainLayout>
+            {creatorDashboard.pathname.startsWith('/creator/dashboard') ? (
               <Outlet />
-            </MainLayout>
+            ) : (
+              <MainLayout>
+                <Outlet />
+              </MainLayout>
+            )}
           </div>
           <ToastContainer
             position='top-right'

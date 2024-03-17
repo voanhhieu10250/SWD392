@@ -17,8 +17,8 @@ export default function Package() {
             currency: 'USD',
             intent: 'sale',
             method: 'paypal',
-            cancelUrl: import.meta.env.VITE_APP_URL + '/cancel',
-            successUrl: import.meta.env.VITE_APP_URL + '/success'
+            cancelUrl: 'http://localhost:3000/cancel',
+            successUrl: 'http://localhost:3000/success'
           }
         : {
             description: 'Audience Premium',
@@ -26,10 +26,10 @@ export default function Package() {
             currency: 'USD',
             intent: 'sale',
             method: 'paypal',
-            cancelUrl: import.meta.env.VITE_APP_URL + '/cancel',
-            successUrl: import.meta.env.VITE_APP_URL + '/success'
+            cancelUrl: 'http://localhost:3000/cancel',
+            successUrl: 'http://localhost:3000/success'
           }
-
+    console.log(orderData.successUrl)
     try {
       const response = await axiosInstance.post('/paypal/pay', orderData, {
         headers: {
@@ -38,7 +38,7 @@ export default function Package() {
       })
 
       console.log('Checkout success:', response.data)
-      if (response.data.success) {
+      if (response.data.status === 200) {
         window.location.href = response.data.data
       } else {
         navigate('/notification', { state: { paymentSuccess: false } })
