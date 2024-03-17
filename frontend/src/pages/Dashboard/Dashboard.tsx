@@ -21,7 +21,7 @@ import { styled } from '@mui/material/styles';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Dashboard.css';
-
+import { Flag } from 'lucide-react'
 
 const Dashboard: React.FC = () => {
   const [value, setValue] = useState<string>('');
@@ -143,7 +143,7 @@ const Dashboard: React.FC = () => {
               <ListItem disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
-                    <MonetizationOnIcon />
+                    <Flag />
                   </ListItemIcon>
                   <ListItemText primary="Report" />
                 </ListItemButton>

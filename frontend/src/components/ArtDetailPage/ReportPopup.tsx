@@ -1,3 +1,4 @@
+
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTrigger } from '../ui/dialog'
 import { Button } from '../ui/button'
 import { Flag } from 'lucide-react'
@@ -5,8 +6,23 @@ import { toast } from 'react-toastify'
 import useAuth from '~/hooks/useAuth'
 import { ResponseObj } from '~/types'
 
+
+
 const ReportPopup = ({ creatorId }: { creatorId: number }) => {
-  const { user } = useAuth()
+
+    const { user } = useAuth();
+    
+    const handleReport = (selectedOption: string) => {
+        try {
+            // Send report request to the server with selected option
+            console.log('Report submitted:', selectedOption);
+            toast.success('Report submitted successfully.');
+        } catch (error) {
+            console.error('Error submitting report:', error);
+            toast.error((error as ResponseObj<null>).msg || 'An error occurred while submitting the report.');
+        }
+    };
+
 
   const handleReport = (selectedOption: string) => {
     try {
@@ -18,6 +34,7 @@ const ReportPopup = ({ creatorId }: { creatorId: number }) => {
       toast.error((error as ResponseObj<null>).msg || 'An error occurred while submitting the report.')
     }
   }
+
 
   return (
     <Dialog>
@@ -61,4 +78,6 @@ const ReportPopup = ({ creatorId }: { creatorId: number }) => {
   )
 }
 
-export default ReportPopup
+
+export default ReportPopup;
+

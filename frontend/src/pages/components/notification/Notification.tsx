@@ -4,7 +4,8 @@ import { useLocation } from 'react-router-dom'
 export default function Notification() {
   const location = useLocation()
   const { paymentSuccess, paymentId, token, PayerID } = location.state || {}
-  console.log(token)
+  console.log(paymentId)
+  console.log(PayerID)
   return (
     <div className='bg-gray-100 '>
       <div className='bg-white p-6  md:mx-auto'>
