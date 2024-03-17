@@ -12,18 +12,20 @@ export default function Package() {
     const orderData =
       packageName === 'creator'
         ? {
-            package: 'Creator',
+            description: 'Creator',
             total: 200.0,
             currency: 'USD',
             intent: 'sale',
+            method: 'paypal',
             cancelUrl: import.meta.env.VITE_APP_URL + '/cancel',
             successUrl: import.meta.env.VITE_APP_URL + '/success'
           }
         : {
-            package: 'Audience Premium',
+            description: 'Audience Premium',
             total: 100.0,
             currency: 'USD',
             intent: 'sale',
+            method: 'paypal',
             cancelUrl: import.meta.env.VITE_APP_URL + '/cancel',
             successUrl: import.meta.env.VITE_APP_URL + '/success'
           }
