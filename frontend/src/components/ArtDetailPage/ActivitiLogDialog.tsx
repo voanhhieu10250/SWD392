@@ -2,10 +2,10 @@ import { FaAngleRight } from 'react-icons/fa'
 import { RiRepeatFill } from 'react-icons/ri'
 import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog'
 import ActivityLog from './ActivityLog'
-import {ResellTransaction, ResponseObj} from "~/types";
-import {useQuery} from "react-query";
-import {format} from 'date-fns';
-import {useEffect, useState} from "react";
+import { ResellTransaction, ResponseObj } from '~/types'
+import { useQuery } from 'react-query'
+import { format } from 'date-fns'
+import { useEffect, useState } from 'react'
 
 const fetchCurrentOwner = async (artId: string) => {
   const res = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/resell-transaction/art/${artId}/current-owner`)
@@ -13,24 +13,24 @@ const fetchCurrentOwner = async (artId: string) => {
   return data.data
 }
 
-const ActivitiLogDialog = ({artId}: {artId: string | undefined}) => {
-  const [tradedLength, setTradedLength] = useState(0);
+const ActivitiLogDialog = ({ artId }: { artId: string | undefined }) => {
+  const [tradedLength, setTradedLength] = useState(0)
 
-  const {data} = useQuery<ResellTransaction | Error>('currentOwner',() => fetchCurrentOwner(artId || '0'));
+  const { data } = useQuery<ResellTransaction, Error>(['currentOwner', artId], () => fetchCurrentOwner(artId || '0'))
 
   useEffect(() => {
     const fetchTraded = async () => {
-      const res = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/resell-transaction/art/${artId}`);
-      const data = (await res.json()) as ResponseObj<ResellTransaction>;
+      const res = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/resell-transaction/art/${artId}`)
+      const data = (await res.json()) as ResponseObj<ResellTransaction[]>
       setTradedLength(data.data.length)
     }
 
-    fetchTraded();
-  }, []);
+    fetchTraded()
+  }, [artId])
 
   const formatDate = (date: Date): string => {
-    return format(date, 'MMM d, yyyy');
-  };
+    return format(date, 'MMM d, yyyy')
+  }
 
   return (
     <Dialog>
@@ -44,7 +44,10 @@ const ActivitiLogDialog = ({artId}: {artId: string | undefined}) => {
               <div className='inline-flex'>
                 <div>
                   <img
-                    src={data.avatar || 'https://miro.medium.com/v2/resize:fit:640/format:webp/1*W35QUSvGpcLuxPo3SRTH4w.png'}
+                    src={
+                      data.buyerUser.avatar ||
+                      'https://miro.medium.com/v2/resize:fit:640/format:webp/1*W35QUSvGpcLuxPo3SRTH4w.png'
+                    }
                     alt='Avatar'
                     width={50}
                     className='rounded-lg'
@@ -68,18 +71,18 @@ const ActivitiLogDialog = ({artId}: {artId: string | undefined}) => {
           <div className='flex justify-center'>
             <div className='mt-2 hover:text-green-300 transition-all duration-200 flex items-center'>
               <span className='mr-1'>
-                <RiRepeatFill/>
+                <RiRepeatFill />
               </span>
               <span className='font-bold'>Traded {tradedLength} time</span>
               <span className='ml-1'>
-                <FaAngleRight/>
+                <FaAngleRight />
               </span>
             </div>
           </div>
         </div>
       </DialogTrigger>
       <DialogContent>
-        <ActivityLog/>
+        <ActivityLog />
       </DialogContent>
     </Dialog>
   )

@@ -1,10 +1,10 @@
 package com.example.backend.entity;
 
+import com.example.backend.entity.enums.ResellStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 
 import java.util.Date;
 
@@ -33,4 +33,6 @@ public class ResellTransaction {
     private double transactionFee;
 
     private long amount;
+    private ResellStatus status;
+    private String message;
 }
