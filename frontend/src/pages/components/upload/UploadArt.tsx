@@ -44,7 +44,7 @@ function UploadArt() {
     }
 
     try {
-      const response = await axiosInstance.post('/upload', formData, {
+      const response = await axiosInstance.post('/arts/ ', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

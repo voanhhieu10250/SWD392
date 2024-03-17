@@ -59,7 +59,7 @@ const Router = () => {
     { path: 'stafflist', element: <StaffList/> },
     { path: 'creatorlist', element: <CreatorList/> },
     { path: 'staffdashboard', element: <StaffDashboard/> },
-
+    
   ])
 }
 
