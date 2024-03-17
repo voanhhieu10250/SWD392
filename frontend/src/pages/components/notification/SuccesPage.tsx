@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify' // Đảm bảo đã cài đặt thư viện này hoặc một thư viện toast tương tự
 import Spinner from '~/components/common/Spinner' // Giả sử đường dẫn này đúng
@@ -23,12 +23,14 @@ const SuccessPage = () => {
         // Kiểm tra kết quả trả về từ BE
         if (response.ok && data.msg === '200') {
           // Giả sử trạng thái thành công là 'approved'
+          console.log('Payment: ', data)
+
           toast.success('Thanh toán thành công!')
         } else {
           toast.error('Thanh toán thất bại.')
         }
-      } catch (error: any) {
-        toast.error('Có lỗi xảy ra: ' + error.message)
+      } catch (error) {
+        toast.error('Có lỗi xảy ra: ' + (error as Error).message)
       } finally {
         setLoading(false)
         navigate('/payment') // Chuyển hướng ngay cả khi có lỗi
