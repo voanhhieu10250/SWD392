@@ -22,6 +22,7 @@ import UploadArt from './pages/components/upload/UploadArt'
 import DigitalArtPage from './pages/components/details/DigitalArtPage'
 import PhysicalArtPage from './pages/components/details/PhysicalArtPage'
 import ArtDetail from './pages/ArtDetail'
+import SuccessPage from './pages/components/notification/SuccesPage'
 
 export const router = createBrowserRouter([
   {
@@ -64,6 +65,10 @@ export const router = createBrowserRouter([
       {
         path: 'packages',
         element: <Package />
+      },
+      {
+        path: 'success',
+        element: <SuccessPage />
       },
       {
         path: 'top-creators',
