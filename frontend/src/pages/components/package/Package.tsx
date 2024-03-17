@@ -1,40 +1,66 @@
+import { Button } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import axiosInstance from '~/utils/axios'
 
 export default function Package() {
-  const [showPaypalButtons, setShowPaypalButtons] = useState(false)
   const navigate = useNavigate()
-  useEffect(() => {
-    if (showPaypalButtons) {
-      window.paypal
-        .Buttons({
-          createOrder: (data, actions) => {
-            return actions.order.create({
-              purchase_units: [
-                {
-                  amount: { value: '120' } // Adjust this value as needed
-                }
-              ]
-            })
-          },
-          onApprove: (data, actions) => {
-            return actions.order.capture().then((details) => {
-              alert(`Transaction completed by ${details.payer.name.given_name}`)
-              // Here you can add further actions like redirecting the user
-              navigate('/notification', { state: { paymentSuccess: true } })
-            })
-          },
-          onError: (err) => {
-            // Handle errors here
-            console.error('Payment Error:', err)
 
-            // Redirect to the notification page with failure status
-            navigate('/notification', { state: { paymentSuccess: false } })
+  const handleCheckout = async (packageName: string) => {
+    // Xác định dữ liệu order dựa trên gói được chọn
+    const orderData =
+      packageName === 'creator'
+        ? {
+            package: 'Creator',
+            total: 200.0,
+            currency: 'USD',
+            intent: 'sale',
+            cancelUrl: import.meta.env.VITE_APP_URL + '/cancel',
+            successUrl: import.meta.env.VITE_APP_URL + '/success'
           }
-        })
-        .render('#paypal-button-container')
+        : {
+            package: 'Audience Premium',
+            total: 100.0,
+            currency: 'USD',
+            intent: 'sale',
+            cancelUrl: import.meta.env.VITE_APP_URL + '/cancel',
+            successUrl: import.meta.env.VITE_APP_URL + '/success'
+          }
+
+    try {
+      const response = await axiosInstance.post('/checkout', orderData)
+
+      console.log('Checkout success:', response.data)
+      if (response.data.success) {
+        window.location.href = response.data.data
+      } else {
+        navigate('/notification', { state: { paymentSuccess: false } })
+      }
+    } catch (error) {
+      console.error('Checkout error:', error)
+      navigate('/notification', { state: { paymentSuccess: false } })
     }
-  }, [navigate, showPaypalButtons])
+  }
+  // fetch('URL_API_BE/checkout', {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json'
+  //   },
+  //   body: JSON.stringify(orderData)
+  // })
+  //   .then((response) => response.json())
+  //   .then((data) => {
+  //     console.log('Success:', data)
+  //     if (data.success) {
+  //       window.location.href = data.paymentUrl
+  //     } else {
+  //       navigate('/notification', { state: { paymentSuccess: false } })
+  //     }
+  //   })
+  //   .catch((error) => {
+  //     console.error('Error:', error)
+  //     navigate('/notification', { state: { paymentSuccess: false } })
+  //   })
 
   return (
     <div className=''>
@@ -45,12 +71,11 @@ export default function Package() {
         </p>
       </div>
       <div className='mt-24 container space-y-12 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-x-8'>
-        {/* <div className='relative p-8  border border-gray-200 rounded-2xl shadow-sm flex flex-col hover:border-emerald-600 hover:border-4'>
+        <div className='relative p-8  border border-gray-200 rounded-2xl shadow-sm flex flex-col hover:border-emerald-600 hover:border-4'>
           <div className='flex-1'>
             <h3 className='text-xl font-semibold '>For Audience</h3>
             <p className='mt-4 flex items-baseline '>
               <span className='text-5xl font-extrabold tracking-tight'>$12</span>
-            
             </p>
             <p className='mt-6 '>You just want to discover</p>
             <ul role='list' className='mt-6 space-y-6'>
@@ -110,16 +135,16 @@ export default function Package() {
               </li>
             </ul>
           </div>
-          <a
+          <Button
             className='bg-emerald-500 text-white hover:bg-emerald-100 mt-8 block w-full py-3 px-6 border border-transparent rounded-md text-center font-medium'
-            href='/auth/login'
+            onClick={() => handleCheckout('audience')}
           >
-            Go to checkout
-          </a>
-        </div> */}
+            Buy Audiance Premium
+          </Button>
+        </div>
 
         {/* Trang thái card đã mua  */}
-        <div className='relative p-8 bg-gray-300  rounded-2xl shadow-sm flex flex-col border-gray-600 border-4'>
+        {/* <div className='relative p-8 bg-gray-300  rounded-2xl shadow-sm flex flex-col border-gray-600 border-4'>
           <div className='flex-1'>
             <h3 className='text-xl font-semibold '>For Audience</h3>
             <p className='mt-4 flex items-baseline '>
@@ -192,7 +217,7 @@ export default function Package() {
           <div className='absolute inset-0   flex items-center justify-center  rounded-2xl'>
             <img src='/sold.png' alt='Sold' className='w-44 h-44' />
           </div>
-        </div>
+        </div> */}
 
         {/* Card Creator */}
         <div className='relative p-8  border border-gray-200 rounded-2xl shadow-sm flex flex-col hover:border-emerald-600 hover:border-4 '>
@@ -300,11 +325,10 @@ export default function Package() {
           </div>
           <button
             className='bg-emerald-500 text-white hover:bg-emerald-600 mt-8 py-3 px-6 border border-transparent rounded-md text-center font-medium'
-            onClick={() => setShowPaypalButtons(true)} // This triggers the rendering of the PayPal button
+            onClick={() => handleCheckout('creator')}
           >
-            Go to checkout
+            Buy Creator Package
           </button>
-          {showPaypalButtons && <div id='paypal-button-container'></div>}
         </div>
       </div>
     </div>
