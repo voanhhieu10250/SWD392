@@ -84,7 +84,7 @@ const ArtDetail = () => {
             <p className='text-xl font-semibold'>{data.title}</p>
             <p className='leading-tight'>{data.description}</p>
 
-            <p className='text-muted-foreground text-sm'>{transformTags(data.tags)}</p>
+            <p className='text-muted-foreground text-sm'>{transformTags(data.tags || '')}</p>
             <div className='flex items-center gap-3'>
               <button className='p-1 flex items-center space-x-1'>
                 <Heart />
