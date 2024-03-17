@@ -41,6 +41,42 @@ function UploadArt() {
       return
     }
 
+    const validFormats = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml']
+    if (!validFormats.includes(selectedFile.type)) {
+      toast.error('Invalid file format. Only JPG, PNG, GIF, and SVG are allowed.')
+      return
+    }
+
+    // Giả sử bạn muốn giới hạn kích thước tệp tối đa là 5MB
+    const maxSizeInBytes = 5 * 1024 * 1024 // 5MB
+    if (selectedFile.size > maxSizeInBytes) {
+      toast.error('File size exceeds the 5MB limit.')
+      return
+    }
+
+    // Kiểm tra tên tác phẩm
+    if (!artName.trim()) {
+      toast.error('Art name is required.')
+      return
+    }
+
+    // Kiểm tra mô tả tác phẩm
+    if (!artDescription.trim()) {
+      toast.error('Art description is required.')
+      return
+    }
+
+    // Kiểm tra loại tác phẩm nghệ thuật
+    if (!artType) {
+      toast.error('Please select an art type.')
+      return
+    }
+
+    // Kiểm tra tags
+    if (!tags.trim()) {
+      toast.error('At least one tag is required.')
+      return
+    }
     const formData = new FormData()
     formData.append('artFile', selectedFile)
     formData.append('title', artName)
@@ -73,43 +109,44 @@ function UploadArt() {
   }
 
   return (
-    <div className='max-w-xl mx-auto'>
-      <form action='/upload' onSubmit={handleSubmit} method='post'>
-        <div className='mb-2'>
+    <div className='max-w-4xl mx-auto px-4 py-8'>
+      <form action='/upload' onSubmit={handleSubmit} method='post' className='space-y-6 bg-white shadow rounded-lg p-6'>
+        <div className='space-y-2'>
           <label
             htmlFor='dropzone-file'
-            className='flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600'
+            className='flex flex-col items-center justify-center w-full h-64 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 dark:hover:bg-gray-800 dark:bg-gray-700 dark:border-gray-600 transition duration-150 ease-in-out'
           >
             <div className='flex flex-col items-center justify-center pt-5 pb-6'>
               <svg
-                className='w-8 h-8 mb-4 text-gray-500 dark:text-gray-400'
-                aria-hidden='true'
-                xmlns='http://www.w3.org/2000/svg'
+                className='w-10 h-10 mb-3 text-gray-400'
                 fill='none'
-                viewBox='0 0 20 16'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth='2'
+                viewBox='0 0 24 24'
+                stroke='currentColor'
               >
-                <path
-                  stroke='currentColor'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth='2'
-                  d='M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2'
-                />
+                <path d='M7 7l3-3 3 3 3-3 3 3v13H4V7z'></path>
+                <path d='M14 4l-3 3-3-3'></path>
               </svg>
               <p className='mb-2 text-sm text-gray-500 dark:text-gray-400'>
                 <span className='font-semibold'>Click to upload</span> or drag and drop
               </p>
-              <p className='text-xs text-gray-500 dark:text-gray-400'>SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+              <p className='text-xs text-gray-500 dark:text-gray-400'>SVG, PNG, JPG, GIF (MAX. 800x400px)</p>
             </div>
             <input id='dropzone-file' type='file' className='hidden' onChange={handleFileSelect} />
           </label>
           {selectedFile && (
-            <div>
-              <img src={URL.createObjectURL(selectedFile)} alt='Uploaded' />
-              <p>File Name: {fileName}</p>
+            <div className='flex flex-col items-center'>
+              <img
+                src={URL.createObjectURL(selectedFile)}
+                alt='Preview'
+                className='max-h-40 w-auto mt-4 rounded shadow'
+              />
+              <p className='text-sm text-gray-500 dark:text-gray-400 mt-2'>{fileName}</p>
               <button
                 onClick={handleClearImage}
-                className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+                className='mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
               >
                 Clear Image
               </button>
@@ -117,8 +154,8 @@ function UploadArt() {
           )}
         </div>
 
-        <div className='mb-4'>
-          <label htmlFor='artName' className='block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2'>
+        <div>
+          <label htmlFor='artName' className='block text-gray-700 text-sm font-semibold mb-2'>
             Art Name
           </label>
           <input
@@ -126,28 +163,28 @@ function UploadArt() {
             type='text'
             value={artName}
             onChange={(e) => setArtName(e.target.value)}
-            className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+            className='shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
             placeholder='Enter art name'
             required
           />
         </div>
 
-        <div className='mb-4'>
-          <label htmlFor='artDescription' className='block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2'>
+        <div>
+          <label htmlFor='artDescription' className='block text-gray-700 text-sm font-semibold mb-2'>
             Art Description
           </label>
           <textarea
             id='artDescription'
             value={artDescription}
             onChange={(e) => setArtDescription(e.target.value)}
-            className='shadow resize-none appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+            className='shadow resize-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
             placeholder='Enter art description'
             required
           ></textarea>
         </div>
 
-        <div className='mb-4'>
-          <span className='block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2'>Art Type</span>
+        <div className='flex items-center mb-4'>
+          <span className='text-gray-700 text-sm font-semibold mr-4'>Art Type:</span>
           <label htmlFor='digitalArt' className='inline-flex items-center mr-4'>
             <input
               type='radio'
@@ -172,8 +209,8 @@ function UploadArt() {
           </label>
         </div>
 
-        <div className='mb-4'>
-          <label htmlFor='tags' className='block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2'>
+        <div>
+          <label htmlFor='tags' className='block text-gray-700 text-sm font-semibold mb-2'>
             Tags
           </label>
           <input
@@ -181,7 +218,7 @@ function UploadArt() {
             type='text'
             value={tags}
             onChange={(e) => setTags(e.target.value)}
-            className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+            className='shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
             placeholder='Separate tags with commas'
             required
           />
