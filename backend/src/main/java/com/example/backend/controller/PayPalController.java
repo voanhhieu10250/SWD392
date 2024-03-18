@@ -5,7 +5,6 @@ import com.example.backend.request.PaymentRequest;
 import com.example.backend.service.PayPalService;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
-import com.paypal.api.payments.Transaction;
 import com.paypal.base.rest.PayPalRESTException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -53,30 +52,19 @@ public class PayPalController {
         }
     }
 
-    @GetMapping("/execute")
-    public ResponseDTO<?> execute(@RequestParam("paymentId") String paymentId,
-                                  @RequestParam("PayerID") String payerId) {
+    @GetMapping("/execute-payment")
+    public ResponseDTO<?> executePayment(@RequestParam("paymentId") String paymentId, @RequestParam("payerId") String payerId) {
         try {
             Payment payment = payPalService.executePayment(paymentId, payerId);
-            if (payment.getState().equals("approved")) {
-            String total = payment.getTransactions().get(0).getAmount().getTotal();
-                List<Transaction> trans = payment.getTransactions();
-                return ResponseDTO.builder()
-                        .status(HttpStatus.OK)
-                        .msg("200")
-                        .data(payment)
-                        .build();
-            } else {
-                return ResponseDTO.builder()
-                        .status(HttpStatus.OK)
-                        .msg("Payment successfully completed")
-                        .data(payment)
-                        .build();
-            }
-        } catch (Exception e) {
             return ResponseDTO.builder()
                     .status(HttpStatus.OK)
-                    .msg("Payment successfully completed")
+                    .msg("Payment executed successfully")
+                    .data(payment)
+                    .build();
+        } catch (PayPalRESTException e) {
+            return ResponseDTO.builder()
+                    .status(HttpStatus.BAD_REQUEST)
+                    .msg(e.getMessage())
                     .build();
         }
     }

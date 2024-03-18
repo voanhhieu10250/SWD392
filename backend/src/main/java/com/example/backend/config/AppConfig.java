@@ -18,7 +18,6 @@ public class AppConfig {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration()
                 .setMatchingStrategy(MatchingStrategies.STRICT);
-//         Bỏ qua thuộc tính 'password' khi chuyển đổi từ 'User' sang 'UserDTO'
         modelMapper.typeMap(User.class, UserDTO.class).addMappings(mapper -> {
             mapper.skip(UserDTO::setPassword);
         });

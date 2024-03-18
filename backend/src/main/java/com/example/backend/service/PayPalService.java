@@ -14,8 +14,6 @@ public class PayPalService {
 
     @Autowired
     private APIContext apiContext;
-
-    // Phương thức để tạo một thanh toán
     public Payment createPayment(
             Double total,
             String currency,
@@ -52,8 +50,6 @@ public class PayPalService {
         return payment.create(apiContext);
     }
 
-
-    // Phương thức để thực hiện thanh toán
     public Payment executePayment(String paymentId, String payerId) throws PayPalRESTException {
         Payment payment = new Payment();
         payment.setId(paymentId);
