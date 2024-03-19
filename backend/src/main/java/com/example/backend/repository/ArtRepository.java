@@ -18,7 +18,7 @@ public interface ArtRepository extends JpaRepository<Art, Integer> {
     @Query("SELECT a FROM Art a ORDER BY a.id ASC LIMIT 10")
     List<Art> findTopWeek();
 
-    Page<Art> findAllByTagsContainsIgnoreCase(String query, Pageable pageable);
+
 
     Page<Art> findAllByTitleContainsIgnoreCase(String query, Pageable pageable);
 
